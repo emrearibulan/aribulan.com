@@ -124,7 +124,7 @@ canvas {
     display: grid;
     place-items: center;
     padding: 18px;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.66));
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.42));
     opacity: 0;
     pointer-events: none;
     transition: opacity 160ms ease;
@@ -136,7 +136,6 @@ canvas {
 .menu {
     display: grid;
     justify-items: center;
-    gap: 16px;
 }
 .status {
     margin: 0;
@@ -149,32 +148,6 @@ canvas {
         0 0 8px rgba(255, 255, 255, 0.9),
         0 0 18px rgba(32, 231, 255, 0.94),
         0 0 28px rgba(255, 43, 214, 0.8);
-}
-.play-button {
-    min-width: 120px;
-    min-height: 44px;
-    border: 1px solid rgba(255, 233, 74, 0.76);
-    border-radius: 6px;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.54);
-    font: inherit;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow:
-        0 0 12px rgba(255, 233, 74, 0.35),
-        0 0 24px rgba(255, 43, 214, 0.18),
-        inset 0 0 12px rgba(255, 233, 74, 0.12);
-    text-shadow:
-        0 0 8px rgba(255, 255, 255, 0.82),
-        0 0 16px rgba(255, 233, 74, 0.9);
-}
-.play-button:hover,
-.play-button:focus-visible {
-    transform: translateY(-1px);
-    outline: none;
 }
 @media (max-width: 620px) {
     .home-link {
@@ -224,10 +197,9 @@ canvas {
     <main class="stage">
         <div class="game-shell">
             <canvas id="game" width="640" height="640" tabindex="0" aria-label="Snake game"></canvas>
-            <div class="overlay is-visible" id="overlay">
+            <div class="overlay" id="overlay">
                 <div class="menu">
-                    <p class="status" id="status">Snake</p>
-                    <button class="play-button" id="playButton" type="button">Play</button>
+                    <p class="status" id="status">Again</p>
                 </div>
             </div>
         </div>
@@ -240,7 +212,6 @@ canvas {
     const bestEl = document.getElementById("best");
     const overlay = document.getElementById("overlay");
     const statusEl = document.getElementById("status");
-    const playButton = document.getElementById("playButton");
 
     const grid = 20;
     const tile = canvas.width / grid;
@@ -270,18 +241,16 @@ canvas {
     let score;
     let best = Number(localStorage.getItem("aribulanSnakeBest") || 0);
     let running = false;
-    let hasStarted = false;
     let lastTime = 0;
     let accumulator = 0;
     let touchStart = null;
 
     bestEl.textContent = best;
-    reset();
-    draw();
+    start();
 
     Promise.all(Object.values(assets).map((image) => image.decode().catch(() => {}))).then(draw);
 
-    playButton.addEventListener("click", start);
+    overlay.addEventListener("click", start);
     window.addEventListener("keydown", onKeyDown);
     canvas.addEventListener("pointerdown", onPointerDown);
     canvas.addEventListener("pointerup", onPointerUp);
@@ -309,7 +278,6 @@ canvas {
 
     function start() {
         reset();
-        hasStarted = true;
         running = true;
         lastTime = 0;
         accumulator = 0;
@@ -369,7 +337,6 @@ canvas {
     function endGame() {
         running = false;
         statusEl.textContent = "Again";
-        playButton.textContent = "Restart";
         overlay.classList.add("is-visible");
     }
 
@@ -377,10 +344,8 @@ canvas {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBackground();
         drawGridGlow();
-        if (hasStarted) {
-            drawFood();
-            drawSnake();
-        }
+        drawFood();
+        drawSnake();
     }
 
     function drawBackground() {
@@ -414,6 +379,7 @@ canvas {
     }
 
     function drawSnake() {
+        drawSnakeConnector();
         snake.forEach((part, index) => {
             if (index === 0) {
                 drawSprite(assets.head, part.x, part.y, angleFor(direction), 1.18);
@@ -423,21 +389,52 @@ canvas {
             if (index === snake.length - 1) {
                 const beforeTail = snake[index - 1];
                 const tailDirection = {
-                    x: beforeTail.x - part.x,
-                    y: beforeTail.y - part.y
+                    x: part.x - beforeTail.x,
+                    y: part.y - beforeTail.y
                 };
-                drawSprite(assets.tail, part.x, part.y, angleFor(tailDirection) + Math.PI, 1.08);
+                drawSprite(assets.tail, part.x, part.y, angleFor(tailDirection) - Math.PI, 1.08);
                 return;
             }
 
             const previous = snake[index - 1];
-            const next = snake[index + 1];
             const bodyDirection = {
-                x: previous.x - next.x,
-                y: previous.y - next.y
+                x: previous.x - part.x,
+                y: previous.y - part.y
             };
             drawSprite(assets.body, part.x, part.y, angleFor(bodyDirection), 1.04);
         });
+    }
+
+    function drawSnakeConnector() {
+        if (snake.length < 2) {
+            return;
+        }
+
+        ctx.save();
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        [
+            { width: tile * 0.86, stroke: "rgba(255, 43, 214, 0.20)" },
+            { width: tile * 0.66, stroke: "rgba(32, 231, 255, 0.24)" },
+            { width: tile * 0.42, stroke: "rgba(248, 251, 255, 0.16)" }
+        ].forEach((layer) => {
+            ctx.beginPath();
+            snake.forEach((part, index) => {
+                const x = part.x * tile + tile / 2;
+                const y = part.y * tile + tile / 2;
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                    return;
+                }
+                ctx.lineTo(x, y);
+            });
+            ctx.lineWidth = layer.width;
+            ctx.strokeStyle = layer.stroke;
+            ctx.stroke();
+        });
+
+        ctx.restore();
     }
 
     function drawSprite(image, x, y, angle, scale) {
