@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" role="img" aria-labelledby="title desc">
+  <title id="title">aribulan neon pixel logo</title>
+  <desc id="desc">Lowercase aribulan wordmark built from bright pixel blocks with magenta, violet, blue, and cyan neon glow.</desc>
+  <defs>
+    <g id="glyph-a">
+      <path d="M1 0h3v1H1zM4 1h1v1H4zM1 2h4v1H1zM0 3h1v1H0zM4 3h1v1H4zM0 4h5v1H0zM0 5h1v1H0zM4 5h1v1H4zM1 6h3v1H1z"/>
+    </g>
+    <g id="glyph-r">
+      <path d="M0 0h1v1H0zM2 0h2v1H2zM0 1h2v1H0zM4 1h1v1H4zM0 2h1v1H0zM3 2h1v1H3zM0 3h1v1H0zM0 4h1v1H0zM0 5h1v1H0zM0 6h1v1H0z"/>
+    </g>
+    <g id="glyph-i">
+      <path d="M2 0h1v1H2zM1 2h2v1H1zM2 3h1v1H2zM2 4h1v1H2zM2 5h1v1H2zM1 6h3v1H1z"/>
+    </g>
+    <g id="glyph-b">
+      <path d="M0 0h1v1H0zM0 1h1v1H0zM0 2h4v1H0zM0 3h1v1H0zM4 3h1v1H4zM0 4h1v1H0zM4 4h1v1H4zM0 5h1v1H0zM4 5h1v1H4zM0 6h4v1H0z"/>
+    </g>
+    <g id="glyph-u">
+      <path d="M0 0h1v1H0zM4 0h1v1H4zM0 1h1v1H0zM4 1h1v1H4zM0 2h1v1H0zM4 2h1v1H4zM0 3h1v1H0zM4 3h1v1H4zM0 4h1v1H0zM4 4h1v1H4zM0 5h1v1H0zM4 5h1v1H4zM1 6h3v1H1z"/>
+    </g>
+    <g id="glyph-l">
+      <path d="M1 0h2v1H1zM2 1h1v1H2zM2 2h1v1H2zM2 3h1v1H2zM2 4h1v1H2zM2 5h1v1H2zM1 6h4v1H1z"/>
+    </g>
+    <g id="glyph-n">
+      <path d="M0 0h4v1H0zM0 1h1v1H0zM4 1h1v1H4zM0 2h1v1H0zM4 2h1v1H4zM0 3h1v1H0zM4 3h1v1H4zM0 4h1v1H0zM4 4h1v1H4zM0 5h1v1H0zM4 5h1v1H4zM0 6h1v1H0zM4 6h1v1H4z"/>
+    </g>
+    <linearGradient id="wordGradient" gradientUnits="userSpaceOnUse" x1="130" y1="0" x2="1160" y2="0">
+      <stop offset="0" stop-color="#ff38f4"/>
+      <stop offset="0.36" stop-color="#9b55ff"/>
+      <stop offset="0.62" stop-color="#31a8ff"/>
+      <stop offset="1" stop-color="#24f0ff"/>
+    </linearGradient>
+    <filter id="softGlow" x="-18%" y="-78%" width="136%" height="256%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="18" result="wide"/>
+      <feGaussianBlur stdDeviation="7" result="mid"/>
+      <feMerge>
+        <feMergeNode in="wide"/>
+        <feMergeNode in="mid"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="wordClip" clipPathUnits="userSpaceOnUse">
+      <g transform="translate(128 83) scale(31)">
+        <use href="#glyph-a" x="0" y="0"/>
+        <use href="#glyph-r" x="6" y="0"/>
+        <use href="#glyph-i" x="12" y="0"/>
+        <use href="#glyph-b" x="18" y="0"/>
+        <use href="#glyph-u" x="24" y="0"/>
+        <use href="#glyph-l" x="30" y="0"/>
+        <use href="#glyph-a" x="36" y="0"/>
+        <use href="#glyph-n" x="42" y="0"/>
+      </g>
+    </clipPath>
+    <pattern id="pixelLines" width="100%" height="15" patternUnits="userSpaceOnUse">
+      <rect width="100%" height="3" fill="#ffffff" opacity="0.42"/>
+      <rect y="9" width="100%" height="2" fill="#ffffff" opacity="0.18"/>
+    </pattern>
+    <style>
+      .pixel { shape-rendering: crispEdges; }
+    </style>
+  </defs>
+  <g filter="url(#softGlow)">
+    <g class="pixel" transform="translate(116 95) scale(31)" fill="#1410a8" opacity="0.3">
+      <use href="#glyph-a" x="0" y="0"/>
+      <use href="#glyph-r" x="6" y="0"/>
+      <use href="#glyph-i" x="12" y="0"/>
+      <use href="#glyph-b" x="18" y="0"/>
+      <use href="#glyph-u" x="24" y="0"/>
+      <use href="#glyph-l" x="30" y="0"/>
+      <use href="#glyph-a" x="36" y="0"/>
+      <use href="#glyph-n" x="42" y="0"/>
+    </g>
+    <g class="pixel" transform="translate(128 83) scale(31)" fill="url(#wordGradient)">
+      <use href="#glyph-a" x="0" y="0"/>
+      <use href="#glyph-r" x="6" y="0"/>
+      <use href="#glyph-i" x="12" y="0"/>
+      <use href="#glyph-b" x="18" y="0"/>
+      <use href="#glyph-u" x="24" y="0"/>
+      <use href="#glyph-l" x="30" y="0"/>
+      <use href="#glyph-a" x="36" y="0"/>
+      <use href="#glyph-n" x="42" y="0"/>
+    </g>
+    <g class="pixel" transform="translate(128 83) scale(31)" fill="#f6fdff" opacity="0.55">
+      <path d="M1 0h2v.22H1zM6 0h3v.22H6zM14 0h1v.22h-1zM18 2h4v.22h-4zM25 0h1v.22h-1zM32 1h1v.22h-1zM37 2h2v.22h-2zM42 0h3v.22h-3z"/>
+    </g>
+    <rect class="pixel" x="110" y="78" width="1060" height="226" fill="url(#pixelLines)" clip-path="url(#wordClip)" opacity="0.7"/>
+  </g>
+</svg>

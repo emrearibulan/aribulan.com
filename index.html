@@ -129,7 +129,7 @@ body {
     shape-rendering: crispEdges;
 }
 
-.logo-banner {
+.logo-mark {
     position: fixed;
     top: clamp(24px, 5vh, 48px);
     left: 50%;
@@ -138,6 +138,40 @@ body {
     max-height: 24vh;
     transform: translateX(-50%);
     pointer-events: none;
+}
+
+.logo-banner {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.logo-mark::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, transparent 18%, rgba(255, 255, 255, 0.86) 42%, rgba(255, 255, 255, 0.16) 48%, transparent 62%);
+    mix-blend-mode: screen;
+    transform: translateX(-130%) skewX(-12deg);
+    animation: logo-shine 4.8s steps(24, end) infinite;
+    -webkit-mask: url("assets/aribulan-logo-banner-main.svg") center / contain no-repeat;
+    mask: url("assets/aribulan-logo-banner-main.svg") center / contain no-repeat;
+}
+
+@keyframes logo-shine {
+    0%, 42% {
+        transform: translateX(-130%) skewX(-12deg);
+        opacity: 0;
+    }
+
+    48% {
+        opacity: 0.85;
+    }
+
+    66%, 100% {
+        transform: translateX(130%) skewX(-12deg);
+        opacity: 0;
+    }
 }
 
 @media (max-width: 680px) {
@@ -150,8 +184,15 @@ body {
         opacity: 0.22;
     }
 
-    .logo-banner {
+    .logo-mark {
         top: 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logo-mark::after {
+        animation: none;
+        opacity: 0;
     }
 }
 </style>
@@ -167,7 +208,9 @@ body {
                 <g id="s-stars"></g>
             </svg>
         </a>
-        <img class="logo-banner" src="assets/aribulan-logo-banner.svg" alt="aribulan">
+        <div class="logo-mark" data-alternate-logo="assets/aribulan-logo-banner.svg">
+            <img class="logo-banner" src="assets/aribulan-logo-banner-main.svg" alt="aribulan">
+        </div>
 
     </main>
 
