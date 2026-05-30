@@ -97,8 +97,29 @@ body {
     transition: filter 140ms steps(2);
 }
 
+.man-star-art {
+    position: fixed;
+    top: clamp(74px, 8vh, 100px);
+    left: calc(50% - 58px);
+    z-index: 1;
+    width: clamp(108px, 11vw, 150px);
+    height: clamp(156px, 16vw, 210px);
+    display: block;
+    transform: translateX(-8%);
+    pointer-events: auto;
+    transition: filter 140ms steps(2);
+}
+
+.constellation-hitbox {
+    fill: #ffffff;
+    opacity: 0.001;
+    pointer-events: all;
+}
+
 .s-star-art:hover,
-.s-star-art:focus-visible {
+.s-star-art:focus-visible,
+.man-star-art:hover,
+.man-star-art.is-hovered {
     outline: none;
     filter:
         drop-shadow(0 0 2px rgba(255, 255, 255, 0.86))
@@ -106,12 +127,16 @@ body {
 }
 
 .s-star-art:hover .star-pixel,
-.s-star-art:focus-visible .star-pixel {
+.s-star-art:focus-visible .star-pixel,
+.man-star-art:hover .star-pixel,
+.man-star-art.is-hovered .star-pixel {
     opacity: 0.96;
 }
 
 .s-star-art:hover .s-constellation-line,
-.s-star-art:focus-visible .s-constellation-line {
+.s-star-art:focus-visible .s-constellation-line,
+.man-star-art:hover .man-constellation-line,
+.man-star-art.is-hovered .man-constellation-line {
     stroke: rgba(248, 251, 255, 0.34);
 }
 
@@ -129,9 +154,18 @@ body {
     shape-rendering: crispEdges;
 }
 
+.man-constellation-line {
+    fill: none;
+    stroke: rgba(248, 251, 255, 0.16);
+    stroke-width: 1;
+    stroke-linecap: square;
+    stroke-linejoin: bevel;
+    shape-rendering: crispEdges;
+}
+
 .logo-banner {
     position: fixed;
-    top: clamp(24px, 5vh, 48px);
+    top: clamp(-42px, -3vh, -18px);
     left: 50%;
     z-index: 1;
     width: min(45vw, 720px);
@@ -151,7 +185,7 @@ body {
     }
 
     .logo-banner {
-        top: 24px;
+        top: -42px;
     }
 }
 </style>
@@ -167,7 +201,11 @@ body {
                 <g id="s-stars"></g>
             </svg>
         </a>
-        <img class="logo-banner" src="assets/aribulan-logo-banner.svg" alt="aribulan">
+        <img class="logo-banner" src="assets/aribulan-logo-banner.png" alt="aribulan">
+        <svg class="man-star-art" viewBox="0 0 150 210" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <rect class="constellation-hitbox" width="150" height="210"></rect>
+            <g id="man-stars"></g>
+        </svg>
 
     </main>
 
@@ -177,6 +215,8 @@ body {
     const stars = document.getElementById("stars");
     const galaxies = document.getElementById("galaxies");
     const sStars = document.getElementById("s-stars");
+    const manStars = document.getElementById("man-stars");
+    const manConstellation = document.querySelector(".man-star-art");
     let seed = 1994;
     const rand = () => {
         seed = (seed * 1664525 + 1013904223) >>> 0;
@@ -250,6 +290,44 @@ body {
 
     sStarPoints.forEach(([x, y], index) => {
         drawStar(sStars, x, y, 5 + (index % 4), index === 0 || index === 3 ? 2 : 1, palette[index % palette.length], 0.52 + index * 0.035);
+    });
+
+    const manStarPoints = {
+        head: [76, 53],
+        body: [76, 70],
+        leftHand: [58, 75],
+        rightHand: [93, 71],
+        hip: [76, 91],
+        leftFoot: [62, 114],
+        rightFoot: [95, 106]
+    };
+
+    const manLines = [
+        ["head", "body"], ["body", "leftHand"], ["body", "rightHand"],
+        ["body", "hip"], ["hip", "leftFoot"], ["hip", "rightFoot"]
+    ];
+
+    manLines.forEach(([start, end]) => {
+        const line = document.createElementNS(svgNS, "line");
+        line.setAttribute("x1", manStarPoints[start][0]);
+        line.setAttribute("y1", manStarPoints[start][1]);
+        line.setAttribute("x2", manStarPoints[end][0]);
+        line.setAttribute("y2", manStarPoints[end][1]);
+        line.setAttribute("class", "man-constellation-line");
+        manStars.appendChild(line);
+    });
+
+    Object.values(manStarPoints).forEach(([x, y], index) => {
+        const size = index === 0 ? 3 : (index === 1 || index === 4 ? 2 : 1);
+        drawStar(manStars, x, y, 5 + (index % 4), size, palette[(index + 2) % palette.length], 0.52 + index * 0.025);
+    });
+
+    manConstellation.addEventListener("mouseenter", () => {
+        manConstellation.classList.add("is-hovered");
+    });
+
+    manConstellation.addEventListener("mouseleave", () => {
+        manConstellation.classList.remove("is-hovered");
     });
 })();
 </script>
