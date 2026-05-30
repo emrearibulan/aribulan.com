@@ -149,6 +149,67 @@ canvas {
         0 0 18px rgba(32, 231, 255, 0.94),
         0 0 28px rgba(255, 43, 214, 0.8);
 }
+.controls {
+    position: fixed;
+    right: max(18px, env(safe-area-inset-right));
+    bottom: max(18px, env(safe-area-inset-bottom));
+    z-index: 4;
+    display: grid;
+    grid-template-columns: repeat(3, 46px);
+    grid-template-rows: repeat(3, 46px);
+    gap: 8px;
+}
+.control-button {
+    width: 46px;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(248, 251, 255, 0.36);
+    border-radius: 6px;
+    color: rgba(248, 251, 255, 0.86);
+    background: rgba(0, 0, 0, 0.18);
+    box-shadow:
+        0 0 8px rgba(248, 251, 255, 0.16),
+        0 0 16px rgba(32, 231, 255, 0.12),
+        inset 0 0 10px rgba(248, 251, 255, 0.06);
+    filter:
+        drop-shadow(0 0 5px rgba(248, 251, 255, 0.42))
+        drop-shadow(0 0 10px rgba(32, 231, 255, 0.28));
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+.control-button:hover,
+.control-button:focus-visible {
+    color: #fff;
+    border-color: rgba(248, 251, 255, 0.66);
+    background: rgba(248, 251, 255, 0.08);
+    outline: none;
+}
+.control-button:active {
+    transform: scale(0.96);
+}
+.control-button svg {
+    width: 24px;
+    height: 24px;
+}
+.control-button[data-direction="ArrowUp"] {
+    grid-column: 2;
+    grid-row: 1;
+}
+.control-button[data-direction="ArrowLeft"] {
+    grid-column: 1;
+    grid-row: 2;
+}
+.control-button[data-direction="ArrowRight"] {
+    grid-column: 3;
+    grid-row: 2;
+}
+.control-button[data-direction="ArrowDown"] {
+    grid-column: 2;
+    grid-row: 3;
+}
 @media (max-width: 620px) {
     .home-link {
         top: 12px;
@@ -173,6 +234,17 @@ canvas {
     }
     .game-shell {
         width: min(94vmin, 720px);
+    }
+    .controls {
+        right: 12px;
+        bottom: 12px;
+        grid-template-columns: repeat(3, 42px);
+        grid-template-rows: repeat(3, 42px);
+        gap: 7px;
+    }
+    .control-button {
+        width: 42px;
+        height: 42px;
     }
 }
 </style>
@@ -204,6 +276,28 @@ canvas {
             </div>
         </div>
     </main>
+    <div class="controls" aria-label="Direction controls">
+        <button class="control-button" type="button" data-direction="ArrowUp" aria-label="Move up">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M32 12 16 30h10v22h12V30h10L32 12Z" fill="currentColor"/>
+            </svg>
+        </button>
+        <button class="control-button" type="button" data-direction="ArrowLeft" aria-label="Move left">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M12 32 30 16v10h22v12H30v10L12 32Z" fill="currentColor"/>
+            </svg>
+        </button>
+        <button class="control-button" type="button" data-direction="ArrowRight" aria-label="Move right">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M52 32 34 16v10H12v12h22v10l18-16Z" fill="currentColor"/>
+            </svg>
+        </button>
+        <button class="control-button" type="button" data-direction="ArrowDown" aria-label="Move down">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M32 52 16 34h10V12h12v22h10L32 52Z" fill="currentColor"/>
+            </svg>
+        </button>
+    </div>
 <script>
 (() => {
     const canvas = document.getElementById("game");
@@ -254,6 +348,9 @@ canvas {
     window.addEventListener("keydown", onKeyDown);
     canvas.addEventListener("pointerdown", onPointerDown);
     canvas.addEventListener("pointerup", onPointerUp);
+    document.querySelectorAll(".control-button").forEach((button) => {
+        button.addEventListener("pointerdown", onControlPress);
+    });
 
     requestAnimationFrame(loop);
 
@@ -474,6 +571,18 @@ canvas {
         }
 
         event.preventDefault();
+        queueDirection(next);
+    }
+
+    function onControlPress(event) {
+        event.preventDefault();
+        const next = directions[event.currentTarget.dataset.direction];
+        if (next) {
+            queueDirection(next);
+        }
+    }
+
+    function queueDirection(next) {
         if (!running) {
             start();
         }
