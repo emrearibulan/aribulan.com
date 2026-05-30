@@ -1,0 +1,224 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" role="img" aria-labelledby="title desc">
+  <title id="title">aribulan neo-noir pixel sign</title>
+  <desc id="desc">Lowercase aribulan wordmark built from square pixel tiles, styled as a gritty 90s neo-noir neon sign with red glow, cyan glitch offset, and a diagonal slash accent.</desc>
+  <defs>
+    <g id="glyph-a">
+      <path d="M1 0h3v1H1zM4 1h1v1H4zM1 2h4v1H1zM0 3h1v1H0zM4 3h1v1H4zM0 4h5v1H0zM0 5h1v1H0zM4 5h1v1H4zM1 6h3v1H1z"/>
+    </g>
+
+    <g id="glyph-r">
+      <path d="M0 0h1v1H0zM2 0h2v1H2zM0 1h2v1H0zM4 1h1v1H4zM0 2h1v1H0zM3 2h1v1H3zM0 3h1v1H0zM0 4h1v1H0zM0 5h1v1H0zM0 6h1v1H0z"/>
+    </g>
+
+    <g id="glyph-i">
+      <path d="M2 0h1v1H2zM1 2h2v1H1zM2 3h1v1H2zM2 4h1v1H2zM2 5h1v1H2zM1 6h3v1H1z"/>
+    </g>
+
+    <g id="glyph-b">
+      <path d="M0 0h1v1H0zM0 1h1v1H0zM0 2h4v1H0zM0 3h1v1H0zM4 3h1v1H4zM0 4h1v1H0zM4 4h1v1H4zM0 5h1v1H0zM4 5h1v1H4zM0 6h4v1H0z"/>
+    </g>
+
+    <g id="glyph-u">
+      <path d="M0 0h1v1H0zM4 0h1v1H4zM0 1h1v1H0zM4 1h1v1H4zM0 2h1v1H0zM4 2h1v1H4zM0 3h1v1H0zM4 3h1v1H4zM0 4h1v1H0zM4 4h1v1H4zM0 5h1v1H0zM4 5h1v1H4zM1 6h3v1H1z"/>
+    </g>
+
+    <g id="glyph-l">
+      <path d="M1 0h2v1H1zM2 1h1v1H2zM2 2h1v1H2zM2 3h1v1H2zM2 4h1v1H2zM2 5h1v1H2zM1 6h4v1H1z"/>
+    </g>
+
+    <g id="glyph-n">
+      <path d="M0 0h4v1H0zM0 1h1v1H0zM4 1h1v1H4zM0 2h1v1H0zM4 2h1v1H4zM0 3h1v1H0zM4 3h1v1H4zM0 4h1v1H0zM4 4h1v1H4zM0 5h1v1H0zM4 5h1v1H4zM0 6h1v1H0zM4 6h1v1H4z"/>
+    </g>
+
+    <filter id="red-glow" x="-24%" y="-85%" width="148%" height="270%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="12" result="wide"/>
+      <feGaussianBlur stdDeviation="4" result="tight"/>
+      <feMerge>
+        <feMergeNode in="wide"/>
+        <feMergeNode in="tight"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="cyan-glow" x="-20%" y="-70%" width="140%" height="240%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="8" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="hard-shadow" x="-8%" y="-18%" width="116%" height="136%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="12" stdDeviation="0" flood-color="#000007" flood-opacity="0.82"/>
+    </filter>
+
+    <pattern id="crt-lines" width="100%" height="8" patternUnits="userSpaceOnUse">
+      <rect width="100%" height="2" fill="#f8fbff" opacity="0.075"/>
+      <rect y="2" width="100%" height="6" fill="#03000d" opacity="0"/>
+    </pattern>
+
+    <style>
+      .pixel,
+      .letter-tile,
+      .sign-pixel {
+        shape-rendering: crispEdges;
+      }
+
+      .letter-tile {
+        animation: sign-flicker 4.6s steps(2, end) infinite;
+      }
+
+      .glitch-line {
+        animation: glitch-pop 2.9s steps(2, end) infinite;
+      }
+
+      .bad-tube {
+        animation: bad-tube 5.6s steps(2, end) infinite;
+      }
+
+      @keyframes sign-flicker {
+        0%, 7%, 11%, 61%, 100% { opacity: 1; }
+        8% { opacity: 0.54; }
+        9% { opacity: 0.94; }
+        42% { opacity: 0.84; }
+        43% { opacity: 1; }
+      }
+
+      @keyframes glitch-pop {
+        0%, 40%, 44%, 100% { opacity: 0.12; }
+        41%, 43% { opacity: 0.88; }
+      }
+
+      @keyframes bad-tube {
+        0%, 51%, 56%, 100% { opacity: 1; }
+        52%, 55% { opacity: 0.26; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .letter-tile,
+        .glitch-line,
+        .bad-tube {
+          animation: none;
+        }
+      }
+    </style>
+  </defs>
+
+  <g id="aribulan-logo-banner">
+    <path class="sign-pixel" d="M138 50h1004v24h32v68h22v114h-22v30h-32v24H138v-24h-32v-30H84V142h22V74h32z" fill="#04020b" opacity="0.95"/>
+    <path class="sign-pixel" d="M138 50h1004v24h32v68h22v114h-22v30h-32v24H138v-24h-32v-30H84V142h22V74h32z" fill="none" stroke="#140716" stroke-width="10"/>
+
+    <g id="wet-street-reflection" opacity="0.18">
+      <path class="pixel" d="M130 314h218v5H130zM382 318h176v4H382zM610 314h236v5H610zM888 319h260v4H888z" fill="#ff2a5f"/>
+      <path class="pixel" d="M192 330h122v4H192zM482 334h216v4H482zM760 330h142v4H760zM968 334h108v4H968z" fill="#00eaff"/>
+    </g>
+
+    <g id="sign-border" filter="url(#cyan-glow)">
+      <path class="pixel" d="M146 72h392v6H146zM590 72h238v6H590zM874 72h260v6H874z" fill="#ff245a" opacity="0.95"/>
+      <path class="pixel" d="M146 282h326v6H146zM520 282h188v6H520zM760 282h374v6H760z" fill="#00eaff" opacity="0.82"/>
+      <path class="pixel" d="M104 150h7v76h-7zM1169 150h7v76h-7z" fill="#ff245a" opacity="0.9"/>
+      <path class="pixel" d="M119 92h7v42h-7zM1154 228h7v42h-7z" fill="#00eaff" opacity="0.72"/>
+    </g>
+
+    <g id="slash-neon" filter="url(#red-glow)" opacity="0.86">
+      <path class="pixel" d="M944 52h34L732 308h-34z" fill="#24000d"/>
+      <path class="pixel bad-tube" d="M960 58h14L734 302h-14z" fill="#ff245a"/>
+      <path class="pixel" d="M978 62h8L746 304h-8z" fill="#00eaff" opacity="0.82"/>
+    </g>
+
+    <g id="rain-and-damage" opacity="0.32">
+      <path class="pixel" d="M184 88h4v38h-4zM238 66h4v28h-4zM1034 86h4v44h-4zM1092 108h4v34h-4zM506 80h4v26h-4zM874 84h4v30h-4z" fill="#00eaff"/>
+      <path class="pixel" d="M332 264h38v5h-38zM378 264h16v5h-16zM900 92h42v5h-42zM954 92h18v5h-18z" fill="#120014"/>
+      <rect class="pixel" x="1132" y="92" width="14" height="14" fill="#07010f"/>
+      <rect class="pixel" x="126" y="248" width="12" height="12" fill="#07010f"/>
+    </g>
+
+    <g id="word-outline" transform="translate(123 102) scale(22)" filter="url(#hard-shadow)">
+      <g fill="#000007" opacity="0.98">
+        <use href="#glyph-a" x="-0.32" y="0"/>
+        <use href="#glyph-r" x="5.68" y="0"/>
+        <use href="#glyph-i" x="11.68" y="0"/>
+        <use href="#glyph-b" x="17.68" y="0"/>
+        <use href="#glyph-u" x="23.68" y="0"/>
+        <use href="#glyph-l" x="29.68" y="0"/>
+        <use href="#glyph-a" x="35.68" y="0"/>
+        <use href="#glyph-n" x="41.68" y="0"/>
+
+        <use href="#glyph-a" x="0.32" y="0"/>
+        <use href="#glyph-r" x="6.32" y="0"/>
+        <use href="#glyph-i" x="12.32" y="0"/>
+        <use href="#glyph-b" x="18.32" y="0"/>
+        <use href="#glyph-u" x="24.32" y="0"/>
+        <use href="#glyph-l" x="30.32" y="0"/>
+        <use href="#glyph-a" x="36.32" y="0"/>
+        <use href="#glyph-n" x="42.32" y="0"/>
+
+        <use href="#glyph-a" x="0" y="-0.32"/>
+        <use href="#glyph-r" x="6" y="-0.32"/>
+        <use href="#glyph-i" x="12" y="-0.32"/>
+        <use href="#glyph-b" x="18" y="-0.32"/>
+        <use href="#glyph-u" x="24" y="-0.32"/>
+        <use href="#glyph-l" x="30" y="-0.32"/>
+        <use href="#glyph-a" x="36" y="-0.32"/>
+        <use href="#glyph-n" x="42" y="-0.32"/>
+
+        <use href="#glyph-a" x="0" y="0.32"/>
+        <use href="#glyph-r" x="6" y="0.32"/>
+        <use href="#glyph-i" x="12" y="0.32"/>
+        <use href="#glyph-b" x="18" y="0.32"/>
+        <use href="#glyph-u" x="24" y="0.32"/>
+        <use href="#glyph-l" x="30" y="0.32"/>
+        <use href="#glyph-a" x="36" y="0.32"/>
+        <use href="#glyph-n" x="42" y="0.32"/>
+      </g>
+    </g>
+
+    <g id="cyan-glitch-ghost" transform="translate(130 108) scale(22)" filter="url(#cyan-glow)" opacity="0.58">
+      <use href="#glyph-a" x="0" y="0" fill="#00eaff"/>
+      <use href="#glyph-r" x="6" y="0" fill="#00eaff"/>
+      <use href="#glyph-i" x="12" y="0" fill="#00eaff"/>
+      <use href="#glyph-b" x="18" y="0" fill="#00eaff"/>
+      <use href="#glyph-u" x="24" y="0" fill="#00eaff"/>
+      <use href="#glyph-l" x="30" y="0" fill="#00eaff"/>
+      <use href="#glyph-a" x="36" y="0" fill="#00eaff"/>
+      <use href="#glyph-n" x="42" y="0" fill="#00eaff"/>
+    </g>
+
+    <g id="pixel-word" transform="translate(123 102) scale(22)" filter="url(#red-glow)">
+      <use class="letter-tile" href="#glyph-a" x="0" y="0" fill="#ff245a"/>
+      <use class="letter-tile" href="#glyph-r" x="6" y="0" fill="#ff245a"/>
+      <use class="letter-tile" href="#glyph-i" x="12" y="0" fill="#ff3fb7"/>
+      <use class="letter-tile" href="#glyph-b" x="18" y="0" fill="#ff245a"/>
+      <use class="letter-tile" href="#glyph-u" x="24" y="0" fill="#ff245a"/>
+      <use class="letter-tile" href="#glyph-l" x="30" y="0" fill="#ff245a"/>
+      <use class="letter-tile" href="#glyph-a" x="36" y="0" fill="#ff3fb7"/>
+      <use class="letter-tile bad-tube" href="#glyph-n" x="42" y="0" fill="#ff245a"/>
+    </g>
+
+    <g id="pixel-highlights" transform="translate(123 102) scale(22)" opacity="0.9">
+      <path class="pixel" d="M1 0h2v1H1zM7 0h1v1H7zM14 0h1v1H14zM18 2h3v1h-3zM25 0h1v1h-1zM32 1h1v1h-1zM37 2h2v1h-2zM42 0h3v1h-3z" fill="#ffd8e4" opacity="0.72"/>
+      <path class="pixel" d="M4 3h1v1H4zM18 6h3v1h-3zM28 6h2v1h-2zM39 6h1v1h-1zM46 1h1v1h-1z" fill="#00eaff" opacity="0.48"/>
+      <path class="pixel" d="M12 4h1v1h-1zM24 3h1v1h-1zM36 5h1v1h-1z" fill="#05010b" opacity="0.5"/>
+    </g>
+
+    <g id="glitch-strips">
+      <rect class="pixel glitch-line" x="244" y="150" width="156" height="9" fill="#00eaff" opacity="0.1"/>
+      <rect class="pixel glitch-line" x="736" y="188" width="214" height="8" fill="#00eaff" opacity="0.1"/>
+      <rect class="pixel glitch-line" x="514" y="222" width="116" height="8" fill="#ff245a" opacity="0.1"/>
+      <rect class="pixel" x="250" y="244" width="44" height="7" fill="#ff245a" opacity="0.44"/>
+      <rect class="pixel" x="834" y="130" width="34" height="7" fill="#00eaff" opacity="0.5"/>
+      <rect class="pixel" x="1008" y="206" width="48" height="7" fill="#00eaff" opacity="0.44"/>
+    </g>
+
+    <rect class="pixel" x="84" y="50" width="1112" height="260" fill="url(#crt-lines)" opacity="0.42"/>
+
+    <g id="small-neon-pixels">
+      <rect class="pixel bad-tube" x="176" y="116" width="12" height="12" fill="#00eaff" opacity="0.82"/>
+      <rect class="pixel" x="200" y="138" width="8" height="8" fill="#ff245a" opacity="0.78"/>
+      <rect class="pixel" x="1086" y="112" width="10" height="10" fill="#00eaff" opacity="0.74"/>
+      <rect class="pixel bad-tube" x="1110" y="140" width="14" height="14" fill="#ff245a" opacity="0.86"/>
+      <path class="pixel" d="M1016 48h6v8h8v6h-8v8h-6v-8h-8v-6h8z" fill="#e8ffff" opacity="0.58"/>
+      <path class="pixel" d="M260 294h6v8h8v6h-8v8h-6v-8h-8v-6h8z" fill="#ffb7ca" opacity="0.52"/>
+    </g>
+  </g>
+</svg>
