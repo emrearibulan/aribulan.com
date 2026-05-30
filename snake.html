@@ -10,6 +10,7 @@
     --pink: #ff2bd6;
     --yellow: #ffe94a;
     --panel: rgba(0, 0, 0, 0.46);
+    --space: #03000d;
 }
 * {
     box-sizing: border-box;
@@ -27,82 +28,126 @@ body {
 body {
     min-height: 100%;
     background:
-        linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.34)),
-        url("assets/star-background.png") center / cover no-repeat #000;
+        radial-gradient(circle at 18% 24%, rgba(255, 43, 214, 0.18) 0 7%, transparent 18%),
+        radial-gradient(circle at 76% 34%, rgba(36, 124, 255, 0.18) 0 8%, transparent 21%),
+        radial-gradient(circle at 49% 78%, rgba(40, 234, 255, 0.11) 0 6%, transparent 19%),
+        linear-gradient(180deg, #07001a 0%, var(--space) 48%, #000007 100%);
+    image-rendering: pixelated;
+}
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+body::before {
+    z-index: -3;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.028) 50%, transparent 50%) 0 0 / 100% 4px,
+        linear-gradient(90deg, rgba(255, 43, 214, 0.055), rgba(40, 234, 255, 0.045), rgba(255, 230, 109, 0.025));
+    mix-blend-mode: screen;
+    opacity: 0.52;
+}
+body::after {
+    z-index: -2;
+    background:
+        linear-gradient(90deg, transparent 0 2px, rgba(40, 234, 255, 0.05) 2px 3px, transparent 3px 64px),
+        linear-gradient(0deg, transparent 0 2px, rgba(255, 43, 214, 0.045) 2px 3px, transparent 3px 64px);
+    opacity: 0.3;
+    mask-image: radial-gradient(circle at center, transparent 0 22%, black 62%, black 100%);
+}
+.space-art {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+    filter:
+        drop-shadow(0 0 2px rgba(248, 251, 255, 0.28))
+        drop-shadow(0 0 4px rgba(40, 234, 255, 0.14));
+}
+.galaxy-pixel,
+.star-pixel {
+    shape-rendering: crispEdges;
+}
+.logo-banner {
+    position: fixed;
+    top: clamp(-42px, -3vh, -18px);
+    left: 50%;
+    z-index: 3;
+    width: min(45vw, 720px);
+    max-height: 24vh;
+    transform: translateX(-50%);
+    pointer-events: none;
 }
 .home-link {
     position: fixed;
-    top: 18px;
-    left: 18px;
+    top: 16px;
+    left: 16px;
     z-index: 4;
-    width: 38px;
-    height: 38px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    width: 58px;
+    height: 42px;
+    display: block;
     color: #f8fbff;
     text-decoration: none;
-    filter:
-        drop-shadow(0 0 5px rgba(255, 255, 255, 0.78))
-        drop-shadow(0 0 10px rgba(32, 231, 255, 0.9))
-        drop-shadow(0 0 14px rgba(255, 43, 214, 0.65));
-    transition: transform 160ms ease;
+    transition: filter 140ms steps(2), transform 140ms steps(2);
 }
 .home-link:hover,
 .home-link:focus-visible {
     transform: translateY(-1px);
     outline: none;
+    filter:
+        drop-shadow(0 0 2px rgba(255, 255, 255, 0.86))
+        drop-shadow(0 0 6px rgba(255, 255, 255, 0.48));
 }
 .home-link svg {
-    width: 24px;
-    height: 24px;
-}
-.hud {
-    position: fixed;
-    top: 18px;
-    right: 18px;
-    z-index: 4;
-    display: flex;
-    gap: 12px;
-}
-.metric {
-    min-width: 92px;
-    padding: 8px 12px;
-    border: 1px solid rgba(32, 231, 255, 0.34);
-    border-radius: 6px;
-    background: var(--panel);
-    box-shadow:
-        0 0 10px rgba(32, 231, 255, 0.18),
-        inset 0 0 12px rgba(255, 43, 214, 0.08);
-}
-.metric span {
     display: block;
-    color: rgba(248, 251, 255, 0.62);
-    font-size: 10px;
-    letter-spacing: 1.7px;
-    text-transform: uppercase;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
-.metric strong {
-    display: block;
-    margin-top: 3px;
-    color: #fff;
-    font-size: 20px;
-    line-height: 1;
-    text-shadow:
-        0 0 8px rgba(32, 231, 255, 0.9),
-        0 0 16px rgba(255, 43, 214, 0.72);
+.back-hitbox {
+    fill: #fff;
+    opacity: 0.001;
+    pointer-events: all;
+}
+.back-constellation-line {
+    fill: none;
+    stroke: rgba(248, 251, 255, 0.16);
+    stroke-width: 1;
+    stroke-linecap: square;
+    stroke-linejoin: bevel;
+    shape-rendering: crispEdges;
+}
+.back-constellation-star {
+    fill: rgba(248, 251, 255, 0.74);
+    shape-rendering: crispEdges;
+}
+.home-link:hover .back-constellation-line,
+.home-link:focus-visible .back-constellation-line {
+    stroke: rgba(248, 251, 255, 0.34);
+}
+.home-link:hover .back-constellation-star,
+.home-link:focus-visible .back-constellation-star {
+    fill: rgba(248, 251, 255, 0.96);
 }
 .stage {
+    position: relative;
+    z-index: 2;
     width: 100%;
     height: 100%;
     display: grid;
     place-items: center;
-    padding: 82px 18px 28px;
+    padding: 18px 18px 28px;
 }
 .game-shell {
     position: relative;
     width: min(86vmin, 720px);
     aspect-ratio: 1;
+    transform: translateY(-6vh);
 }
 canvas {
     display: block;
@@ -212,28 +257,17 @@ canvas {
 }
 @media (max-width: 620px) {
     .home-link {
-        top: 12px;
-        left: 12px;
-        width: 34px;
-        height: 34px;
-    }
-    .hud {
-        top: 12px;
-        right: 12px;
-        gap: 8px;
-    }
-    .metric {
-        min-width: 72px;
-        padding: 7px 9px;
-    }
-    .metric strong {
-        font-size: 18px;
+        top: 10px;
+        left: 10px;
+        width: 54px;
+        height: 38px;
     }
     .stage {
-        padding: 76px 12px 18px;
+        padding: 8px 12px 18px;
     }
     .game-shell {
         width: min(94vmin, 720px);
+        transform: translateY(-4vh);
     }
     .controls {
         right: 12px;
@@ -246,26 +280,33 @@ canvas {
         width: 42px;
         height: 42px;
     }
+    .logo-banner {
+        top: -42px;
+    }
 }
 </style>
 </head>
 <body>
-    <a class="home-link" href="index.html" aria-label="Home" title="Home">
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-            <path d="M14 34 32 17l18 17" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M20 31v18h24V31" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <svg class="space-art" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g id="galaxies"></g>
+        <g id="stars"></g>
+    </svg>
+    <svg class="space-art" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g id="foreground-stars"></g>
+    </svg>
+    <img class="logo-banner" src="assets/aribulan-logo-banner.png" alt="aribulan">
+    <a class="home-link" href="index.html" aria-label="Back home" title="Back home">
+        <svg viewBox="0 0 58 42" aria-hidden="true">
+            <rect class="back-hitbox" width="58" height="42"></rect>
+            <polyline class="back-constellation-line" points="13,21 25,10"></polyline>
+            <polyline class="back-constellation-line" points="13,21 25,32"></polyline>
+            <polyline class="back-constellation-line" points="13,21 45,21"></polyline>
+            <rect class="back-constellation-star" x="11" y="19" width="4" height="4"></rect>
+            <rect class="back-constellation-star" x="23" y="8" width="3" height="3"></rect>
+            <rect class="back-constellation-star" x="23" y="31" width="3" height="3"></rect>
+            <rect class="back-constellation-star" x="43" y="19" width="3" height="3"></rect>
         </svg>
     </a>
-    <div class="hud" aria-live="polite">
-        <div class="metric">
-            <span>Score</span>
-            <strong id="score">0</strong>
-        </div>
-        <div class="metric">
-            <span>Best</span>
-            <strong id="best">0</strong>
-        </div>
-    </div>
     <main class="stage">
         <div class="game-shell">
             <canvas id="game" width="640" height="640" tabindex="0" aria-label="Snake game"></canvas>
@@ -300,10 +341,12 @@ canvas {
     </div>
 <script>
 (() => {
+    const svgNS = "http://www.w3.org/2000/svg";
+    const stars = document.getElementById("stars");
+    const foregroundStars = document.getElementById("foreground-stars");
+    const galaxies = document.getElementById("galaxies");
     const canvas = document.getElementById("game");
     const ctx = canvas.getContext("2d");
-    const scoreEl = document.getElementById("score");
-    const bestEl = document.getElementById("best");
     const overlay = document.getElementById("overlay");
     const statusEl = document.getElementById("status");
 
@@ -339,7 +382,7 @@ canvas {
     let accumulator = 0;
     let touchStart = null;
 
-    bestEl.textContent = best;
+    drawPageBackground();
     start();
 
     Promise.all(Object.values(assets).map((image) => image.decode().catch(() => {}))).then(draw);
@@ -360,6 +403,80 @@ canvas {
         return image;
     }
 
+    function drawPageBackground() {
+        let seed = 1994;
+        const rand = () => {
+            seed = (seed * 1664525 + 1013904223) >>> 0;
+            return seed / 4294967296;
+        };
+        const palette = ["#f8fbff", "#d8fbff", "#ffd8fb", "#fff0a6", "#aeefff"];
+        const starShape = [
+            [0, -1], [-1, 0], [0, 0], [1, 0], [0, 1],
+            [-1, -1], [1, 1], [1, -1], [-1, 1]
+        ];
+        const pixel = (parent, x, y, size, fill, opacity = 1, className = "star-pixel") => {
+            const rect = document.createElementNS(svgNS, "rect");
+            rect.setAttribute("x", Math.round(x));
+            rect.setAttribute("y", Math.round(y));
+            rect.setAttribute("width", size);
+            rect.setAttribute("height", size);
+            rect.setAttribute("fill", fill);
+            rect.setAttribute("opacity", opacity);
+            rect.setAttribute("class", className);
+            parent.appendChild(rect);
+        };
+        const drawStar = (parent, x, y, pixels, size, color, opacity) => {
+            starShape.slice(0, pixels).forEach(([dx, dy], index) => {
+                const tone = index === 2 ? 1 : 0.72 + rand() * 0.22;
+                pixel(parent, x + dx * size, y + dy * size, size, color, opacity * tone);
+            });
+        };
+
+        for (let i = 0; i < 240; i += 1) {
+            const x = rand() * 1920;
+            const y = rand() * 1080;
+            const size = rand() > 0.84 ? 2 : 1;
+            const pixels = 5 + Math.floor(rand() * 5);
+            const color = palette[Math.floor(rand() * palette.length)];
+            const opacity = 0.52 + rand() * 0.4;
+            drawStar(stars, x, y, pixels, size, color, opacity);
+        }
+
+        for (let i = 0; i < 90; i += 1) {
+            const x = rand() * 1920;
+            const y = rand() * 1080;
+            if (y > 320 && y < 860 && x > 90 && x < 1830) continue;
+            const size = rand() > 0.86 ? 2 : 1;
+            const pixels = 5 + Math.floor(rand() * 5);
+            const color = palette[Math.floor(rand() * palette.length)];
+            drawStar(foregroundStars, x, y, pixels, size, color, 0.62 + rand() * 0.32);
+        }
+
+        [
+            [250, 96], [360, 142], [510, 82], [690, 176], [820, 118],
+            [1040, 150], [1220, 86], [1390, 182], [1580, 120], [1730, 210],
+            [210, 300], [470, 270], [720, 310], [1120, 282], [1460, 300]
+        ].forEach(([x, y], index) => {
+            drawStar(foregroundStars, x, y, 5 + (index % 4), index % 5 === 0 ? 2 : 1, palette[index % palette.length], 0.72);
+        });
+
+        [
+            { x: 330, y: 240, color: "#ff2bd6" },
+            { x: 1510, y: 360, color: "#28eaff" },
+            { x: 1220, y: 850, color: "#ffe66d" }
+        ].forEach((galaxy) => {
+            for (let i = 0; i < 72; i += 1) {
+                const angle = rand() * Math.PI * 2;
+                const radius = Math.pow(rand(), 0.55) * 118;
+                const squash = 0.42 + rand() * 0.25;
+                const x = galaxy.x + Math.cos(angle) * radius;
+                const y = galaxy.y + Math.sin(angle) * radius * squash;
+                const size = rand() > 0.76 ? 2 : 1;
+                pixel(galaxies, x, y, size, galaxy.color, 0.1 + rand() * 0.2, "galaxy-pixel");
+            }
+        });
+    }
+
     function reset() {
         snake = [
             { x: 6, y: 10 },
@@ -369,7 +486,6 @@ canvas {
         direction = { x: 1, y: 0 };
         queuedDirection = { ...direction };
         score = 0;
-        scoreEl.textContent = score;
         food = placeFood();
     }
 
@@ -419,10 +535,8 @@ canvas {
         snake.unshift(next);
         if (next.x === food.x && next.y === food.y) {
             score += 10;
-            scoreEl.textContent = score;
             if (score > best) {
                 best = score;
-                bestEl.textContent = best;
                 localStorage.setItem("aribulanSnakeBest", String(best));
             }
             food = placeFood();
@@ -441,6 +555,7 @@ canvas {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBackground();
         drawGridGlow();
+        drawScore();
         drawFood();
         drawSnake();
     }
@@ -468,6 +583,18 @@ canvas {
             ctx.lineTo(canvas.width, p);
             ctx.stroke();
         }
+        ctx.restore();
+    }
+
+    function drawScore() {
+        ctx.save();
+        ctx.font = "700 15px Arial, Helvetica, sans-serif";
+        ctx.textBaseline = "top";
+        ctx.letterSpacing = "1px";
+        ctx.fillStyle = "rgba(248, 251, 255, 0.72)";
+        ctx.shadowColor = "rgba(32, 231, 255, 0.72)";
+        ctx.shadowBlur = 8;
+        ctx.fillText(`SCORE ${score}`, 18, 16);
         ctx.restore();
     }
 
