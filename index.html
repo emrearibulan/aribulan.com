@@ -118,6 +118,19 @@ body {
     transition: filter 140ms steps(2);
 }
 
+.invader-star-art {
+    position: absolute;
+    right: clamp(20px, 5vw, 70px);
+    bottom: clamp(12px, 4vh, 40px);
+    z-index: 1;
+    width: clamp(128px, 13vw, 164px);
+    height: clamp(96px, 10vw, 122px);
+    display: block;
+    color: var(--white);
+    text-decoration: none;
+    transition: filter 140ms steps(2);
+}
+
 .constellation-hitbox {
     fill: #ffffff;
     opacity: 0.001;
@@ -127,7 +140,9 @@ body {
 .s-star-art:hover,
 .s-star-art:focus-visible,
 .man-star-art:hover,
-.man-star-art.is-hovered {
+.man-star-art.is-hovered,
+.invader-star-art:hover,
+.invader-star-art:focus-visible {
     outline: none;
     filter:
         drop-shadow(0 0 2px rgba(255, 255, 255, 0.86))
@@ -137,14 +152,18 @@ body {
 .s-star-art:hover .star-pixel,
 .s-star-art:focus-visible .star-pixel,
 .man-star-art:hover .star-pixel,
-.man-star-art.is-hovered .star-pixel {
+.man-star-art.is-hovered .star-pixel,
+.invader-star-art:hover .star-pixel,
+.invader-star-art:focus-visible .star-pixel {
     opacity: 0.96;
 }
 
 .s-star-art:hover .s-constellation-line,
 .s-star-art:focus-visible .s-constellation-line,
 .man-star-art:hover .man-constellation-line,
-.man-star-art.is-hovered .man-constellation-line {
+.man-star-art.is-hovered .man-constellation-line,
+.invader-star-art:hover .invader-constellation-line,
+.invader-star-art:focus-visible .invader-constellation-line {
     stroke: rgba(248, 251, 255, 0.34);
 }
 
@@ -163,6 +182,15 @@ body {
 }
 
 .man-constellation-line {
+    fill: none;
+    stroke: rgba(248, 251, 255, 0.16);
+    stroke-width: 1;
+    stroke-linecap: square;
+    stroke-linejoin: bevel;
+    shape-rendering: crispEdges;
+}
+
+.invader-constellation-line {
     fill: none;
     stroke: rgba(248, 251, 255, 0.16);
     stroke-width: 1;
@@ -307,6 +335,13 @@ body {
         width: min(72vw, 420px);
     }
 
+    .invader-star-art {
+        right: 14px;
+        bottom: 20px;
+        width: 118px;
+        height: 88px;
+    }
+
     .page-body {
         padding: 4px;
     }
@@ -337,6 +372,12 @@ body {
                 <rect class="constellation-hitbox" width="150" height="210"></rect>
                 <g id="man-stars"></g>
             </svg>
+            <a class="invader-star-art" href="invaders.html" aria-label="Open invaders game" title="Invaders game">
+                <svg viewBox="0 0 150 112" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                    <rect class="constellation-hitbox" width="150" height="112"></rect>
+                    <g id="invader-stars"></g>
+                </svg>
+            </a>
         </header>
 
         <section class="page-body" aria-label="Page content">
@@ -353,6 +394,7 @@ body {
     const galaxies = document.getElementById("galaxies");
     const sStars = document.getElementById("s-stars");
     const manStars = document.getElementById("man-stars");
+    const invaderStars = document.getElementById("invader-stars");
     const manConstellation = document.querySelector(".man-star-art");
     let seed = 1994;
     const rand = () => {
@@ -471,6 +513,39 @@ body {
     Object.values(manStarPoints).forEach(([x, y], index) => {
         const size = index === 0 ? 3 : (index === 1 || index === 4 ? 2 : 1);
         drawStar(manStars, x, y, 5 + (index % 4), size, palette[(index + 2) % palette.length], 0.52 + index * 0.025);
+    });
+
+    const invaderStarPoints = {
+        leftAntenna: [43, 28],
+        leftTop: [55, 42],
+        leftSide: [43, 58],
+        leftEye: [58, 58],
+        center: [75, 50],
+        rightEye: [92, 58],
+        rightSide: [107, 58],
+        rightTop: [95, 42],
+        rightAntenna: [107, 28],
+        leftLeg: [56, 78],
+        rightLeg: [94, 78]
+    };
+
+    [
+        ["leftAntenna", "leftTop"], ["leftTop", "center"], ["center", "rightTop"], ["rightTop", "rightAntenna"],
+        ["leftSide", "leftEye"], ["leftEye", "center"], ["center", "rightEye"], ["rightEye", "rightSide"],
+        ["leftSide", "leftLeg"], ["rightSide", "rightLeg"], ["leftLeg", "rightLeg"]
+    ].forEach(([start, end]) => {
+        const line = document.createElementNS(svgNS, "line");
+        line.setAttribute("x1", invaderStarPoints[start][0]);
+        line.setAttribute("y1", invaderStarPoints[start][1]);
+        line.setAttribute("x2", invaderStarPoints[end][0]);
+        line.setAttribute("y2", invaderStarPoints[end][1]);
+        line.setAttribute("class", "invader-constellation-line");
+        invaderStars.appendChild(line);
+    });
+
+    Object.values(invaderStarPoints).forEach(([x, y], index) => {
+        const size = index === 4 ? 2 : 1;
+        drawStar(invaderStars, x, y, 5 + (index % 4), size, palette[(index + 1) % palette.length], 0.52 + index * 0.022);
     });
 
     manConstellation.addEventListener("mouseenter", () => {

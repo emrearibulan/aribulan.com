@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Snake | Aribulan</title>
+<title>Invaders | Aribulan</title>
 <style>
 :root {
     --cyan: #20e7ff;
@@ -350,6 +350,56 @@ canvas {
     box-shadow: none;
     image-rendering: auto;
 }
+.pause-button {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 3;
+    width: 36px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(248, 251, 255, 0.34);
+    color: rgba(248, 251, 255, 0.86);
+    background: rgba(3, 0, 13, 0.22);
+    box-shadow:
+        0 0 8px rgba(248, 251, 255, 0.14),
+        0 0 14px rgba(40, 234, 255, 0.12),
+        inset 0 0 8px rgba(248, 251, 255, 0.05);
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+.pause-button:hover,
+.pause-button:focus-visible {
+    color: #fff;
+    border-color: rgba(248, 251, 255, 0.66);
+    outline: none;
+}
+.pause-button::before,
+.pause-button::after {
+    content: "";
+    width: 4px;
+    height: 14px;
+    margin: 0 3px;
+    background: currentColor;
+    box-shadow: 0 0 7px rgba(248, 251, 255, 0.48);
+}
+.pause-button.is-paused::before {
+    width: 0;
+    height: 0;
+    margin-left: 3px;
+    margin-right: 0;
+    background: transparent;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 13px solid currentColor;
+    box-shadow: none;
+}
+.pause-button.is-paused::after {
+    display: none;
+}
 .overlay {
     position: absolute;
     inset: 0;
@@ -387,12 +437,11 @@ canvas {
     z-index: 3;
     margin-top: clamp(18px, 3vw, 30px);
     display: grid;
-    grid-template-columns: repeat(3, 46px);
-    grid-template-rows: repeat(3, 46px);
-    gap: 8px;
+    grid-template-columns: repeat(2, 58px);
+    gap: 18px;
 }
 .control-button {
-    width: 46px;
+    width: 58px;
     height: 46px;
     display: inline-flex;
     align-items: center;
@@ -425,22 +474,6 @@ canvas {
 .control-button svg {
     width: 24px;
     height: 24px;
-}
-.control-button[data-direction="ArrowUp"] {
-    grid-column: 2;
-    grid-row: 1;
-}
-.control-button[data-direction="ArrowLeft"] {
-    grid-column: 1;
-    grid-row: 2;
-}
-.control-button[data-direction="ArrowRight"] {
-    grid-column: 3;
-    grid-row: 2;
-}
-.control-button[data-direction="ArrowDown"] {
-    grid-column: 2;
-    grid-row: 3;
 }
 @media (max-width: 620px) {
     .arcade-template {
@@ -486,19 +519,18 @@ canvas {
         transform: none;
     }
     .controls {
-        grid-template-columns: repeat(3, 42px);
-        grid-template-rows: repeat(3, 42px);
-        gap: 7px;
+        grid-template-columns: repeat(2, 56px);
+        gap: 16px;
     }
     .control-button {
-        width: 42px;
+        width: 56px;
         height: 42px;
     }
 }
 </style>
 </head>
 <body>
-    <main class="arcade-template" aria-label="Snake game">
+    <main class="arcade-template" aria-label="Invaders game">
         <svg class="space-art" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <g id="galaxies"></g>
             <g id="stars"></g>
@@ -538,10 +570,11 @@ canvas {
             <div class="header-flying-star-field" aria-hidden="true"></div>
         </header>
 
-        <section class="page-body" aria-label="Snake game area">
+        <section class="page-body" aria-label="Invaders game area">
             <div class="content-slot">
                 <div class="game-shell">
-                    <canvas id="game" width="640" height="640" tabindex="0" aria-label="Snake game"></canvas>
+                    <canvas id="game" width="640" height="640" tabindex="0" aria-label="Invaders game"></canvas>
+                    <button class="pause-button" id="pauseButton" type="button" aria-label="Pause game" title="Pause"></button>
                     <div class="overlay" id="overlay">
                         <div class="menu">
                             <p class="status" id="status">Again</p>
@@ -550,25 +583,15 @@ canvas {
                 </div>
             </div>
         </section>
-        <div class="controls" aria-label="Direction controls">
-            <button class="control-button" type="button" data-direction="ArrowUp" aria-label="Move up">
-                <svg viewBox="0 0 64 64" aria-hidden="true">
-                    <path d="M32 12 16 30h10v22h12V30h10L32 12Z" fill="currentColor"/>
-                </svg>
-            </button>
-            <button class="control-button" type="button" data-direction="ArrowLeft" aria-label="Move left">
+        <div class="controls" aria-label="Ship controls">
+            <button class="control-button" type="button" data-move="-1" aria-label="Move left">
                 <svg viewBox="0 0 64 64" aria-hidden="true">
                     <path d="M12 32 30 16v10h22v12H30v10L12 32Z" fill="currentColor"/>
                 </svg>
             </button>
-            <button class="control-button" type="button" data-direction="ArrowRight" aria-label="Move right">
+            <button class="control-button" type="button" data-move="1" aria-label="Move right">
                 <svg viewBox="0 0 64 64" aria-hidden="true">
                     <path d="M52 32 34 16v10H12v12h22v10l18-16Z" fill="currentColor"/>
-                </svg>
-            </button>
-            <button class="control-button" type="button" data-direction="ArrowDown" aria-label="Move down">
-                <svg viewBox="0 0 64 64" aria-hidden="true">
-                    <path d="M32 52 16 34h10V12h12v22h10L32 52Z" fill="currentColor"/>
                 </svg>
             </button>
         </div>
@@ -589,52 +612,54 @@ canvas {
     const ctx = canvas.getContext("2d");
     const overlay = document.getElementById("overlay");
     const statusEl = document.getElementById("status");
+    const pauseButton = document.getElementById("pauseButton");
 
     const grid = 20;
     const tile = canvas.width / grid;
-    const stepMs = 140;
-    const directions = {
-        ArrowUp: { x: 0, y: -1 },
-        ArrowDown: { x: 0, y: 1 },
-        ArrowLeft: { x: -1, y: 0 },
-        ArrowRight: { x: 1, y: 0 },
-        w: { x: 0, y: -1 },
-        s: { x: 0, y: 1 },
-        a: { x: -1, y: 0 },
-        d: { x: 1, y: 0 }
-    };
-    const assets = {
-        head: loadImage("assets/snake-head.png"),
-        body: loadImage("assets/snake-body.png"),
-        tail: loadImage("assets/snake-tail.png"),
-        food: loadImage("assets/food.png"),
-        background: loadImage("assets/star-background.png")
-    };
+    const keys = new Set();
+    const enemyTypes = [
+        { color: "#28eaff", points: 10, hp: 1, shooter: false, pattern: ["01111110", "11011011", "11111111", "10111101", "00100100"] },
+        { color: "#ff2bd6", points: 15, hp: 1, shooter: true, pattern: ["00111100", "01111110", "11011011", "11111111", "01011010"] },
+        { color: "#ffe66d", points: 20, hp: 2, shooter: false, pattern: ["01000010", "11100111", "11111111", "01111110", "01011010"] },
+        { color: "#d8fbff", points: 25, hp: 2, shooter: false, pattern: ["00100100", "11111111", "10111101", "11111111", "01000010"] },
+        { color: "#ffd8fb", points: 30, hp: 3, shooter: false, pattern: ["01100110", "11111111", "11011011", "11111111", "10000001"] }
+    ];
 
-    let snake;
-    let food;
-    let direction;
-    let queuedDirection;
+    let player;
+    let enemies;
+    let shots;
+    let enemyShots;
+    let supplies;
     let score;
-    let best = Number(localStorage.getItem("aribulanSnakeBest") || 0);
+    let lives;
+    let linesCleared;
+    let speedMultiplier;
+    let nextSupplyLine;
+    let powerUntil;
     let running = false;
+    let paused = false;
     let lastTime = 0;
-    let accumulator = 0;
-    let touchStart = null;
+    let lineTimer = 0;
+    let touchMove = 0;
 
     drawPageBackground();
     spawnFlyingStar();
     setInterval(spawnFlyingStar, 5000);
     start();
 
-    Promise.all(Object.values(assets).map((image) => image.decode().catch(() => {}))).then(draw);
-
     overlay.addEventListener("click", start);
+    pauseButton.addEventListener("click", togglePause);
     window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
     canvas.addEventListener("pointerdown", onPointerDown);
+    canvas.addEventListener("pointermove", onPointerMove);
     canvas.addEventListener("pointerup", onPointerUp);
+    canvas.addEventListener("pointercancel", onPointerUp);
     document.querySelectorAll(".control-button").forEach((button) => {
-        button.addEventListener("pointerdown", onControlPress);
+        button.addEventListener("pointerdown", onMoveButtonDown);
+        button.addEventListener("pointerup", onMoveButtonUp);
+        button.addEventListener("pointercancel", onMoveButtonUp);
+        button.addEventListener("pointerleave", onMoveButtonUp);
     });
 
     requestAnimationFrame(loop);
@@ -881,24 +906,34 @@ canvas {
         });
     }
 
-    function reset() {
-        snake = [
-            { x: 6, y: 10 },
-            { x: 5, y: 10 },
-            { x: 4, y: 10 }
-        ];
-        direction = { x: 1, y: 0 };
-        queuedDirection = { ...direction };
+    function resetGame() {
+        player = {
+            x: canvas.width / 2,
+            y: canvas.height - 54,
+            width: 36,
+            height: 22,
+            shotCooldown: 0
+        };
+        enemies = [];
+        shots = [];
+        enemyShots = [];
+        supplies = [];
         score = 0;
-        food = placeFood();
+        lives = 5;
+        linesCleared = 0;
+        speedMultiplier = 1;
+        nextSupplyLine = randomSupplyInterval();
+        powerUntil = 0;
+        lineTimer = 0;
     }
 
     function start() {
-        reset();
+        resetGame();
         running = true;
+        paused = false;
         lastTime = 0;
-        accumulator = 0;
         overlay.classList.remove("is-visible");
+        syncPauseButton();
         canvas.focus();
     }
 
@@ -906,71 +941,189 @@ canvas {
         if (!lastTime) {
             lastTime = time;
         }
-        const delta = time - lastTime;
+        const delta = Math.min(50, time - lastTime);
         lastTime = time;
 
-        if (running) {
-            accumulator += delta;
-            while (accumulator >= stepMs) {
-                tick();
-                accumulator -= stepMs;
-            }
+        if (running && !paused) {
+            update(delta, time);
         }
 
-        draw();
+        draw(time);
         requestAnimationFrame(loop);
     }
 
-    function tick() {
-        if (!isOpposite(direction, queuedDirection)) {
-            direction = { ...queuedDirection };
+    function update(delta, time) {
+        const seconds = delta / 1000;
+        movePlayer(seconds);
+        updateFire(seconds, time);
+        updateEnemyLines(delta);
+        updateEnemies(seconds, time);
+        updateProjectiles(seconds);
+        updateSupplies(seconds, time);
+        checkCollisions(time);
+    }
+
+    function movePlayer(seconds) {
+        const moveLeft = keys.has("ArrowLeft") || keys.has("a") || keys.has("A");
+        const moveRight = keys.has("ArrowRight") || keys.has("d") || keys.has("D");
+        const speed = 300;
+        if (moveLeft || touchMove < 0) player.x -= speed * seconds;
+        if (moveRight || touchMove > 0) player.x += speed * seconds;
+        player.x = clamp(player.x, 28, canvas.width - 28);
+    }
+
+    function updateFire(seconds, time) {
+        player.shotCooldown = Math.max(0, player.shotCooldown - seconds);
+        const interval = time < powerUntil ? 0.25 : 0.5;
+        if (player.shotCooldown <= 0) {
+            player.shotCooldown = interval;
+            shots.push({ x: player.x, y: player.y - 24, speed: 520 });
         }
+    }
 
-        const head = snake[0];
-        const next = { x: head.x + direction.x, y: head.y + direction.y };
-        const hitsWall = next.x < 0 || next.x >= grid || next.y < 0 || next.y >= grid;
-        const hitsSelf = snake.some((part) => part.x === next.x && part.y === next.y);
-
-        if (hitsWall || hitsSelf) {
-            endGame();
-            return;
+    function updateEnemyLines(delta) {
+        lineTimer -= delta;
+        const interval = Math.max(1600, 7400 / speedMultiplier);
+        if (lineTimer <= 0) {
+            spawnEnemyLine();
+            lineTimer = interval;
         }
+    }
 
-        snake.unshift(next);
-        if (next.x === food.x && next.y === food.y) {
-            score += 10;
-            if (score > best) {
-                best = score;
-                localStorage.setItem("aribulanSnakeBest", String(best));
+    function spawnEnemyLine() {
+        const columns = [80, 156, 232, 408, 484, 560];
+        const y = -34;
+        columns.forEach((x) => {
+            const type = Math.floor(Math.random() * enemyTypes.length);
+            enemies.push({
+                x,
+                y,
+                type,
+                hp: enemyTypes[type].hp,
+                shotTimer: 1.2 + Math.random() * 2.2
+            });
+        });
+        linesCleared += 1;
+        if (linesCleared % 20 === 0) {
+            speedMultiplier *= 1.1;
+        }
+        if (linesCleared >= nextSupplyLine) {
+            spawnSupply();
+            nextSupplyLine = linesCleared + randomSupplyInterval();
+        }
+    }
+
+    function spawnSupply() {
+        supplies.push({
+            x: 70 + Math.random() * (canvas.width - 140),
+            y: -28,
+            size: 24,
+            speed: 72 + speedMultiplier * 12
+        });
+    }
+
+    function updateEnemies(seconds, time) {
+        const speed = 7 * speedMultiplier;
+        enemies.forEach((enemy) => {
+            enemy.y += speed * seconds;
+            const type = enemyTypes[enemy.type];
+            if (type.shooter) {
+                enemy.shotTimer -= seconds;
+                if (enemy.shotTimer <= 0 && enemy.y > 22 && enemy.y < canvas.height - 160) {
+                    enemyShots.push({ x: enemy.x, y: enemy.y + 18, speed: 150 + speedMultiplier * 10 });
+                    enemy.shotTimer = 2.4 + Math.random() * 2.3;
+                }
             }
-            food = placeFood();
-        } else {
-            snake.pop();
+        });
+
+        for (let i = enemies.length - 1; i >= 0; i -= 1) {
+            if (enemies[i].y > canvas.height - 18) {
+                enemies.splice(i, 1);
+                loseLife();
+            }
         }
     }
 
-    function endGame() {
-        running = false;
-        statusEl.textContent = "Again";
-        overlay.classList.add("is-visible");
+    function updateProjectiles(seconds) {
+        shots.forEach((shot) => {
+            shot.y -= shot.speed * seconds;
+        });
+        enemyShots.forEach((shot) => {
+            shot.y += shot.speed * seconds;
+        });
+        shots = shots.filter((shot) => shot.y > -20);
+        enemyShots = enemyShots.filter((shot) => shot.y < canvas.height + 20);
     }
 
-    function draw() {
+    function updateSupplies(seconds, time) {
+        supplies.forEach((supply) => {
+            supply.y += supply.speed * seconds;
+        });
+        supplies = supplies.filter((supply) => supply.y < canvas.height + 34);
+        if (time > powerUntil && powerUntil !== 0) {
+            powerUntil = 0;
+        }
+    }
+
+    function checkCollisions(time) {
+        for (let s = shots.length - 1; s >= 0; s -= 1) {
+            const shot = shots[s];
+            for (let e = enemies.length - 1; e >= 0; e -= 1) {
+                const enemy = enemies[e];
+                if (rectHit(shot.x - 3, shot.y - 9, 6, 14, enemy.x - 18, enemy.y - 14, 36, 28)) {
+                    shots.splice(s, 1);
+                    enemy.hp -= 1;
+                    if (enemy.hp <= 0) {
+                        score += enemyTypes[enemy.type].points;
+                        enemies.splice(e, 1);
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (let i = enemyShots.length - 1; i >= 0; i -= 1) {
+            const shot = enemyShots[i];
+            if (rectHit(shot.x - 4, shot.y - 2, 8, 12, player.x - player.width / 2, player.y - player.height / 2, player.width, player.height)) {
+                enemyShots.splice(i, 1);
+                loseLife();
+            }
+        }
+
+        for (let i = supplies.length - 1; i >= 0; i -= 1) {
+            const supply = supplies[i];
+            if (rectHit(supply.x - 12, supply.y - 12, 24, 24, player.x - player.width / 2, player.y - player.height / 2, player.width, player.height)) {
+                supplies.splice(i, 1);
+                powerUntil = time + 60000;
+            }
+        }
+    }
+
+    function loseLife() {
+        lives -= 1;
+        if (lives <= 0) {
+            running = false;
+            paused = false;
+            statusEl.textContent = "Again";
+            overlay.classList.add("is-visible");
+            syncPauseButton();
+        }
+    }
+
+    function draw(time) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawBackground();
         drawGridGlow();
-        drawScore();
-        drawFood();
-        drawSnake();
-    }
-
-    function drawBackground() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawHud(time);
+        supplies.forEach(drawSupply);
+        shots.forEach(drawPlayerShot);
+        enemyShots.forEach(drawEnemyShot);
+        enemies.forEach(drawEnemy);
+        drawPlayer(time);
     }
 
     function drawGridGlow() {
         ctx.save();
-        ctx.strokeStyle = "rgba(32, 231, 255, 0.055)";
+        ctx.strokeStyle = "rgba(32, 231, 255, 0.05)";
         ctx.lineWidth = 1;
         for (let i = 1; i < grid; i += 1) {
             const p = Math.round(i * tile) + 0.5;
@@ -986,184 +1139,194 @@ canvas {
         ctx.restore();
     }
 
-    function drawScore() {
+    function drawHud(time) {
+        for (let i = 0; i < 5; i += 1) {
+            drawHeart(18 + i * 22, 18, i < lives);
+        }
+        drawText(`SCORE ${score}`, 18, 48, "#d8fbff");
+        drawText(`LINES ${linesCleared}`, canvas.width - 138, 18, "#ffd8fb");
+        if (time < powerUntil) {
+            const seconds = Math.ceil((powerUntil - time) / 1000);
+            drawText(`X2 ${seconds}`, canvas.width - 96, 48, "#ffe66d");
+        }
+    }
+
+    function drawText(text, x, y, color) {
         ctx.save();
-        ctx.font = "700 15px Arial, Helvetica, sans-serif";
+        ctx.font = "700 15px Courier New, monospace";
         ctx.textBaseline = "top";
-        ctx.letterSpacing = "1px";
-        ctx.fillStyle = "rgba(248, 251, 255, 0.72)";
-        ctx.shadowColor = "rgba(32, 231, 255, 0.72)";
+        ctx.fillStyle = color;
+        ctx.shadowColor = color;
         ctx.shadowBlur = 8;
-        ctx.fillText(`SCORE ${score}`, 18, 16);
+        ctx.fillText(text, x, y);
         ctx.restore();
     }
 
-    function drawFood() {
-        drawSprite(assets.food, food.x, food.y, 0, 0.88);
-    }
-
-    function drawSnake() {
-        drawSnakeConnector();
-        snake.forEach((part, index) => {
-            if (index === 0) {
-                drawSprite(assets.head, part.x, part.y, angleFor(direction), 1.18);
-                return;
-            }
-
-            if (index === snake.length - 1) {
-                const beforeTail = snake[index - 1];
-                const tailDirection = {
-                    x: part.x - beforeTail.x,
-                    y: part.y - beforeTail.y
-                };
-                drawSprite(assets.tail, part.x, part.y, angleFor(tailDirection) - Math.PI, 1.08);
-                return;
-            }
-
-            const previous = snake[index - 1];
-            const bodyDirection = {
-                x: previous.x - part.x,
-                y: previous.y - part.y
-            };
-            drawSprite(assets.body, part.x, part.y, angleFor(bodyDirection), 1.04);
-        });
-    }
-
-    function drawSnakeConnector() {
-        if (snake.length < 2) {
-            return;
-        }
-
-        ctx.save();
-        ctx.lineCap = "round";
-        ctx.lineJoin = "round";
-
+    function drawHeart(x, y, filled) {
+        const color = filled ? "#ff2b4f" : "rgba(248, 251, 255, 0.16)";
         [
-            { width: tile * 0.86, stroke: "rgba(255, 43, 214, 0.20)" },
-            { width: tile * 0.66, stroke: "rgba(32, 231, 255, 0.24)" },
-            { width: tile * 0.42, stroke: "rgba(248, 251, 255, 0.16)" }
-        ].forEach((layer) => {
-            ctx.beginPath();
-            snake.forEach((part, index) => {
-                const x = part.x * tile + tile / 2;
-                const y = part.y * tile + tile / 2;
-                if (index === 0) {
-                    ctx.moveTo(x, y);
-                    return;
-                }
-                ctx.lineTo(x, y);
-            });
-            ctx.lineWidth = layer.width;
-            ctx.strokeStyle = layer.stroke;
-            ctx.stroke();
+            [1, 0], [2, 0], [4, 0], [5, 0],
+            [0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1],
+            [0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2],
+            [1, 3], [2, 3], [3, 3], [4, 3], [5, 3],
+            [2, 4], [3, 4], [4, 4],
+            [3, 5]
+        ].forEach(([px, py]) => {
+            ctx.fillStyle = color;
+            ctx.fillRect(x + px * 3, y + py * 3, 3, 3);
         });
-
-        ctx.restore();
     }
 
-    function drawSprite(image, x, y, angle, scale) {
-        if (!image.complete) {
-            return;
-        }
-        const size = tile * scale;
-        const centerX = x * tile + tile / 2;
-        const centerY = y * tile + tile / 2;
-
+    function drawPlayer(time) {
         ctx.save();
-        ctx.translate(centerX, centerY);
-        ctx.rotate(angle);
-        ctx.drawImage(image, -size / 2, -size / 2, size, size);
+        ctx.translate(Math.round(player.x), Math.round(player.y));
+        ctx.fillStyle = "#28eaff";
+        ctx.shadowColor = "#28eaff";
+        ctx.shadowBlur = 10;
+        const flicker = Math.floor(time / 120) % 2;
+        [
+            [-14, 10, 28, 4], [-10, 4, 20, 6], [-4, -8, 8, 12],
+            [-20, 12, 6, 4], [14, 12, 6, 4], [-2, -14, 4, 6]
+        ].forEach(([x, y, w, h]) => ctx.fillRect(x, y + flicker, w, h));
         ctx.restore();
     }
 
-    function placeFood() {
-        let candidate;
-        do {
-            candidate = {
-                x: Math.floor(Math.random() * grid),
-                y: Math.floor(Math.random() * grid)
-            };
-        } while (snake.some((part) => part.x === candidate.x && part.y === candidate.y));
-        return candidate;
+    function drawPlayerShot(shot) {
+        ctx.save();
+        ctx.fillStyle = "#f8fbff";
+        ctx.shadowColor = "#28eaff";
+        ctx.shadowBlur = 9;
+        ctx.fillRect(Math.round(shot.x - 2), Math.round(shot.y - 10), 4, 14);
+        ctx.restore();
+    }
+
+    function drawEnemyShot(shot) {
+        ctx.save();
+        ctx.fillStyle = "#ff2bd6";
+        ctx.shadowColor = "#ff2bd6";
+        ctx.shadowBlur = 8;
+        ctx.fillRect(Math.round(shot.x - 3), Math.round(shot.y - 2), 6, 12);
+        ctx.restore();
+    }
+
+    function drawEnemy(enemy) {
+        const type = enemyTypes[enemy.type];
+        drawPixelPattern(type.pattern, enemy.x - 20, enemy.y - 13, 5, type.color);
+        if (type.shooter) {
+            ctx.save();
+            ctx.fillStyle = "#f8fbff";
+            ctx.globalAlpha = 0.7;
+            ctx.fillRect(Math.round(enemy.x - 4), Math.round(enemy.y + 17), 8, 3);
+            ctx.restore();
+        }
+    }
+
+    function drawSupply(supply) {
+        ctx.save();
+        ctx.fillStyle = "#ffe66d";
+        ctx.shadowColor = "#ffe66d";
+        ctx.shadowBlur = 10;
+        ctx.fillRect(Math.round(supply.x - 12), Math.round(supply.y - 12), 24, 24);
+        ctx.fillStyle = "#03000d";
+        ctx.fillRect(Math.round(supply.x - 2), Math.round(supply.y - 8), 4, 16);
+        ctx.fillRect(Math.round(supply.x - 8), Math.round(supply.y - 2), 16, 4);
+        ctx.restore();
+    }
+
+    function drawPixelPattern(pattern, x, y, size, color) {
+        ctx.save();
+        ctx.fillStyle = color;
+        ctx.shadowColor = color;
+        ctx.shadowBlur = 8;
+        pattern.forEach((row, rowIndex) => {
+            [...row].forEach((bit, colIndex) => {
+                if (bit === "1") {
+                    ctx.fillRect(Math.round(x + colIndex * size), Math.round(y + rowIndex * size), size, size);
+                }
+            });
+        });
+        ctx.restore();
     }
 
     function onKeyDown(event) {
-        const next = directions[event.key];
-        if (!next) {
-            if (event.key === " " || event.key === "Enter") {
-                event.preventDefault();
-                start();
-            }
+        if (event.key === "p" || event.key === "P") {
+            event.preventDefault();
+            togglePause();
             return;
         }
-
-        event.preventDefault();
-        queueDirection(next);
-    }
-
-    function onControlPress(event) {
-        event.preventDefault();
-        const next = directions[event.currentTarget.dataset.direction];
-        if (next) {
-            queueDirection(next);
+        if (["ArrowLeft", "ArrowRight", " ", "Enter", "a", "A", "d", "D"].includes(event.key)) {
+            event.preventDefault();
+            keys.add(event.key);
+            if (!running) start();
         }
     }
 
-    function queueDirection(next) {
-        if (!running) {
-            start();
-        }
-        if (!isOpposite(direction, next)) {
-            queuedDirection = { ...next };
-        }
+    function onKeyUp(event) {
+        keys.delete(event.key);
     }
 
     function onPointerDown(event) {
-        touchStart = { x: event.clientX, y: event.clientY };
+        touchMove = pointerDirection(event);
+        canvas.setPointerCapture(event.pointerId);
+        if (!running) start();
+    }
+
+    function onPointerMove(event) {
+        if (touchMove !== 0) {
+            touchMove = pointerDirection(event);
+        }
     }
 
     function onPointerUp(event) {
-        if (!touchStart) {
-            return;
-        }
-        const dx = event.clientX - touchStart.x;
-        const dy = event.clientY - touchStart.y;
-        touchStart = null;
-
-        if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) {
-            if (!running) {
-                start();
-            }
-            return;
-        }
-
-        const next = Math.abs(dx) > Math.abs(dy)
-            ? { x: Math.sign(dx), y: 0 }
-            : { x: 0, y: Math.sign(dy) };
-
-        if (!running) {
-            start();
-        }
-        if (!isOpposite(direction, next)) {
-            queuedDirection = next;
+        touchMove = 0;
+        if (canvas.hasPointerCapture(event.pointerId)) {
+            canvas.releasePointerCapture(event.pointerId);
         }
     }
 
-    function isOpposite(current, next) {
-        return current.x + next.x === 0 && current.y + next.y === 0;
+    function pointerDirection(event) {
+        const rect = canvas.getBoundingClientRect();
+        return event.clientX < rect.left + rect.width / 2 ? -1 : 1;
     }
 
-    function angleFor(vector) {
-        if (vector.x > 0) {
-            return 0;
+    function onMoveButtonDown(event) {
+        event.preventDefault();
+        touchMove = Number(event.currentTarget.dataset.move);
+        event.currentTarget.setPointerCapture(event.pointerId);
+        if (!running) start();
+    }
+
+    function onMoveButtonUp(event) {
+        event.preventDefault();
+        touchMove = 0;
+        if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
         }
-        if (vector.x < 0) {
-            return Math.PI;
-        }
-        if (vector.y > 0) {
-            return Math.PI / 2;
-        }
-        return -Math.PI / 2;
+    }
+
+    function togglePause() {
+        if (!running) return;
+        paused = !paused;
+        syncPauseButton();
+        canvas.focus();
+    }
+
+    function syncPauseButton() {
+        pauseButton.classList.toggle("is-paused", paused);
+        pauseButton.setAttribute("aria-label", paused ? "Resume game" : "Pause game");
+        pauseButton.setAttribute("title", paused ? "Resume" : "Pause");
+    }
+
+    function randomSupplyInterval() {
+        return 4 + Math.floor(Math.random() * 4);
+    }
+
+    function rectHit(ax, ay, aw, ah, bx, by, bw, bh) {
+        return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
+    }
+
+    function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
     }
 })();
 </script>
