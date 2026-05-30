@@ -11,7 +11,6 @@
     --yellow: #ffe94a;
     --panel: rgba(0, 0, 0, 0.46);
     --space: #03000d;
-    --play-width: min(100vw, 600px);
 }
 * {
     box-sizing: border-box;
@@ -20,29 +19,38 @@ html,
 body {
     margin: 0;
     width: 100%;
-    height: 100%;
-    background: #000;
+    min-height: 100%;
+    background: var(--space);
     color: #f8fbff;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
+    font-family: "Courier New", Courier, monospace;
+    overflow-x: hidden;
 }
 body {
-    min-height: 100%;
+    min-height: 100vh;
+    image-rendering: pixelated;
+}
+.arcade-template {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 clamp(18px, 5vw, 72px) clamp(34px, 7vw, 84px);
     background:
         radial-gradient(circle at 18% 24%, rgba(255, 43, 214, 0.18) 0 7%, transparent 18%),
         radial-gradient(circle at 76% 34%, rgba(36, 124, 255, 0.18) 0 8%, transparent 21%),
         radial-gradient(circle at 49% 78%, rgba(40, 234, 255, 0.11) 0 6%, transparent 19%),
         linear-gradient(180deg, #07001a 0%, var(--space) 48%, #000007 100%);
-    image-rendering: pixelated;
 }
-body::before,
-body::after {
+.arcade-template::before,
+.arcade-template::after {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
 }
-body::before {
+.arcade-template::before {
     z-index: -3;
     background:
         linear-gradient(rgba(255, 255, 255, 0.028) 50%, transparent 50%) 0 0 / 100% 4px,
@@ -50,7 +58,7 @@ body::before {
     mix-blend-mode: screen;
     opacity: 0.52;
 }
-body::after {
+.arcade-template::after {
     z-index: -2;
     background:
         linear-gradient(90deg, transparent 0 2px, rgba(40, 234, 255, 0.05) 2px 3px, transparent 3px 64px),
@@ -58,10 +66,17 @@ body::after {
     opacity: 0.3;
     mask-image: radial-gradient(circle at center, transparent 0 22%, black 62%, black 100%);
 }
+.page-header {
+    position: relative;
+    width: 100%;
+    min-height: clamp(270px, 40vh, 360px);
+    flex: 0 0 auto;
+    overflow: hidden;
+}
 .space-art {
     position: fixed;
     inset: 0;
-    z-index: 0;
+    z-index: -1;
     width: 100%;
     height: 100%;
     display: block;
@@ -75,20 +90,20 @@ body::after {
     shape-rendering: crispEdges;
 }
 .logo-banner {
-    position: fixed;
+    position: absolute;
     top: clamp(-42px, -3vh, -18px);
     left: 50%;
-    z-index: 3;
+    z-index: 1;
     width: min(45vw, 720px);
     max-height: 24vh;
     transform: translateX(-50%);
     pointer-events: none;
 }
 .home-link {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    z-index: 4;
+    position: absolute;
+    top: clamp(16px, 4vh, 34px);
+    left: clamp(10px, 3.5vw, 42px);
+    z-index: 1;
     width: 58px;
     height: 42px;
     display: block;
@@ -135,20 +150,171 @@ body::after {
 .home-link:focus-visible .back-constellation-star {
     fill: rgba(248, 251, 255, 0.96);
 }
-.stage {
+.s-star-art {
+    position: absolute;
+    top: clamp(22px, 4vh, 38px);
+    left: clamp(14px, 3.5vw, 42px);
+    z-index: 1;
+    width: clamp(140px, 14vw, 170px);
+    height: clamp(140px, 14vw, 170px);
+    display: block;
+    color: #f8fbff;
+    transition: filter 140ms steps(2);
+}
+.man-star-art {
+    position: absolute;
+    top: clamp(74px, 8vh, 100px);
+    left: calc(50% - 58px);
+    z-index: 1;
+    width: clamp(108px, 11vw, 150px);
+    height: clamp(156px, 16vw, 210px);
+    display: block;
+    transform: translateX(-8%);
+    pointer-events: auto;
+    transition: filter 140ms steps(2);
+}
+.constellation-hitbox {
+    fill: #fff;
+    opacity: 0.001;
+    pointer-events: all;
+}
+.s-star-art:hover,
+.s-star-art.is-hovered,
+.man-star-art:hover,
+.man-star-art.is-hovered {
+    outline: none;
+    filter:
+        drop-shadow(0 0 2px rgba(255, 255, 255, 0.86))
+        drop-shadow(0 0 6px rgba(255, 255, 255, 0.48));
+}
+.s-star-art:hover .star-pixel,
+.s-star-art.is-hovered .star-pixel,
+.man-star-art:hover .star-pixel,
+.man-star-art.is-hovered .star-pixel {
+    opacity: 0.96;
+}
+.s-star-art:hover .s-constellation-line,
+.s-star-art.is-hovered .s-constellation-line,
+.man-star-art:hover .man-constellation-line,
+.man-star-art.is-hovered .man-constellation-line {
+    stroke: rgba(248, 251, 255, 0.34);
+}
+.s-constellation-line,
+.man-constellation-line {
+    fill: none;
+    stroke: rgba(248, 251, 255, 0.16);
+    stroke-width: 1;
+    stroke-linecap: square;
+    stroke-linejoin: bevel;
+    shape-rendering: crispEdges;
+}
+.header-flying-star-field {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+.header-flying-star {
+    position: absolute;
+    width: 190px;
+    height: 58px;
+    overflow: visible;
+    opacity: 0;
+    animation: header-star-fly 2s steps(26, end) forwards;
+}
+.header-flying-star .fly-pixel,
+.header-flying-star .fly-trail {
+    shape-rendering: crispEdges;
+}
+
+@keyframes header-star-fly {
+    0% {
+        opacity: 0.18;
+        transform: translate3d(0, 0, 0) scale(var(--star-scale, 1));
+    }
+
+    12%,
+    78% {
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(var(--travel-x, -140px), var(--travel-y, 46px), 0) scale(var(--star-scale, 1));
+    }
+}
+.page-body {
     position: relative;
     z-index: 2;
-    width: var(--play-width);
-    max-width: 100%;
-    height: 100%;
+    width: min(100%, 980px);
     margin: 0 auto;
+    padding: clamp(5px, 0.7vw, 8px);
+    background:
+        linear-gradient(rgba(248, 251, 255, 0.055), rgba(248, 251, 255, 0.02)) padding-box,
+        linear-gradient(135deg, rgba(255, 43, 214, 0.78), rgba(40, 234, 255, 0.76), rgba(255, 230, 109, 0.54)) border-box;
+    border: 1px solid transparent;
+    box-shadow:
+        0 0 0 1px rgba(3, 0, 13, 0.95),
+        inset 0 0 28px rgba(255, 43, 214, 0.08);
+}
+.page-body::before,
+.page-body::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    shape-rendering: crispEdges;
+}
+.page-body::before {
+    inset: -4px;
+    z-index: -1;
+    background:
+        linear-gradient(135deg, rgba(255, 43, 214, 0.44), rgba(40, 234, 255, 0.38), rgba(255, 230, 109, 0.22));
+    clip-path: polygon(
+        0 0, 100% 0, 100% 100%, 0 100%,
+        0 0,
+        4px 4px, 4px calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 4px, 4px 4px
+    );
+    opacity: 0.42;
+}
+.page-body::after {
+    inset: -8px;
+    z-index: -2;
+    background:
+        linear-gradient(90deg, rgba(255, 43, 214, 0.26) 0 4px, transparent 4px 12px),
+        linear-gradient(0deg, rgba(40, 234, 255, 0.2) 0 4px, transparent 4px 12px),
+        linear-gradient(90deg, transparent 0 8px, rgba(255, 230, 109, 0.12) 8px 12px, transparent 12px 24px);
+    opacity: 0.56;
+    mask-image:
+        linear-gradient(#000, #000),
+        linear-gradient(#000, #000);
+    mask-size:
+        calc(100% - 16px) calc(100% - 16px),
+        100% 100%;
+    mask-position:
+        8px 8px,
+        0 0;
+    mask-repeat: no-repeat;
+    mask-composite: exclude;
+}
+.content-slot {
+    min-height: clamp(500px, 60vh, 760px);
+    padding: clamp(8px, 2vw, 20px);
+    background:
+        linear-gradient(rgba(3, 0, 13, 0.52), rgba(3, 0, 13, 0.62)),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px);
+    background-size: auto, 18px 18px, 18px 18px;
+    outline: 1px solid rgba(248, 251, 255, 0.18);
+    outline-offset: -8px;
     display: grid;
-    place-items: center;
-    padding: clamp(112px, 17vh, 150px) 18px 132px;
+    justify-items: center;
+    align-content: center;
+    gap: clamp(18px, 3vw, 28px);
 }
 .game-shell {
     position: relative;
-    width: min(100%, 520px, calc(100vh - 300px));
+    width: min(100%, 680px, max(360px, calc(100vh - 300px)));
     aspect-ratio: 1;
     transform: none;
 }
@@ -156,13 +322,9 @@ canvas {
     display: block;
     width: 100%;
     height: 100%;
-    border: 1px solid rgba(32, 231, 255, 0.32);
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.42);
-    box-shadow:
-        0 0 18px rgba(32, 231, 255, 0.2),
-        0 0 36px rgba(255, 43, 214, 0.12),
-        inset 0 0 28px rgba(0, 0, 0, 0.78);
+    border: 0;
+    background: transparent;
+    box-shadow: none;
     image-rendering: auto;
 }
 .overlay {
@@ -198,10 +360,9 @@ canvas {
         0 0 28px rgba(255, 43, 214, 0.8);
 }
 .controls {
-    position: fixed;
-    right: calc((100vw - var(--play-width)) / 2 + max(18px, env(safe-area-inset-right)));
-    bottom: max(18px, env(safe-area-inset-bottom));
-    z-index: 4;
+    position: relative;
+    z-index: 3;
+    margin-top: clamp(18px, 3vw, 30px);
     display: grid;
     grid-template-columns: repeat(3, 46px);
     grid-template-rows: repeat(3, 46px);
@@ -259,22 +420,40 @@ canvas {
     grid-row: 3;
 }
 @media (max-width: 620px) {
+    .arcade-template {
+        padding: 0 14px 28px;
+    }
+    .arcade-template::after {
+        background-size: 44px 44px;
+        opacity: 0.22;
+    }
+    .page-header {
+        min-height: 260px;
+    }
     .home-link {
         top: 10px;
         left: 10px;
         width: 54px;
         height: 38px;
     }
-    .stage {
-        padding: 112px 12px 168px;
+    .logo-banner {
+        top: -42px;
+        width: min(72vw, 420px);
+    }
+    .page-body {
+        padding: 4px;
+    }
+    .content-slot {
+        min-height: 430px;
+        padding: 10px;
+        gap: 16px;
+        outline-offset: -6px;
     }
     .game-shell {
-        width: min(100%, 520px, calc(100vh - 312px));
+        width: min(100%, 560px, max(300px, calc(100vh - 390px)));
         transform: none;
     }
     .controls {
-        right: calc((100vw - var(--play-width)) / 2 + 12px);
-        bottom: 12px;
         grid-template-columns: repeat(3, 42px);
         grid-template-rows: repeat(3, 42px);
         gap: 7px;
@@ -283,71 +462,90 @@ canvas {
         width: 42px;
         height: 42px;
     }
-    .logo-banner {
-        top: -42px;
-    }
 }
 </style>
 </head>
 <body>
-    <svg class="space-art" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <g id="galaxies"></g>
-        <g id="stars"></g>
-    </svg>
-    <svg class="space-art" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <g id="foreground-stars"></g>
-    </svg>
-    <img class="logo-banner" src="assets/aribulan-logo-banner.png" alt="aribulan">
-    <a class="home-link" href="index.html" aria-label="Back home" title="Back home">
-        <svg viewBox="0 0 58 42" aria-hidden="true">
-            <rect class="back-hitbox" width="58" height="42"></rect>
-            <polyline class="back-constellation-line" points="13,21 25,10"></polyline>
-            <polyline class="back-constellation-line" points="13,21 25,32"></polyline>
-            <polyline class="back-constellation-line" points="13,21 45,21"></polyline>
-            <rect class="back-constellation-star" x="11" y="19" width="4" height="4"></rect>
-            <rect class="back-constellation-star" x="23" y="8" width="3" height="3"></rect>
-            <rect class="back-constellation-star" x="23" y="31" width="3" height="3"></rect>
-            <rect class="back-constellation-star" x="43" y="19" width="3" height="3"></rect>
+    <main class="arcade-template" aria-label="Snake game">
+        <svg class="space-art" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g id="galaxies"></g>
+            <g id="stars"></g>
         </svg>
-    </a>
-    <main class="stage">
-        <div class="game-shell">
-            <canvas id="game" width="640" height="640" tabindex="0" aria-label="Snake game"></canvas>
-            <div class="overlay" id="overlay">
-                <div class="menu">
-                    <p class="status" id="status">Again</p>
+        <svg class="space-art" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g id="foreground-stars"></g>
+        </svg>
+
+        <header class="page-header" aria-label="Page header">
+            <a class="home-link" href="index.html" aria-label="Back home" title="Back home">
+                <svg viewBox="0 0 58 42" aria-hidden="true">
+                    <rect class="back-hitbox" width="58" height="42"></rect>
+                    <polyline class="back-constellation-line" points="13,21 25,10"></polyline>
+                    <polyline class="back-constellation-line" points="13,21 25,32"></polyline>
+                    <polyline class="back-constellation-line" points="13,21 45,21"></polyline>
+                    <rect class="back-constellation-star" x="11" y="19" width="4" height="4"></rect>
+                    <rect class="back-constellation-star" x="23" y="8" width="3" height="3"></rect>
+                    <rect class="back-constellation-star" x="23" y="31" width="3" height="3"></rect>
+                    <rect class="back-constellation-star" x="43" y="19" width="3" height="3"></rect>
+                </svg>
+            </a>
+            <img class="logo-banner" src="assets/aribulan-logo-banner.png" alt="aribulan">
+            <svg class="s-star-art" viewBox="0 0 160 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <rect class="constellation-hitbox" width="160" height="160"></rect>
+                <g id="s-stars"></g>
+            </svg>
+            <svg class="man-star-art" viewBox="0 0 150 210" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <rect class="constellation-hitbox" width="150" height="210"></rect>
+                <g id="man-stars"></g>
+            </svg>
+            <div class="header-flying-star-field" aria-hidden="true"></div>
+        </header>
+
+        <section class="page-body" aria-label="Snake game area">
+            <div class="content-slot">
+                <div class="game-shell">
+                    <canvas id="game" width="640" height="640" tabindex="0" aria-label="Snake game"></canvas>
+                    <div class="overlay" id="overlay">
+                        <div class="menu">
+                            <p class="status" id="status">Again</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
+        <div class="controls" aria-label="Direction controls">
+            <button class="control-button" type="button" data-direction="ArrowUp" aria-label="Move up">
+                <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <path d="M32 12 16 30h10v22h12V30h10L32 12Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button class="control-button" type="button" data-direction="ArrowLeft" aria-label="Move left">
+                <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <path d="M12 32 30 16v10h22v12H30v10L12 32Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button class="control-button" type="button" data-direction="ArrowRight" aria-label="Move right">
+                <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <path d="M52 32 34 16v10H12v12h22v10l18-16Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button class="control-button" type="button" data-direction="ArrowDown" aria-label="Move down">
+                <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <path d="M32 52 16 34h10V12h12v22h10L32 52Z" fill="currentColor"/>
+                </svg>
+            </button>
         </div>
     </main>
-    <div class="controls" aria-label="Direction controls">
-        <button class="control-button" type="button" data-direction="ArrowUp" aria-label="Move up">
-            <svg viewBox="0 0 64 64" aria-hidden="true">
-                <path d="M32 12 16 30h10v22h12V30h10L32 12Z" fill="currentColor"/>
-            </svg>
-        </button>
-        <button class="control-button" type="button" data-direction="ArrowLeft" aria-label="Move left">
-            <svg viewBox="0 0 64 64" aria-hidden="true">
-                <path d="M12 32 30 16v10h22v12H30v10L12 32Z" fill="currentColor"/>
-            </svg>
-        </button>
-        <button class="control-button" type="button" data-direction="ArrowRight" aria-label="Move right">
-            <svg viewBox="0 0 64 64" aria-hidden="true">
-                <path d="M52 32 34 16v10H12v12h22v10l18-16Z" fill="currentColor"/>
-            </svg>
-        </button>
-        <button class="control-button" type="button" data-direction="ArrowDown" aria-label="Move down">
-            <svg viewBox="0 0 64 64" aria-hidden="true">
-                <path d="M32 52 16 34h10V12h12v22h10L32 52Z" fill="currentColor"/>
-            </svg>
-        </button>
-    </div>
 <script>
 (() => {
     const svgNS = "http://www.w3.org/2000/svg";
     const stars = document.getElementById("stars");
     const foregroundStars = document.getElementById("foreground-stars");
     const galaxies = document.getElementById("galaxies");
+    const sStars = document.getElementById("s-stars");
+    const manStars = document.getElementById("man-stars");
+    const sConstellation = document.querySelector(".s-star-art");
+    const manConstellation = document.querySelector(".man-star-art");
+    const flyingStarField = document.querySelector(".header-flying-star-field");
     const canvas = document.getElementById("game");
     const ctx = canvas.getContext("2d");
     const overlay = document.getElementById("overlay");
@@ -386,6 +584,8 @@ canvas {
     let touchStart = null;
 
     drawPageBackground();
+    spawnFlyingStar();
+    setInterval(spawnFlyingStar, 5000);
     start();
 
     Promise.all(Object.values(assets).map((image) => image.decode().catch(() => {}))).then(draw);
@@ -404,6 +604,77 @@ canvas {
         const image = new Image();
         image.src = src;
         return image;
+    }
+
+    function spawnFlyingStar() {
+        if (!flyingStarField) return;
+
+        const star = document.createElementNS(svgNS, "svg");
+        star.setAttribute("class", "header-flying-star");
+        star.setAttribute("viewBox", "0 0 190 58");
+        star.setAttribute("aria-hidden", "true");
+
+        const top = 14 + Math.round(Math.random() * 48);
+        const left = 28 + Math.round(Math.random() * 56);
+        const angle = (-165 + Math.random() * 150) * Math.PI / 180;
+        const distance = 92 + Math.round(Math.random() * 68);
+        const travelX = Math.round(Math.cos(angle) * distance);
+        const travelY = Math.round(Math.sin(angle) * distance);
+        const scale = (0.82 + Math.random() * 0.58).toFixed(2);
+        const colors = [
+            { core: "#f8fbff", trail: "#d8fbff", accent: "#ffd8fb" },
+            { core: "#fff0a6", trail: "#ffe66d", accent: "#f8fbff" },
+            { core: "#d8fbff", trail: "#28eaff", accent: "#ffd8fb" },
+            { core: "#ffd8fb", trail: "#ff2bd6", accent: "#d8fbff" }
+        ];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        star.style.top = `${top}%`;
+        star.style.left = `${left}%`;
+        star.style.setProperty("--travel-x", `${travelX}px`);
+        star.style.setProperty("--travel-y", `${travelY}px`);
+        star.style.setProperty("--star-scale", scale);
+
+        const group = document.createElementNS(svgNS, "g");
+        const rotation = Math.atan2(travelY, travelX) * 180 / Math.PI - 180;
+        group.setAttribute("transform", `rotate(${rotation} 96 29)`);
+
+        [
+            { x: 112, width: 46, opacity: 0.18 },
+            { x: 101, width: 30, opacity: 0.3 },
+            { x: 91, width: 16, opacity: 0.42 }
+        ].forEach(({ x, width, opacity }) => {
+            const trail = document.createElementNS(svgNS, "rect");
+            trail.setAttribute("class", "fly-trail");
+            trail.setAttribute("x", x);
+            trail.setAttribute("y", 29);
+            trail.setAttribute("width", width);
+            trail.setAttribute("height", 2);
+            trail.setAttribute("fill", color.trail);
+            trail.setAttribute("opacity", opacity);
+            group.appendChild(trail);
+        });
+
+        [
+            [96, 27, color.core, 0.86], [94, 29, color.core, 0.78],
+            [96, 29, color.core, 1], [98, 29, color.trail, 0.84],
+            [96, 31, color.accent, 0.78], [94, 27, color.trail, 0.46],
+            [98, 31, color.trail, 0.44]
+        ].forEach(([x, y, fill, opacity]) => {
+            const px = document.createElementNS(svgNS, "rect");
+            px.setAttribute("class", "fly-pixel");
+            px.setAttribute("x", x);
+            px.setAttribute("y", y);
+            px.setAttribute("width", 2);
+            px.setAttribute("height", 2);
+            px.setAttribute("fill", fill);
+            px.setAttribute("opacity", opacity);
+            group.appendChild(px);
+        });
+
+        star.appendChild(group);
+        flyingStarField.appendChild(star);
+        window.setTimeout(() => star.remove(), 2300);
     }
 
     function drawPageBackground() {
@@ -494,6 +765,48 @@ canvas {
             const scale = galaxyScales[Math.floor(rand() * galaxyScales.length)];
             drawGalaxy(x, y, color, 0.34 + rand() * 0.26, angle, scale);
         }
+
+        const sStarPoints = [
+            [62, 56], [51, 62], [57, 72],
+            [68, 81], [58, 90], [48, 96]
+        ];
+
+        const sLine = document.createElementNS(svgNS, "polyline");
+        sLine.setAttribute("points", sStarPoints.map(([x, y]) => `${x},${y}`).join(" "));
+        sLine.setAttribute("class", "s-constellation-line");
+        sStars.appendChild(sLine);
+
+        sStarPoints.forEach(([x, y], index) => {
+            drawStar(sStars, x, y, 5 + (index % 4), index === 0 || index === 3 ? 2 : 1, palette[index % palette.length], 0.52 + index * 0.035);
+        });
+
+        const manStarPoints = {
+            head: [76, 53],
+            body: [76, 70],
+            leftHand: [58, 75],
+            rightHand: [93, 71],
+            hip: [76, 91],
+            leftFoot: [62, 114],
+            rightFoot: [95, 106]
+        };
+
+        [
+            ["head", "body"], ["body", "leftHand"], ["body", "rightHand"],
+            ["body", "hip"], ["hip", "leftFoot"], ["hip", "rightFoot"]
+        ].forEach(([start, end]) => {
+            const line = document.createElementNS(svgNS, "line");
+            line.setAttribute("x1", manStarPoints[start][0]);
+            line.setAttribute("y1", manStarPoints[start][1]);
+            line.setAttribute("x2", manStarPoints[end][0]);
+            line.setAttribute("y2", manStarPoints[end][1]);
+            line.setAttribute("class", "man-constellation-line");
+            manStars.appendChild(line);
+        });
+
+        Object.values(manStarPoints).forEach(([x, y], index) => {
+            const size = index === 0 ? 3 : (index === 1 || index === 4 ? 2 : 1);
+            drawStar(manStars, x, y, 5 + (index % 4), size, palette[(index + 2) % palette.length], 0.52 + index * 0.025);
+        });
     }
 
     function reset() {
@@ -580,11 +893,7 @@ canvas {
     }
 
     function drawBackground() {
-        if (assets.background.complete) {
-            ctx.drawImage(assets.background, 0, 0, canvas.width, canvas.height);
-        }
-        ctx.fillStyle = "rgba(0, 0, 0, 0.32)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     function drawGridGlow() {
