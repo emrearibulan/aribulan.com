@@ -435,7 +435,7 @@ canvas {
             });
         };
 
-        for (let i = 0; i < 240; i += 1) {
+        for (let i = 0; i < 360; i += 1) {
             const x = rand() * 1920;
             const y = rand() * 1080;
             const size = rand() > 0.84 ? 2 : 1;
@@ -445,7 +445,7 @@ canvas {
             drawStar(stars, x, y, pixels, size, color, opacity);
         }
 
-        for (let i = 0; i < 90; i += 1) {
+        for (let i = 0; i < 135; i += 1) {
             const x = rand() * 1920;
             const y = rand() * 1080;
             if (y > 320 && y < 860 && x > 90 && x < 1830) continue;
@@ -463,21 +463,37 @@ canvas {
             drawStar(foregroundStars, x, y, 5 + (index % 4), index % 5 === 0 ? 2 : 1, palette[index % palette.length], 0.72);
         });
 
-        [
-            { x: 330, y: 240, color: "#ff2bd6" },
-            { x: 1510, y: 360, color: "#28eaff" },
-            { x: 1220, y: 850, color: "#ffe66d" }
-        ].forEach((galaxy) => {
-            for (let i = 0; i < 72; i += 1) {
-                const angle = rand() * Math.PI * 2;
-                const radius = Math.pow(rand(), 0.55) * 118;
-                const squash = 0.42 + rand() * 0.25;
-                const x = galaxy.x + Math.cos(angle) * radius;
-                const y = galaxy.y + Math.sin(angle) * radius * squash;
-                const size = rand() > 0.76 ? 2 : 1;
-                pixel(galaxies, x, y, size, galaxy.color, 0.1 + rand() * 0.2, "galaxy-pixel");
-            }
-        });
+        const galaxyColors = ["#ff2bd6", "#28eaff", "#ffe66d", "#d8fbff"];
+        const galaxyShape = [
+            [-9, 0], [-7, -1], [-6, 0], [-4, 1], [-3, 0],
+            [-2, -1], [0, 0], [2, 1], [3, 0], [4, -1],
+            [6, 0], [7, 1], [9, 0], [-1, 1], [1, -1]
+        ];
+
+        const galaxyScales = [0.72, 0.86, 1, 1.18, 1.34];
+
+        const drawGalaxy = (x, y, color, opacity, angle, scale) => {
+            const cos = Math.cos(angle);
+            const sin = Math.sin(angle);
+            galaxyShape.forEach(([dx, dy], index) => {
+                const scaledX = dx * scale;
+                const scaledY = dy * scale;
+                const rotatedX = Math.round(scaledX * cos - scaledY * sin);
+                const rotatedY = Math.round(scaledX * sin + scaledY * cos);
+                const fill = index === 6 ? "#f8fbff" : color;
+                const tone = index === 6 ? 1 : 0.48 + rand() * 0.36;
+                pixel(galaxies, x + rotatedX, y + rotatedY, 1, fill, opacity * tone, "galaxy-pixel");
+            });
+        };
+
+        for (let i = 0; i < 30; i += 1) {
+            const x = 90 + rand() * 1740;
+            const y = 80 + rand() * 920;
+            const color = galaxyColors[Math.floor(rand() * galaxyColors.length)];
+            const angle = rand() * Math.PI;
+            const scale = galaxyScales[Math.floor(rand() * galaxyScales.length)];
+            drawGalaxy(x, y, color, 0.34 + rand() * 0.26, angle, scale);
+        }
     }
 
     function reset() {
