@@ -117,8 +117,8 @@ body {
     transform: translateY(-1px);
     outline: none;
     filter:
-        drop-shadow(0 0 2px rgba(255, 255, 255, 0.86))
-        drop-shadow(0 0 6px rgba(255, 255, 255, 0.48));
+        drop-shadow(0 0 1px rgba(255, 255, 255, 0.48))
+            drop-shadow(0 0 4px rgba(255, 255, 255, 0.22));
 }
 .home-link svg {
     display: block;
@@ -196,18 +196,20 @@ body {
 .man-star-art:hover,
 .man-star-art.is-hovered,
 .invader-star-art:hover,
-.invader-star-art:focus-visible {
+.invader-star-art:focus-visible,
+.constellation-glow {
     outline: none;
     filter:
-        drop-shadow(0 0 2px rgba(255, 255, 255, 0.86))
-        drop-shadow(0 0 6px rgba(255, 255, 255, 0.48));
+        drop-shadow(0 0 1px rgba(255, 255, 255, 0.48))
+            drop-shadow(0 0 4px rgba(255, 255, 255, 0.22));
 }
 .s-star-art:hover .star-pixel,
 .s-star-art.is-hovered .star-pixel,
 .man-star-art:hover .star-pixel,
 .man-star-art.is-hovered .star-pixel,
 .invader-star-art:hover .star-pixel,
-.invader-star-art:focus-visible .star-pixel {
+.invader-star-art:focus-visible .star-pixel,
+.constellation-glow .star-pixel {
     opacity: 0.96;
 }
 .s-star-art:hover .s-constellation-line,
@@ -215,7 +217,11 @@ body {
 .man-star-art:hover .man-constellation-line,
 .man-star-art.is-hovered .man-constellation-line,
 .invader-star-art:hover .invader-constellation-line,
-.invader-star-art:focus-visible .invader-constellation-line {
+.invader-star-art:focus-visible .invader-constellation-line,
+.constellation-glow .s-constellation-line,
+.constellation-glow .man-constellation-line,
+.constellation-glow .invader-constellation-line,
+.constellation-glow .back-constellation-line {
     stroke: rgba(248, 251, 255, 0.34);
 }
 .s-constellation-line,
@@ -227,6 +233,21 @@ body {
     stroke-linecap: square;
     stroke-linejoin: bevel;
     shape-rendering: crispEdges;
+}
+.constellation-glow .back-constellation-star {
+    fill: rgba(248, 251, 255, 0.96);
+}
+.constellation-glow {
+    animation: constellation-pulse 500ms steps(2, end);
+}
+
+@keyframes constellation-pulse {
+    0%,
+    100% {
+        filter:
+            drop-shadow(0 0 1px rgba(255, 255, 255, 0.48))
+            drop-shadow(0 0 4px rgba(255, 255, 255, 0.22));
+    }
 }
 .header-flying-star-field {
     position: absolute;
@@ -584,6 +605,7 @@ canvas {
     const invaderStars = document.getElementById("invader-stars");
     const sConstellation = document.querySelector(".s-star-art");
     const manConstellation = document.querySelector(".man-star-art");
+    const constellationNodes = Array.from(document.querySelectorAll(".home-link, .s-star-art, .man-star-art, .invader-star-art"));
     const flyingStarField = document.querySelector(".header-flying-star-field");
     const canvas = document.getElementById("game");
     const ctx = canvas.getContext("2d");
@@ -879,7 +901,45 @@ canvas {
             const size = index === 4 ? 2 : 1;
             drawStar(invaderStars, x, y, 5 + (index % 4), size, palette[(index + 1) % palette.length], 0.52 + index * 0.022);
         });
+
+        requestAnimationFrame(clearBackgroundUnderConstellations);
     }
+
+    function clearBackgroundUnderConstellations() {
+        const zones = constellationNodes.map((node) => {
+            const rect = node.getBoundingClientRect();
+            return {
+                left: rect.left - 2,
+                right: rect.right + 2,
+                top: rect.top - 2,
+                bottom: rect.bottom + 2
+            };
+        });
+
+        document.querySelectorAll("#stars .star-pixel, #galaxies .galaxy-pixel, #foreground-stars .star-pixel").forEach((pixelNode) => {
+            const rect = pixelNode.getBoundingClientRect();
+            const overlaps = zones.some((zone) => (
+                rect.left < zone.right &&
+                rect.right > zone.left &&
+                rect.top < zone.bottom &&
+                rect.bottom > zone.top
+            ));
+            if (overlaps) {
+                pixelNode.remove();
+            }
+        });
+    }
+
+    window.addEventListener("resize", clearBackgroundUnderConstellations);
+    const scheduleConstellationPulse = (node, firstDelay = 900 + Math.random() * 2600) => {
+        window.setTimeout(() => {
+            node.classList.add("constellation-glow");
+            window.setTimeout(() => node.classList.remove("constellation-glow"), 520);
+            scheduleConstellationPulse(node, 5500 + Math.random() * 9000);
+        }, firstDelay);
+    };
+
+    constellationNodes.forEach((node) => scheduleConstellationPulse(node));
 
     function reset() {
         snake = [
