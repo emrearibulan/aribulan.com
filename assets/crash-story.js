@@ -1,697 +1,587 @@
 window.crashStory = {
-  "title": "Crash in the Black Pines",
-  "setup": "The player survived a plane crash in a deep forest. They are injured, bleeding, and mobile, but time is limited. Every choice matters. The goal is to escape the forest and find help before blood loss, cold, panic, or predators end the run.\nGood Ending: The player reaches a ranger road and is rescued.\nOther Endings: Bleed out, freeze, fall into the ravine, get taken by wolves, signal the wrong thing.",
+  "title": "The Starry Night Job",
+  "setup": "The player is already halfway through a fictional art heist when everything breaks. The painting has left the wall, the crew fractures, and the real Van Gogh vanishes into the city. The goal is to find the true canvas, survive the fallout, and sell it without becoming part of the evidence.\nGood Endings: The player sells The Starry Night to either a private collector or a syndicate broker and escapes rich.\nNeutral Ending: The player gives up the sale, returns the painting through a broker, and survives with less than promised.\nBad Endings: Betrayal, panic, bad buyers, and ugly deaths in locked rooms, wet streets, and hidden storage.",
   "start": "scene-1",
   "scenes": [
     {
       "id": "scene-1",
       "code": "Scene 1",
-      "title": "The Crash",
+      "title": "The Wall Is Empty",
       "kind": "scene",
-      "text": "The world returns in pieces. Smoke. Rain. The smell of fuel. Your ears ring as you crawl out of the torn plane cabin and collapse into wet pine needles. Your left side is bleeding badly. The forest around you is black, endless, and moving in the wind.\n\nBehind you, the wreckage groans. Ahead, trees stretch in every direction. You need help. Fast.",
+      "text": "You are already past the point where a person can pretend this is only planning.\n\nThe Starry Night is off the wall. The famous blue sky trembles inside a black travel crate at your feet. Sirens have not started yet, but the museum lights have changed from warm gold to surgical white.\n\nIn your earpiece, Morse whispers, \"Move now. Leave the liner. Bring only the canvas.\"\n\nThat is not the plan. The plan said the crate protects the painting. The plan said no improvising.\n\nThis is the middle of the theft. This is where it breaks.",
+      "prompt": "How do you carry the painting out?",
       "options": [
         {
-          "label": "Wreckage",
-          "response": "Wreckage. I turn back toward the broken plane. If there is anything useful left inside, I need it before I move.",
-          "nextId": "scene-2a"
+          "label": "Carry protected crate",
+          "response": "Crate. I keep the painting sealed and lift the whole case. It is heavy, awkward, and alive with panic, but the sky inside it stays protected.",
+          "nextId": "scene-2"
         },
         {
-          "label": "Forest",
-          "response": "Forest. I leave the wreck behind and push into the trees. Every second I stay near the fuel smell feels like a gamble.",
-          "nextId": "scene-2b"
+          "label": "Pull out bare canvas",
+          "response": "Canvas. I tear the canvas free like Morse said. The frame bites back, the liner cracks, and blue-black varnish flakes over my gloves like dead skin.",
+          "nextId": "ending-splintered-blue"
         }
       ]
     },
     {
-      "id": "scene-2a",
-      "code": "Scene 2A",
-      "title": "Inside the Plane",
+      "id": "scene-2",
+      "code": "Scene 2",
+      "title": "The Blue Stair",
       "kind": "scene",
-      "text": "The cabin is tilted at an impossible angle. Suitcases hang from torn overhead bins. A dead phone blinks weakly under a seat. Rain hisses through the cracked ceiling. Somewhere near the cockpit, you hear metal ticking from the heat.\n\nYou see two things you might grab quickly: a red emergency kit wedged under a seat, and a passenger's backpack near the broken door.",
+      "text": "The service stairwell smells of wax, dust, and hot wiring. Somewhere below, a steel door slams.\n\nMorse says the east stairs are clear. He says it too quickly.\n\nYour tablet shows three routes:\n\nE-2: black screen.\nC-12: live camera, empty corridor.\nMORSE: voice only, no video.\n\nA maintenance card taped to the crate reads: IF BLIND, TRUST THE LIVE FEED.",
+      "prompt": "Which route do you trust?",
       "options": [
         {
-          "label": "Medkit",
-          "response": "Medkit. I pull the red kit free and tear it open with shaking hands. Bandages. Tape. Painkillers. It is not much, but it may keep me alive longer.",
+          "label": "Use live C-12 feed",
+          "response": "C-12. I match the live feed to the conservation corridor and shoulder the crate sideways through the service door.",
           "nextId": "scene-3"
         },
         {
-          "label": "Backpack",
-          "response": "Backpack. I grab the bag and stumble back out into the rain. Inside, I find a half-full water bottle, a lighter, and a crushed granola bar.",
-          "nextId": "scene-3"
-        }
-      ]
-    },
-    {
-      "id": "scene-2b",
-      "code": "Scene 2B",
-      "title": "Into the Trees",
-      "kind": "scene",
-      "text": "You force yourself away from the wreck. Each step sends pain through your ribs. Behind you, the plane lets out a deep metallic shriek, then something inside bursts with a dull orange flash.\n\nThe fire gives you one last look at the forest. To your left, the ground slopes downward toward the sound of running water. To your right, the trees thin slightly over a ridge.",
-      "options": [
-        {
-          "label": "Water",
-          "response": "Water. I follow the sound downhill. People build near water. Roads cross rivers. That has to mean something.",
-          "nextId": "scene-4a"
+          "label": "Follow black E-2 feed",
+          "response": "E-2. I follow the black feed toward the east stairs. The first landing is empty. The second has no floor.",
+          "nextId": "ending-shaft"
         },
         {
-          "label": "Ridge",
-          "response": "Ridge. I climb toward higher ground. If I can see lights, smoke, or a road, I might still have a chance.",
-          "nextId": "scene-4b"
+          "label": "Trust Morse's voice",
+          "response": "Morse. I trust the voice in my ear and run where he tells me. His breathing stops just before the floor does.",
+          "nextId": "ending-shaft"
         }
       ]
     },
     {
       "id": "scene-3",
       "code": "Scene 3",
-      "title": "Stop the Bleeding",
+      "title": "Conservation Wing",
       "kind": "scene",
-      "text": "You stagger away from the crash as rain turns the ash into black mud. Your shirt is soaked red on one side. The bleeding is steady now, warm against the cold night.\n\nYou can stop and treat the wound properly, or keep moving while applying pressure with one hand.",
+      "text": "You pass x-ray plates of old saints and half-cleaned portraits waiting under linen. Every covered face seems to turn as you move.\n\nAt the far end, a flood door begins to descend with a patient hydraulic scream. Beyond it is the courtyard route.\n\nBeside you, a freight lift hangs open with its warning light blinking red. The manual door chain is slower, but it is meant for emergencies exactly like this.",
+      "prompt": "Do you slow down for the flood door or risk the lift?",
       "options": [
         {
-          "label": "Bandage",
-          "response": "Bandage. I force myself to stop. It hurts to slow down, but I wrap the wound tight until the bleeding eases. I lose time, but gain a little life.",
-          "nextId": "scene-4b"
+          "label": "Hold door manually",
+          "response": "Yellow manual. The door stutters. Ten seconds is not much, but it is enough to drag the crate under and keep every limb attached.",
+          "nextId": "scene-4"
         },
         {
-          "label": "Move",
-          "response": "Move. I keep walking, pressing one hand against the wound. I can feel blood slipping between my fingers, but standing still feels like dying.",
-          "nextId": "scene-4a"
+          "label": "Risk freight lift",
+          "response": "Green lift. I call the one machine already blinking red. It drops before the gate closes, and the ceiling arrives like a verdict.",
+          "nextId": "ending-pressed"
         }
       ]
     },
     {
-      "id": "scene-4a",
-      "code": "Scene 4A",
-      "title": "The Stream",
+      "id": "scene-4",
+      "code": "Scene 4",
+      "title": "Glass Courtyard",
       "kind": "scene",
-      "text": "You reach a narrow stream cutting through the forest. The water is fast and silver in the moonlight. On the opposite bank, you spot something unnatural: a strip of orange plastic caught on a branch.\n\nDownstream, the water rushes into darker trees. Upstream, the ground rises toward broken rocks.",
+      "text": "Rain drums on the courtyard roof. The glass above you flashes with blue police light from streets you cannot see.\n\nYour exit is across the marble floor: a service arch hidden behind hanging banners. Between you and it, a guard sweeps a flashlight in slow arcs.\n\nThe banners shift every few seconds in the storm. When they move, the shadows move with them.",
+      "prompt": "How do you cross the courtyard?",
       "options": [
         {
-          "label": "Downstream",
-          "response": "Downstream. I follow the current. Rivers lead somewhere. Maybe a road. Maybe a cabin. Maybe people.",
-          "nextId": "scene-5a"
+          "label": "Cross with banners",
+          "response": "Five. I move on the visor wipe, when the banners swing and the flashlight points at nothing. The guard sees cloth, rain, and an empty wall behind him.",
+          "nextId": "scene-5"
         },
         {
-          "label": "Upstream",
-          "response": "Upstream. I climb along the rocks toward the orange plastic. It could be from the plane, but it could also be a trail marker.",
-          "nextId": "scene-5b"
+          "label": "Sprint across marble",
+          "response": "Run. I stop counting and bolt. The courtyard comes down in glittering knives before I make the arch.",
+          "nextId": "ending-glass-rain"
         }
       ]
     },
     {
-      "id": "scene-4b",
-      "code": "Scene 4B",
-      "title": "The Ridge",
+      "id": "scene-5",
+      "code": "Scene 5",
+      "title": "The Hearse Van",
       "kind": "scene",
-      "text": "The climb is brutal. Your legs shake. Your breath comes thin and sharp. At the top of the ridge, you look out over a black sea of trees.\n\nThen you see it: a faint blinking light far away. Maybe a tower. Maybe a road beacon. Maybe your imagination.\n\nBelow the ridge, smoke from the crash rises behind you.",
+      "text": "The service arch opens onto an alley where the crew van waits under funeral-home lettering. Morse stands by the rear doors, smiling without warmth.\n\n\"Change of buyer,\" he says. \"Change of split. Put it in.\"\n\nBehind his smile, you see the gun tucked under his raincoat. In the driver's mirror, Iris taps twice, then points at the silver funeral wreath painted on the van.\n\nBlack tape will peel in the rain. Red paint will vanish among the brake lights. Silver will catch even weak light.",
+      "prompt": "How do you handle Morse without losing the crate?",
       "options": [
         {
-          "label": "Light",
-          "response": "Light. I lock my eyes on the blinking point and start moving toward it. It may be nothing, but it is the only sign of civilization I have.",
-          "nextId": "scene-5c"
+          "label": "Mark crate quietly",
+          "response": "Silver corner. I smear wet paint across one edge as I load the crate, a small bright scar only I will know to look for.",
+          "nextId": "scene-6"
         },
         {
-          "label": "Smoke",
-          "response": "Smoke. I turn back toward the crash smoke. Search teams may look there first. Staying near the wreck might be smarter than wandering blind.",
-          "nextId": "scene-5d"
+          "label": "Use black tape",
+          "response": "Black tape. Morse sees me reach for it, smiles, and steps aside while the van rolls backward.",
+          "nextId": "ending-meat-hook"
+        },
+        {
+          "label": "Punch Morse first",
+          "response": "Punch Morse. I swing first. He was waiting for that. The alley flashes white, and the van's meat hook catches my coat as I fall.",
+          "nextId": "ending-meat-hook"
         }
       ]
     },
     {
-      "id": "scene-5a",
-      "code": "Scene 5A",
-      "title": "The Deer Trail",
+      "id": "scene-6",
+      "code": "Scene 6",
+      "title": "Empty Safehouse",
       "kind": "scene",
-      "text": "The stream leads you to a narrow path pressed into the mud. Hoofprints. Broken grass. A deer trail, maybe. It curves between the trees and disappears into fog.\n\nThen you hear a low growl behind you.\n\nNot close. Not far.",
+      "text": "The safehouse is above a closed pawn shop, three streets from the museum and a lifetime from the plan.\n\nMorse is gone. Iris is gone. The hearse van is gone.\n\nOn the table sits your silver-marked crate, open and empty. Inside is a cheap printed copy of The Starry Night, its blue swirls too clean, too dead. The fake is signed V. VAN GO.\n\nThis is the real breaking point. You stole the painting. Then someone stole it from you.\n\nThree clues remain: the bad signature, a ringing buyer phone, and one smear of real ultramarine leading toward the back stairs.",
+      "prompt": "What lead do you follow?",
       "options": [
         {
-          "label": "Trail",
-          "response": "Trail. I stay on the narrow path and move faster. Animals use trails because they go somewhere. I just hope whatever growled is not using it too.",
-          "nextId": "scene-6a"
+          "label": "Follow pigment trail",
+          "response": "Ultramarine. I ignore the fake signature and follow the one clue the print could not leave behind.",
+          "nextId": "scene-7"
         },
         {
-          "label": "Hide",
-          "response": "Hide. I drop behind a fallen tree and hold my breath. The growl passes through the dark, followed by more than one set of footsteps.",
-          "nextId": "scene-6b"
+          "label": "Study fake signature",
+          "response": "V. Van Go. I chase the signature on the fake instead of the paint trail. By the time I realize the joke, headlights bloom in the pawn shop windows.",
+          "nextId": "ending-caller"
+        },
+        {
+          "label": "Answer buyer phone",
+          "response": "Phone. I demand answers from the only number I have. The voice on the line breathes once, laughs once, and tells someone beside him to start the car.",
+          "nextId": "ending-caller"
         }
       ]
     },
     {
-      "id": "scene-5b",
-      "code": "Scene 5B",
-      "title": "The Orange Marker",
+      "id": "scene-7",
+      "code": "Scene 7",
+      "title": "The Underpass",
       "kind": "scene",
-      "text": "You reach the orange plastic. It is not from the plane. It is tied to a branch with faded black writing: SURVEY LINE 12.\n\nA survey line means people have been here. Maybe workers. Maybe a road.\n\nThe markers continue uphill, but the rocks are slick. A safer dirt slope leads around them, longer but easier.",
+      "text": "The blue trail ends under a railway bridge where rainwater runs in oily ropes. A violinist plays beside a burn barrel, sawing one bright note over and over.\n\nHe stops when he sees the pigment on your glove.\n\n\"Looking for a night sky? Blue goes to Agnes. White goes to teeth.\"\n\nAcross the underpass, a dealer in a white leather coat watches from the mouth of a basement club. Beside him, a sign blinks WHITE ROOM.\n\nThe violinist's case is open. So is your knife.",
+      "prompt": "How do you ask for the lead?",
       "options": [
         {
-          "label": "Markers",
-          "response": "Markers. I follow the orange tags directly over the rocks. If someone marked this route, it must lead somewhere important.",
-          "nextId": "scene-6c"
+          "label": "Tip the violinist",
+          "response": "Tip him. I drop cash in the violin case. He lifts the false bottom and shows me a matchbook stamped SAINT AGNES STORAGE.",
+          "nextId": "scene-8"
         },
         {
-          "label": "Slope",
-          "response": "Slope. I take the longer dirt path. My body is already failing. One bad fall could end this.",
-          "nextId": "scene-6a"
+          "label": "Threaten the violinist",
+          "response": "Threaten him. I let him see the knife. He gives up the matchbook, but the look he gives me follows longer than the rain.",
+          "nextId": "scene-8-rude"
+        },
+        {
+          "label": "Approach White Room",
+          "response": "White Room. I walk toward the white coat. He smiles like he has practiced on mirrors, then opens the basement door to a room lined in plastic.",
+          "nextId": "ending-backroom"
         }
       ]
     },
     {
-      "id": "scene-5c",
-      "code": "Scene 5C",
-      "title": "Toward the Light",
+      "id": "scene-8-rude",
+      "code": "Scene 8",
+      "title": "Saint Agnes Storage",
       "kind": "scene",
-      "text": "The blinking light appears and vanishes between trees. You walk toward it until the forest floor suddenly drops away.\n\nA ravine splits the woods in front of you. The light is on the other side.\n\nA fallen tree crosses part of the gap. Farther left, the ravine narrows, but reaching that crossing will cost time.",
+      "text": "Saint Agnes is no longer a church. It is a storage business with stained glass, security shutters, and a neon office sign buzzing in the nave.\n\nThrough a crack in the loading bay, you see Morse arguing with a woman called Saint. The silver-marked crate sits between them, empty. Beside it is a narrow climate case with frost on the hinges.\n\nSaint says, \"Dawn. Florist truck. Blue roses on the doors. Not lilies. Not the plain cold van.\"\n\nYour phone buzzes once. Unknown number: WORD TRAVELS. BE KINDER WHEN YOU NEED WITNESSES.",
+      "prompt": "How do you use what you overhear?",
       "options": [
         {
-          "label": "Tree",
-          "response": "Tree. I step onto the fallen trunk, arms out, rain dripping from my face. The bark is slick. The drop below is deep enough to kill me.",
-          "nextId": "scene-6d"
+          "label": "Wait for blue-rose truck",
+          "response": "Blue roses. I stay hidden and take the clue, but someone in this city already knows how I asked for it.",
+          "nextId": "scene-9-rude"
         },
         {
-          "label": "Narrow",
-          "response": "Narrow. I force myself along the ravine edge toward the safer crossing. Every extra minute matters, but falling matters more.",
-          "nextId": "scene-6a"
+          "label": "Grab case now",
+          "response": "Grab. I rush the case. Saint turns with a box cutter already open, and the old church floor drinks far more red than blue.",
+          "nextId": "ending-saints-knife"
+        },
+        {
+          "label": "Follow plain van",
+          "response": "Plain van. I chase the wrong vehicle into the loading bay. Saint catches me halfway across the floor.",
+          "nextId": "ending-saints-knife"
         }
       ]
     },
     {
-      "id": "scene-5d",
-      "code": "Scene 5D",
-      "title": "Back to Smoke",
+      "id": "scene-8",
+      "code": "Scene 8",
+      "title": "Saint Agnes Storage",
       "kind": "scene",
-      "text": "You return toward the glow of the crash. The fire has spread into the trees. Heat rolls through the rain. Pieces of metal hiss in the mud.\n\nThen you hear something else.\n\nA faint voice from the wreckage.\n\n\"Help...\"",
+      "text": "Saint Agnes is no longer a church. It is a storage business with stained glass, security shutters, and a neon office sign buzzing in the nave.\n\nThrough a crack in the loading bay, you see Morse arguing with a woman called Saint. The silver-marked crate sits between them, empty. Beside it is a narrow climate case with frost on the hinges.\n\nSaint says, \"Dawn. Florist truck. Blue roses on the doors. Not lilies. Not the plain cold van.\"\n\nThe real painting is close enough to feel like weather.",
+      "prompt": "How do you use what you overhear?",
       "options": [
         {
-          "label": "Help",
-          "response": "Help. I turn toward the voice. I cannot leave someone burning behind me, even if every step costs blood.",
-          "nextId": "scene-6e"
+          "label": "Wait for blue-rose truck",
+          "response": "Blue roses. I stay behind stacked pews long enough to learn which truck carries the sky.",
+          "nextId": "scene-9"
         },
         {
-          "label": "Leave",
-          "response": "Leave. I whisper an apology and turn away. I am barely alive myself. If I stay, we both die.",
-          "nextId": "scene-6a"
+          "label": "Grab case now",
+          "response": "Grab. I rush the case. Saint turns with a box cutter already open, and the old church floor drinks far more red than blue.",
+          "nextId": "ending-saints-knife"
+        },
+        {
+          "label": "Follow plain van",
+          "response": "Plain van. I chase the wrong vehicle into the loading bay. Saint catches me halfway across the floor.",
+          "nextId": "ending-saints-knife"
         }
       ]
     },
     {
-      "id": "scene-6a",
-      "code": "Scene 6A",
-      "title": "The Service Path",
+      "id": "scene-9-rude",
+      "code": "Scene 9",
+      "title": "Florist Truck",
       "kind": "scene",
-      "text": "The forest begins to change. The trees are spaced wider here. The ground has old tire marks hidden under leaves. You have found some kind of service path.\n\nBut the path splits.\n\nOne side is muddy and flat. The other is dry but covered with thorn bushes.",
+      "text": "Dawn finds the florist truck under an overpass, blue roses peeling from the doors. Cold vapor breathes from the cargo seam.\n\nInside, buckets of lilies crowd the narrow aisle. Beneath them, strapped to the floor, is the climate case.\n\nA sticker by the latch reads: OPEN ONLY ON GREEN.\n\nThe alarm cycles softly: red chirp, red chirp, green click, silence.\n\nIris texts only two words: heard underpass.",
+      "prompt": "When do you touch the case latch?",
       "options": [
         {
-          "label": "Mud",
-          "response": "Mud. I take the flat path, even though every step sinks deep. Tire tracks mean vehicles. Vehicles mean people.",
-          "nextId": "scene-7a"
+          "label": "Wait for green click",
+          "response": "Green click. I wait through the two red chirps and touch the latch only when the case goes quiet.",
+          "nextId": "scene-10-rude"
         },
         {
-          "label": "Thorns",
-          "response": "Thorns. I push into the dry brush. The thorns tear at my arms and face, but at least I am not losing my boots in the mud.",
-          "nextId": "scene-7b"
+          "label": "Open on first red",
+          "response": "First red. I touch the latch too early. White coolant floods out, turning the lilies brittle and my fingers blue before I can scream.",
+          "nextId": "ending-blue-frost"
+        },
+        {
+          "label": "Force the latch",
+          "response": "Force latch. I jam the mechanism and twist. The case answers with freezing white vapor.",
+          "nextId": "ending-blue-frost"
         }
       ]
     },
     {
-      "id": "scene-6b",
-      "code": "Scene 6B",
-      "title": "The Wolves",
+      "id": "scene-9",
+      "code": "Scene 9",
+      "title": "Florist Truck",
       "kind": "scene",
-      "text": "You stay hidden as shadows move between the trees. Wolves. Three of them. Maybe four.\n\nThey sniff the ground near your blood trail.\n\nOne wolf lifts its head.\n\nIt knows.",
+      "text": "Dawn finds the florist truck under an overpass, blue roses peeling from the doors. Cold vapor breathes from the cargo seam.\n\nInside, buckets of lilies crowd the narrow aisle. Beneath them, strapped to the floor, is the climate case.\n\nA sticker by the latch reads: OPEN ONLY ON GREEN.\n\nThe alarm cycles softly: red chirp, red chirp, green click, silence.",
+      "prompt": "When do you touch the case latch?",
       "options": [
         {
-          "label": "Run",
-          "response": "Run. I explode from behind the log and sprint blindly through the trees. Pain tears through my side, but fear pushes harder.",
-          "nextId": "scene-7b"
+          "label": "Wait for green click",
+          "response": "Green click. I wait through the two red chirps and touch the latch only when the case goes quiet.",
+          "nextId": "scene-10"
         },
         {
-          "label": "Still",
-          "response": "Still. I stay frozen, barely breathing. The wolves circle closer. One steps over the log and sees me.",
-          "nextId": "ending-4"
+          "label": "Open on first red",
+          "response": "First red. I touch the latch too early. White coolant floods out, turning the lilies brittle and my fingers blue before I can scream.",
+          "nextId": "ending-blue-frost"
+        },
+        {
+          "label": "Force the latch",
+          "response": "Force latch. I jam the mechanism and twist. The case answers with freezing white vapor.",
+          "nextId": "ending-blue-frost"
         }
       ]
     },
     {
-      "id": "scene-6c",
-      "code": "Scene 6C",
-      "title": "Slick Rocks",
+      "id": "scene-10-rude",
+      "code": "Scene 10",
+      "title": "The Borrowed Conservator",
       "kind": "scene",
-      "text": "The survey markers lead across wet stone. You climb on hands and knees. The orange tags flutter above you like warning flags.\n\nYour boot slips.\n\nYou catch yourself with one hand, but pain flashes white across your ribs.\n\nAbove you, the final marker is tied to a metal post.",
+      "text": "Iris reappears in the mirror of a closed tailor shop, but she stays out of arm's reach.\n\n\"The violinist called ahead,\" she says. \"My clean conservator will not touch a job that brings knives to witnesses. I can still get you a broker who likes pressure, or a museum channel that likes leverage. No collector. No quiet money.\"\n\nThe case hums at your feet. A warning stencil on its side reads: KEEP FLAT. DO NOT ROLL. DO NOT CLEAN.",
+      "prompt": "How do you repair enough trust to keep moving?",
       "options": [
         {
-          "label": "Climb",
-          "response": "Climb. I keep going. The metal post means infrastructure. I can feel it. I am close to something built by people.",
-          "nextId": "scene-7c"
+          "label": "Apologize and continue",
+          "response": "Apologize. It does not fix the underpass, but Iris hears the difference. She leads me to the rougher buyer table, not the clean one.",
+          "nextId": "scene-11-rude"
         },
         {
-          "label": "Descend",
-          "response": "Descend. I stop climbing and back down slowly. The rocks are too dangerous. I would rather lose minutes than lose my life.",
-          "nextId": "scene-6a"
+          "label": "Blame the violinist",
+          "response": "Blame him. Iris steps back. The next door opens from the inside, and the room beyond has no air left for people.",
+          "nextId": "ending-inert-gas"
+        },
+        {
+          "label": "Roll the canvas",
+          "response": "Roll it. I decide buyers pay for the name, not the condition. The first curl makes the varnish crack like thin ice. The second trips the case alarm.",
+          "nextId": "ending-inert-gas"
         }
       ]
     },
     {
-      "id": "scene-6d",
-      "code": "Scene 6D",
-      "title": "The Fallen Tree",
+      "id": "scene-10",
+      "code": "Scene 10",
+      "title": "The Borrowed Conservator",
       "kind": "scene",
-      "text": "Halfway across the trunk, the bark shifts under your boot. Your arms windmill in the rain. The ravine opens beneath you like a mouth.\n\nYou can drop low and crawl the rest of the way, or try to rush across before your legs give out.",
+      "text": "Iris reappears in the mirror of a closed tailor shop.\n\n\"Morse sold us both,\" she says. \"But the canvas is real. It needs a clean hand before anyone pays real money. I know one conservator who asks questions only after the money clears.\"\n\nThe case hums at your feet. A warning stencil on its side reads: KEEP FLAT. DO NOT ROLL. DO NOT CLEAN.\n\nThe city is waking. Every siren now sounds personal.",
+      "prompt": "How do you protect the canvas before the sale?",
       "options": [
         {
-          "label": "Crawl",
-          "response": "Crawl. I drop onto the trunk and hug it with both arms, dragging myself forward inch by inch. It is humiliating, terrifying, and it works.",
-          "nextId": "scene-7c"
+          "label": "Keep case flat",
+          "response": "Keep flat. I follow Iris to a room above a bakery with the case level between us. An old woman looks at the canvas and whispers, \"Poor star. They dragged you through mud.\"",
+          "nextId": "scene-11"
         },
         {
-          "label": "Rush",
-          "response": "Rush. I force myself forward. Three steps. Four. Then my foot slides off the trunk, and the forest flips upside down.",
-          "nextId": "ending-3"
+          "label": "Roll the canvas",
+          "response": "Roll it. I decide buyers pay for the name, not the condition. The first curl makes the varnish crack like thin ice. The second trips the case alarm.",
+          "nextId": "ending-inert-gas"
+        },
+        {
+          "label": "Clean the canvas",
+          "response": "Clean it. I try to make the canvas look less stolen. The solvent blooms wrong, the alarm wakes, and the room seals itself.",
+          "nextId": "ending-inert-gas"
         }
       ]
     },
     {
-      "id": "scene-6e",
-      "code": "Scene 6E",
-      "title": "The Other Survivor",
+      "id": "scene-11-rude",
+      "code": "Scene 11",
+      "title": "Aquarium Auction",
       "kind": "scene",
-      "text": "You crawl into the wreckage and find a woman trapped beneath a row of seats. Her face is covered in soot. She is alive, but barely.\n\nThe fire is spreading fast. You may be able to pull her free, but it will take strength you do not have.",
+      "text": "The sale happens under a closed aquarium, in a tunnel where moon jellyfish drift behind thick glass.\n\nThe clean collector never comes. Word from the underpass reached him first.\n\nTwo buyers arrive instead: a syndicate broker with dirty protection, and a museum channel that can return the painting if you accept a smaller life.\n\nIris slides you a short note: DO NOT OPEN IT. SHOW EDGE FIBER. SEND ESCROW HASH.",
+      "prompt": "How do you prove it without exposing it?",
       "options": [
         {
-          "label": "Pull",
-          "response": "Pull. I grab her under the arms and pull until something in my side feels like it tears open. She comes free. We stumble into the rain together.",
-          "nextId": "scene-7d"
+          "label": "Show edge fiber proof",
+          "response": "Edge fiber. I show the microscopic proof and send the escrow hash while the canvas stays sealed. The broker respects restraint more than kindness.",
+          "nextId": "scene-12-rude"
         },
         {
-          "label": "Comfort",
-          "response": "Comfort. I kneel beside her and hold her hand. I tell her help is coming, even though I do not know if that is true. The smoke grows thicker.",
-          "nextId": "ending-2"
+          "label": "Open the case",
+          "response": "Reveal. I open the case in the tunnel. Every buyer leans in. Above us, aquarium glass cracks under a bullet meant for someone else.",
+          "nextId": "ending-aquarium"
+        },
+        {
+          "label": "Take phone photo",
+          "response": "Phone photo. The flash pops before I can stop it. Someone flinches, someone fires, and the aquarium glass takes the bullet meant for me.",
+          "nextId": "ending-aquarium"
         }
       ]
     },
     {
-      "id": "scene-7a",
-      "code": "Scene 7A",
-      "title": "Mud Path",
+      "id": "scene-11",
+      "code": "Scene 11",
+      "title": "Aquarium Auction",
       "kind": "scene",
-      "text": "The muddy service path becomes clearer. You see deep tire tracks now. Fresh ones.\n\nThen headlights sweep through the trees ahead.\n\nA vehicle is moving somewhere beyond the bend.",
+      "text": "The sale happens under a closed aquarium, in a tunnel where moon jellyfish drift behind thick glass. Three buyers arrive without names.\n\nOne offers clean money and a new passport.\nOne offers more money, dirty protection, and the location of Morse.\nOne offers a museum channel that will return the painting and erase your face from the cameras.\n\nThe conservator's last note is folded in your palm: DO NOT OPEN IT. SHOW EDGE FIBER. SEND ESCROW HASH.\n\nEveryone wants proof. Everyone has brought people with quiet hands.",
+      "prompt": "How do you prove it without exposing it?",
       "options": [
         {
-          "label": "Shout",
-          "response": "Shout. I scream until my throat burns. The headlights slow. For one beautiful second, I think they heard me.",
-          "nextId": "scene-8a"
+          "label": "Show edge fiber proof",
+          "response": "Edge fiber. I show the microscopic proof and send the escrow hash while the canvas stays sealed. The buyers hate caution. That means it is working.",
+          "nextId": "scene-12"
         },
         {
-          "label": "Follow",
-          "response": "Follow. I save my breath and follow the tire tracks toward the vehicle. If I shout too early, I may waste my last strength.",
-          "nextId": "scene-8b"
+          "label": "Open the case",
+          "response": "Reveal. I open the case in the tunnel. Every buyer leans in. Above us, aquarium glass cracks under a bullet meant for someone else.",
+          "nextId": "ending-aquarium"
+        },
+        {
+          "label": "Take phone photo",
+          "response": "Phone photo. The flash pops before I can stop it. Someone flinches, someone fires, and the aquarium glass takes the bullet meant for me.",
+          "nextId": "ending-aquarium"
         }
       ]
     },
     {
-      "id": "scene-7b",
-      "code": "Scene 7B",
-      "title": "Thorn Route",
+      "id": "scene-12-rude",
+      "code": "Scene 12",
+      "title": "Price of the Night",
       "kind": "scene",
-      "text": "You push through the thorns until your jacket hangs in strips. The forest opens suddenly into a clearing.\n\nAt the center stands an old hunting blind on wooden legs.\n\nFrom inside it, something creaks.\n\nWind, maybe.\n\nOr someone.",
+      "text": "The proof clears. The clean fortune is gone, but not every future is.\n\nThe syndicate broker will pay more than you deserve, protect you harder than you trust, and deliver Morse tied to a chair by sunrise.\n\nThe museum channel will return the painting, pay only a fraction, and leave you alive but ordinary under a new name.\n\nIris watches you like she is deciding whether apologies count when money arrives.",
+      "prompt": "Which remaining future do you choose?",
       "options": [
         {
-          "label": "Blind",
-          "response": "Blind. I climb toward the hunting blind. High ground. Shelter. Maybe supplies. Maybe a radio.",
-          "nextId": "scene-8c"
+          "label": "Sell to syndicate",
+          "response": "Syndicate. I choose the dangerous fortune. The broker smiles, transfers the money, and sends me a live video of Morse learning what betrayal costs.",
+          "nextId": "good-ending-syndicate"
         },
         {
-          "label": "Clear",
-          "response": "Clear. I stay in the open clearing. I do not trust old wooden boxes in the dark. At least here, I can see what is coming.",
-          "nextId": "scene-8d"
+          "label": "Return painting",
+          "response": "Return. I choose survival over legend. The painting goes home by a route I never learn, and Iris finally nods like I have done one thing right.",
+          "nextId": "neutral-ending-return"
+        },
+        {
+          "label": "Keep painting",
+          "response": "Keep it. I close the case and step away from both offers. For one wild second, owning the impossible feels better than selling it.",
+          "nextId": "ending-last-possession"
         }
       ]
     },
     {
-      "id": "scene-7c",
-      "code": "Scene 7C",
-      "title": "The Tower Fence",
+      "id": "scene-12",
+      "code": "Scene 12",
+      "title": "Price of the Night",
       "kind": "scene",
-      "text": "You reach a chain-link fence crowned with rusted wire. Behind it stands a small radio tower, its red light blinking through the rain.\n\nThere is a locked gate. Beside it, a maintenance sign hangs loose.\n\nYou can try to climb the fence, or follow it around looking for an opening.",
+      "text": "The proof clears. The money waits in three different futures.\n\nThe private collector will bury The Starry Night in a mountain room and make you rich enough to become a rumor.\n\nThe syndicate broker will pay more, protect you harder, and deliver Morse tied to a chair by sunrise.\n\nThe museum channel will return the painting, pay only a fraction, and leave you alive but ordinary under a new name.\n\nThe canvas rests in its case, bright as a wound, calm as a sky.",
+      "prompt": "Which future do you choose?",
       "options": [
         {
-          "label": "Climb",
-          "response": "Climb. I grip the wet chain-link and pull myself up. The wire bites into my hands, but the tower is right there. I refuse to turn away now.",
-          "nextId": "scene-8e"
+          "label": "Sell to collector",
+          "response": "Collector. I choose the quiet fortune. The collector's people take the case without touching the seal, and the account number blooms with impossible zeroes.",
+          "nextId": "good-ending-collector"
         },
         {
-          "label": "Circle",
-          "response": "Circle. I follow the fence line, searching for a break. There has to be another way in. There always is.",
-          "nextId": "scene-8b"
+          "label": "Sell to syndicate",
+          "response": "Syndicate. I choose the dangerous fortune. The broker smiles, transfers the money, and sends me a live video of Morse learning what betrayal costs.",
+          "nextId": "good-ending-syndicate"
+        },
+        {
+          "label": "Return painting",
+          "response": "Return. I choose survival over legend. The painting goes home by a route I never learn, and I leave the tunnel with less money but all my blood inside me.",
+          "nextId": "neutral-ending-return"
+        },
+        {
+          "label": "Keep painting",
+          "response": "Keep it. I close the case and step away from all three offers. For one wild second, owning the impossible feels better than selling it.",
+          "nextId": "ending-last-possession"
         }
       ]
     },
     {
-      "id": "scene-7d",
-      "code": "Scene 7D",
-      "title": "Two Survivors",
-      "kind": "scene",
-      "text": "The woman leans on you as both of you stagger away from the burning plane. She says her name is Mara. She was a nurse.\n\nShe sees your wound and goes pale.\n\n\"You need pressure. Now.\"\n\nYou can let her treat the wound, or keep moving and guide her through the forest.",
-      "options": [
-        {
-          "label": "Treat",
-          "response": "Treat. I let Mara wrap the wound properly. Her hands are steady, even while everything burns behind us. For the first time, I feel like I might survive.",
-          "nextId": "scene-8b"
-        },
-        {
-          "label": "Guide",
-          "response": "Guide. I tell Mara we need distance first. She argues, but follows. We move together into the dark, slower than before.",
-          "nextId": "scene-8d"
-        }
-      ]
-    },
-    {
-      "id": "scene-8a",
-      "code": "Scene 8A",
-      "title": "The Headlights",
-      "kind": "scene",
-      "text": "The headlights stop.\n\nA truck door opens.\n\nYou wave your arms, laughing and crying at the same time. But then the light turns away from you. The engine revs.\n\nThey are leaving.\n\nMaybe they never saw you clearly.",
-      "options": [
-        {
-          "label": "Chase",
-          "response": "Chase. I run after the headlights, slipping in the mud, screaming until my voice breaks. The truck is my only chance.",
-          "nextId": "scene-9a"
-        },
-        {
-          "label": "Signal",
-          "response": "Signal. I grab branches, leaves, anything dry enough, and try to make smoke and movement. If I cannot run, I can still be seen.",
-          "nextId": "scene-9b"
-        }
-      ]
-    },
-    {
-      "id": "scene-8b",
-      "code": "Scene 8B",
-      "title": "The Maintenance Road",
-      "kind": "scene",
-      "text": "The tire tracks lead to a real road. Not paved, but maintained. Gravel. Drainage ditches. Cut branches.\n\nYou almost laugh.\n\nThen you see two directions.\n\nLeft slopes downhill. Right climbs toward the blinking tower.",
-      "options": [
-        {
-          "label": "Downhill",
-          "response": "Downhill. I follow the road downward. Roads lead out. Downhill means water, houses, and maybe town lights.",
-          "nextId": "scene-9c"
-        },
-        {
-          "label": "Tower",
-          "response": "Tower. I climb toward the tower. If there is a radio, a phone line, or a maintenance cabin, help may be closer than the road's end.",
-          "nextId": "scene-9d"
-        }
-      ]
-    },
-    {
-      "id": "scene-8c",
-      "code": "Scene 8C",
-      "title": "The Hunting Blind",
-      "kind": "scene",
-      "text": "Inside the blind, you find old cans, a moldy blanket, and a cracked flare gun with one flare loaded.\n\nOutside, the forest moves.\n\nThe wolves have reached the clearing.",
-      "options": [
-        {
-          "label": "Flare",
-          "response": "Flare. I raise the flare gun and fire into the sky. Red light explodes above the trees, turning the clearing into a nightmare of shadows.",
-          "nextId": "scene-9b"
-        },
-        {
-          "label": "Blanket",
-          "response": "Blanket. I wrap myself in the moldy blanket and crouch low. Maybe I can wait them out. Maybe morning will come.",
-          "nextId": "ending-5"
-        }
-      ]
-    },
-    {
-      "id": "scene-8d",
-      "code": "Scene 8D",
-      "title": "The Open Clearing",
-      "kind": "scene",
-      "text": "The clearing feels safer for only a moment. Then the rain grows heavier. Your hands are numb. Your legs feel far away. The blood loss is catching up.\n\nAcross the clearing, you see a line of wooden posts. Maybe a fence. Maybe a path marker.\n\nBehind you, branches snap.",
-      "options": [
-        {
-          "label": "Posts",
-          "response": "Posts. I move toward the wooden posts. Straight lines do not belong in wild forests. Someone put them there for a reason.",
-          "nextId": "scene-9c"
-        },
-        {
-          "label": "Branches",
-          "response": "Branches. I turn toward the snapping sound, hoping it is another survivor or a search party. The darkness answers with low growls.",
-          "nextId": "ending-4"
-        }
-      ]
-    },
-    {
-      "id": "scene-8e",
-      "code": "Scene 8E",
-      "title": "Inside the Fence",
-      "kind": "scene",
-      "text": "You drop hard on the other side of the fence. Pain bursts through your side. The tower hums above you.\n\nAt its base is a locked metal utility box. A small maintenance shed stands nearby, door hanging open.",
-      "options": [
-        {
-          "label": "Shed",
-          "response": "Shed. I stumble into the maintenance shed. It smells of oil, wet wood, and dust. There may be tools, a phone, anything.",
-          "nextId": "scene-9d"
-        },
-        {
-          "label": "Box",
-          "response": "Box. I go straight for the utility box and try to force it open with shaking hands. If there is power, there may be a way to signal.",
-          "nextId": "scene-9e"
-        }
-      ]
-    },
-    {
-      "id": "scene-9a",
-      "code": "Scene 9A",
-      "title": "The Chase",
-      "kind": "scene",
-      "text": "You chase the truck lights until your vision tunnels. The road tilts beneath you. Your feet slap mud. Your wound opens again.\n\nThe truck slows at a bend.\n\nThis is your last chance.",
-      "options": [
-        {
-          "label": "Jump",
-          "response": "Jump. I throw myself into the road, directly in front of the headlights. The truck brakes hard, sliding sideways in the mud.",
-          "nextId": "scene-10a"
-        },
-        {
-          "label": "Wave",
-          "response": "Wave. I stay at the side and wave both arms, but my strength gives out. My knees hit the mud as the red taillights fade away.",
-          "nextId": "ending-1"
-        }
-      ]
-    },
-    {
-      "id": "scene-9b",
-      "code": "Scene 9B",
-      "title": "The Signal",
-      "kind": "scene",
-      "text": "Red flare smoke twists above the trees. For a moment, the forest becomes bright enough to see every raindrop.\n\nThen you hear it.\n\nA helicopter.\n\nFar away, but real.\n\nYou need to make yourself visible.",
-      "options": [
-        {
-          "label": "Clearing",
-          "response": "Clearing. I drag myself into the most open space I can find and wave through the pain. If they pass over, they have to see me.",
-          "nextId": "scene-10b"
-        },
-        {
-          "label": "Trees",
-          "response": "Trees. I stay under cover, afraid the wolves or the weather will finish me before the helicopter arrives. The sound passes overhead, then fades.",
-          "nextId": "ending-1"
-        }
-      ]
-    },
-    {
-      "id": "scene-9c",
-      "code": "Scene 9C",
-      "title": "Fence Line",
-      "kind": "scene",
-      "text": "The posts become a fence. The fence becomes a road. A real paved road.\n\nYou reach the edge of the forest and nearly collapse.\n\nIn the distance, you see a small ranger station with one light on.\n\nBetween you and it is the road, empty and shining with rain.",
-      "options": [
-        {
-          "label": "Station",
-          "response": "Station. I step onto the road and force myself toward the light. I do not look back. I do not slow down. I only move.",
-          "nextId": "scene-10c"
-        },
-        {
-          "label": "Rest",
-          "response": "Rest. I sit beside the road for just one second. Just one breath. The rain feels softer now. The station light blurs into a star.",
-          "nextId": "ending-1"
-        }
-      ]
-    },
-    {
-      "id": "scene-9d",
-      "code": "Scene 9D",
-      "title": "The Maintenance Shed",
-      "kind": "scene",
-      "text": "Inside the shed, you find a wall phone in a cracked plastic case. No dial tone.\n\nBeside it is an emergency radio with a dead battery slot. On a shelf are two batteries, one corroded and one wrapped in plastic.\n\nYour fingers are clumsy. You can only try one before you lose focus.",
-      "options": [
-        {
-          "label": "Wrapped",
-          "response": "Wrapped. I tear open the plastic and slam the battery into the radio. Static bursts through the speaker like thunder.",
-          "nextId": "scene-10d"
-        },
-        {
-          "label": "Corroded",
-          "response": "Corroded. I shove the old battery into place. The radio sparks once, spits smoke, and dies in my hands.",
-          "nextId": "ending-1"
-        }
-      ]
-    },
-    {
-      "id": "scene-9e",
-      "code": "Scene 9E",
-      "title": "Utility Box",
-      "kind": "scene",
-      "text": "You force open the metal box and find switches, labels, and wires you do not understand.\n\nOne label reads BEACON POWER.\nAnother reads GRID RESET.\n\nYour blood drips onto the panel.",
-      "options": [
-        {
-          "label": "Beacon",
-          "response": "Beacon. I flip the beacon switch. The tower light above me burns brighter, pulsing red against the storm.",
-          "nextId": "scene-10b"
-        },
-        {
-          "label": "Reset",
-          "response": "Reset. I pull the grid reset. The tower dies. The red light vanishes, and the forest becomes completely dark.",
-          "nextId": "ending-6"
-        }
-      ]
-    },
-    {
-      "id": "scene-10a",
-      "code": "Scene 10A",
-      "title": "Road Rescue",
-      "kind": "scene",
-      "text": "The truck stops inches from you. A man jumps out, shouting. His face changes when he sees the blood.\n\n\"Don't move. I've got you.\"\n\nYou try to answer, but only rain comes into your mouth.",
-      "options": [
-        {
-          "label": "Awake",
-          "response": "Awake. I fight to stay conscious while he wraps my wound and calls emergency services. Sirens arrive through the rain.",
-          "nextId": "good-ending"
-        },
-        {
-          "label": "Sleep",
-          "response": "Sleep. I let my eyes close, but this time I hear voices around me. Real voices. Human voices. I made it far enough.",
-          "nextId": "good-ending"
-        }
-      ]
-    },
-    {
-      "id": "scene-10b",
-      "code": "Scene 10B",
-      "title": "Seen From Above",
-      "kind": "scene",
-      "text": "The helicopter circles once. Then again.\n\nA spotlight cuts through the trees and lands near you.\n\nYou raise one shaking hand.\n\nThe light stops moving.\n\nThey have seen you.",
-      "options": [
-        {
-          "label": "Wave",
-          "response": "Wave. I wave until my arm drops. The helicopter lowers, and rescue workers spill into the rain below.",
-          "nextId": "good-ending"
-        },
-        {
-          "label": "Collapse",
-          "response": "Collapse. I fall onto my back, staring into the white light. For once, the brightness is not fire. It is help.",
-          "nextId": "good-ending"
-        }
-      ]
-    },
-    {
-      "id": "scene-10c",
-      "code": "Scene 10C",
-      "title": "Ranger Station",
-      "kind": "scene",
-      "text": "The ranger station door opens before you reach it. Someone inside must have seen you through the window.\n\nA woman runs out with a flashlight.\n\n\"Oh my God. Stay with me.\"\n\nYou fall into her arms.",
-      "options": [
-        {
-          "label": "Help",
-          "response": "Help. I tell her about the crash, the fire, the forest, the others. She calls it in while pressing towels hard against my wound.",
-          "nextId": "good-ending"
-        },
-        {
-          "label": "Crash",
-          "response": "Crash. I force out the word again and again until she understands. Crash. Plane. Forest. Others. Then the room turns warm and bright.",
-          "nextId": "good-ending"
-        }
-      ]
-    },
-    {
-      "id": "scene-10d",
-      "code": "Scene 10D",
-      "title": "Radio Call",
-      "kind": "scene",
-      "text": "The radio crackles.\n\nA voice answers.\n\n\"Emergency channel. Identify yourself.\"\n\nYou almost laugh. You almost cry. Your thumb slips on the button.\n\nYou have enough strength for one message.",
-      "options": [
-        {
-          "label": "Mayday",
-          "response": "Mayday. I give the crash, the forest, the tower, and the bleeding. My words are broken, but enough gets through. The voice tells me to stay awake. Help is coming.",
-          "nextId": "good-ending"
-        },
-        {
-          "label": "Location",
-          "response": "Location. I repeat the tower number from the wall, slowly and clearly. The voice confirms it. They know where I am now.",
-          "nextId": "good-ending"
-        }
-      ]
-    },
-    {
-      "id": "ending-1",
+      "id": "ending-splintered-blue",
       "code": "Ending 1",
-      "title": "Bleed Out",
+      "title": "Splintered Blue",
       "kind": "ending",
-      "text": "You try to keep moving, but your body stops listening. The forest bends around you. Rain taps softly on your face. Somewhere far away, something mechanical hums, or maybe it is only blood in your ears.\n\nYou almost made it.\n\nThen the dark closes in.",
+      "text": "The painting tears with a sound too soft for the crime it ends.\n\nYou freeze. Morse curses. The alarm finally screams.\n\nA guard finds you kneeling in a drift of blue flakes, hands cut open by gilded splinters, trying to press a dead sky back together.",
+      "endingSummary": "You ruined the canvas while trying to rush the theft, and the guards found you with the dead sky in your hands.",
+      "endingArt": "splintered-blue",
       "options": [],
       "endingType": "Bad Ending"
     },
     {
-      "id": "ending-2",
+      "id": "ending-shaft",
       "code": "Ending 2",
-      "title": "Smoke and Fire",
+      "title": "The Missing Landing",
       "kind": "ending",
-      "text": "The smoke thickens until the world becomes gray. The woman squeezes your hand once, weakly.\n\nOutside, rain falls. Inside, the fire eats through the broken plane.\n\nYou stayed so she would not be alone.",
+      "text": "The stair landing has been removed for renovation. Morse knew. Maybe he planned it. Maybe he only hoped.\n\nYou fall through dust, scaffolding, and plastic sheeting. The crate lands first. You land after it.\n\nThe last thing you see is a swirl of painted stars through a crack in the lid.",
+      "endingSummary": "You trusted the wrong route and fell through the missing stair landing with the crate below you.",
+      "endingArt": "shaft",
       "options": [],
-      "endingType": "Tragic Ending"
+      "endingType": "Gruesome Ending"
     },
     {
-      "id": "ending-3",
+      "id": "ending-pressed",
       "code": "Ending 3",
-      "title": "Ravine Fall",
+      "title": "Pressed Flat",
       "kind": "ending",
-      "text": "The branch slips away. For a second, you are weightless. The red tower light blinks above you, impossibly far away.\n\nThen the ravine takes you.",
+      "text": "The freight lift drops, catches, and drops again.\n\nThe crate wedges sideways. Your shoulder wedges with it. Steel grinds down with patient museum silence.\n\nBy the time the guards pry the gate open, the masterpiece has survived better than you.",
+      "endingSummary": "You gambled on the failing freight lift, and the machine preserved the painting better than it preserved you.",
+      "endingArt": "pressed",
       "options": [],
-      "endingType": "Bad Ending"
+      "endingType": "Gruesome Ending"
     },
     {
-      "id": "ending-4",
+      "id": "ending-glass-rain",
       "code": "Ending 4",
-      "title": "Taken by Wolves",
+      "title": "Glass Rain",
       "kind": "ending",
-      "text": "The first wolf steps into view. Then another. Then another.\n\nYou try to stand, but your legs fail. Your blood has already told them everything they need to know.\n\nThe forest moves in.",
+      "text": "The roof gives way in bright pieces.\n\nYou cover the crate instead of your head. It is an honest instinct and a fatal one.\n\nThe courtyard floor becomes a field of glittering teeth, and the sirens arrive too late to matter.",
+      "endingSummary": "You crossed the courtyard too openly and died under the collapsing glass roof.",
+      "endingArt": "glass-rain",
       "options": [],
-      "endingType": "Bad Ending"
+      "endingType": "Gruesome Ending"
     },
     {
-      "id": "ending-5",
+      "id": "ending-meat-hook",
       "code": "Ending 5",
-      "title": "Cold Sleep",
+      "title": "The Hearse Hook",
       "kind": "ending",
-      "text": "The blanket smells of dust and rot, but it is warm enough for one moment of comfort. You tell yourself you will rest only until the rain slows.\n\nYour eyes close.\n\nMorning comes without you.",
+      "text": "Morse steps aside while the van rolls backward.\n\nThe old funeral hook catches your coat, then your ribs, then everything underneath that was never meant to hold weight.\n\nThe van leaves the alley clean. Rain handles the rest.",
+      "endingSummary": "You challenged Morse before securing the crate, and the hearse van dragged you out of the job for good.",
+      "endingArt": "meat-hook",
       "options": [],
-      "endingType": "Bad Ending"
+      "endingType": "Gruesome Ending"
     },
     {
-      "id": "ending-6",
+      "id": "ending-caller",
       "code": "Ending 6",
-      "title": "Wrong Signal",
+      "title": "The Caller",
       "kind": "ending",
-      "text": "The tower goes dark.\n\nNo beacon. No radio. No light.\n\nThe forest becomes endless again.\n\nYou stumble through the black until you no longer know which way is forward.",
+      "text": "The buyer traces your call faster than fear can become regret.\n\nHeadlights bloom in the pawn shop windows. Doors open below. Boots climb the stairs.\n\nThey do not ask where the painting is until after they have made sure you cannot run from the question.",
+      "endingSummary": "You followed the wrong lead, and the buyer's people reached the safehouse before you found the painting.",
+      "endingArt": "caller",
+      "options": [],
+      "endingType": "Gruesome Ending"
+    },
+    {
+      "id": "ending-backroom",
+      "code": "Ending 7",
+      "title": "Backroom Teeth",
+      "kind": "ending",
+      "text": "The basement door shuts behind you. Plastic crackles under your shoes.\n\nThe dealer keeps smiling as two men take your arms. On a table nearby, pliers sit in a neat silver row.\n\nBy sunrise, they know everything you know, and you no longer have enough mouth left to lie.",
+      "endingSummary": "You walked into the White Room and gave the wrong people all the time they needed.",
+      "endingArt": "backroom",
+      "options": [],
+      "endingType": "Gruesome Ending"
+    },
+    {
+      "id": "ending-saints-knife",
+      "code": "Ending 8",
+      "title": "Saint's Knife",
+      "kind": "ending",
+      "text": "Saint moves like she has cut faster people than you.\n\nThe blade opens your sleeve, then your wrist, then the night itself. You fall between stacked pews while Morse lifts the case and does not look back.\n\nOld stained glass turns your blood blue.",
+      "endingSummary": "You moved on Saint too early, and her knife ended the heist before dawn.",
+      "endingArt": "saints-knife",
+      "options": [],
+      "endingType": "Gruesome Ending"
+    },
+    {
+      "id": "ending-blue-frost",
+      "code": "Ending 9",
+      "title": "Blue Frost",
+      "kind": "ending",
+      "text": "The climate case vents white.\n\nYour fingers freeze to the latch. Your breath crystallizes in your throat. The lilies turn to glass around you.\n\nWhen the truck is found, the painting is intact, and you are curled beside it like a warning label.",
+      "endingSummary": "You opened the climate case at the wrong moment and froze beside the protected canvas.",
+      "endingArt": "blue-frost",
+      "options": [],
+      "endingType": "Gruesome Ending"
+    },
+    {
+      "id": "ending-inert-gas",
+      "code": "Ending 10",
+      "title": "No Air for Stars",
+      "kind": "ending",
+      "text": "The case alarm opens the room's emergency system.\n\nInvisible gas pours from the ceiling to protect art from fire, theft, and fools. The conservator pounds on the locked door from the other side.\n\nYou die without smoke, without flame, and without enough air to curse yourself.",
+      "endingSummary": "You mishandled the canvas and triggered the protection system that values art above air.",
+      "endingArt": "inert-gas",
+      "options": [],
+      "endingType": "Gruesome Ending"
+    },
+    {
+      "id": "ending-aquarium",
+      "code": "Ending 11",
+      "title": "Aquarium Glass",
+      "kind": "ending",
+      "text": "The tunnel window splits from floor to ceiling.\n\nCold saltwater punches everyone sideways. Jellyfish spill into the auction light like torn moons.\n\nYou clutch the case until the current folds you against the broken glass and keeps folding.",
+      "endingSummary": "You exposed the painting at the auction and the deal drowned in broken aquarium glass.",
+      "endingArt": "aquarium",
+      "options": [],
+      "endingType": "Gruesome Ending"
+    },
+    {
+      "id": "ending-last-possession",
+      "code": "Ending 12",
+      "title": "Last Possession",
+      "kind": "ending",
+      "text": "Nobody in the tunnel argues. That is how you know you chose wrong.\n\nThe broker nods once. The collector looks away. The museum channel steps back from the splash zone.\n\nYou keep The Starry Night for almost nine seconds.",
+      "endingSummary": "You tried to keep the painting for yourself, and every buyer in the room agreed that you could not leave with it.",
+      "endingArt": "last-possession",
       "options": [],
       "endingType": "Bad Ending"
     },
     {
-      "id": "good-ending",
-      "code": "Good Ending",
-      "title": "Rescued",
+      "id": "good-ending-collector",
+      "code": "Good Ending 1",
+      "title": "Buried Sky",
       "kind": "ending",
-      "text": "You wake under white hospital lights. Your side burns, your throat is dry, and your whole body feels like it belongs to someone else.\n\nA nurse notices your eyes open and smiles.\n\n\"You're lucky,\" she says.\n\nYou think of the rain, the trees, the smoke, and the impossible distance between the crash and safety.\n\nLucky.\n\nNo.\n\nYou chose to keep moving.",
+      "text": "Six months later, you live under a name that has never been arrested.\n\nThe money is clean enough to spend slowly. The news still runs anniversary segments about the vanished Van Gogh. Experts talk about loss. Curators talk about history.\n\nYou say nothing.\n\nSomewhere in a mountain vault, The Starry Night hangs in perfect darkness, and you are the only thief who knows which door swallowed the sky.",
+      "endingSummary": "You sold the painting to the private collector and disappeared into a quiet fortune.",
+      "endingArt": "collector",
       "options": [],
       "endingType": "Good Ending"
+    },
+    {
+      "id": "good-ending-syndicate",
+      "code": "Good Ending 2",
+      "title": "Paid in Stars",
+      "kind": "ending",
+      "text": "The syndicate pays before sunrise.\n\nBy noon, your old records are ash. By dusk, Morse is a rumor with broken hands. By midnight, you are on a plane with Iris, two passports, and a balance large enough to bend morality into a new shape.\n\nYou sold the night sky and lived to count it.",
+      "endingSummary": "You sold the painting to the syndicate and escaped rich, protected, and impossible to find.",
+      "endingArt": "syndicate",
+      "options": [],
+      "endingType": "Good Ending"
+    },
+    {
+      "id": "neutral-ending-return",
+      "code": "Neutral Ending",
+      "title": "Returned Sky",
+      "kind": "ending",
+      "text": "The museum announces an anonymous recovery two weeks later.\n\nNo arrests. No reward ceremony. No fortune large enough to become myth.\n\nYou receive a modest account, a new passport, and one photograph: The Starry Night back under careful light, unharmed.\n\nYou did not win the heist. You survived it. Some nights, that feels close enough.",
+      "endingSummary": "You returned the painting through the museum channel and survived with less money but a cleaner exit.",
+      "endingArt": "returned",
+      "options": [],
+      "endingType": "Neutral Ending"
     }
   ]
 };

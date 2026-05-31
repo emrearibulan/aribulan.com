@@ -255,41 +255,16 @@ body {
     overflow: visible;
 }
 
-.story-game::before {
-    content: "";
-    position: absolute;
-    inset: -8px -14px;
-    z-index: -1;
-    pointer-events: none;
-    background:
-        linear-gradient(rgba(255, 255, 255, 0.035) 50%, transparent 50%) 0 0 / 100% 4px,
-        radial-gradient(ellipse at center, rgba(200, 255, 114, 0.055), transparent 68%);
-    opacity: 0.58;
-    mix-blend-mode: screen;
-}
-
 .story-shell {
     position: relative;
     padding: clamp(14px, 2.4vw, 22px);
     border: 1px solid rgba(40, 234, 255, 0.24);
-    background:
-        linear-gradient(180deg, rgba(3, 0, 13, 0.74), rgba(3, 0, 13, 0.48)),
-        linear-gradient(90deg, rgba(255, 43, 214, 0.08), rgba(40, 234, 255, 0.06));
+    background: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     box-shadow:
         0 0 0 1px rgba(255, 43, 214, 0.14),
-        0 0 22px rgba(40, 234, 255, 0.08),
-        inset 0 0 18px rgba(255, 43, 214, 0.07);
-}
-
-.story-shell::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-        linear-gradient(rgba(255, 255, 255, 0.032) 50%, transparent 50%) 0 0 / 100% 4px;
-    mix-blend-mode: screen;
-    opacity: 0.38;
+        0 0 22px rgba(40, 234, 255, 0.08);
 }
 
 .story-log {
@@ -298,6 +273,9 @@ body {
 }
 
 .story-message,
+.story-prompt,
+.story-ending-type,
+.story-ending-summary,
 .story-response,
 .story-option,
 .story-continue,
@@ -318,6 +296,7 @@ body {
 }
 
 .story-message,
+.story-prompt,
 .story-option,
 .story-continue,
 .story-restart {
@@ -328,6 +307,60 @@ body {
         1px 1px 0 rgba(36, 8, 48, 0.9),
         0 0 3px rgba(255, 79, 242, 0.62),
         0 0 9px rgba(255, 43, 214, 0.22);
+}
+
+.story-prompt {
+    color: var(--amber);
+}
+
+.story-ending {
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+}
+
+.story-ending[hidden] {
+    display: none;
+}
+
+.story-ending-type {
+    color: var(--amber);
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.story-ending-summary {
+    max-width: 36rem;
+    color: #ff4ff2;
+    text-align: center;
+    text-shadow:
+        1px 0 0 rgba(93, 21, 96, 0.96),
+        0 1px 0 rgba(93, 21, 96, 0.86),
+        1px 1px 0 rgba(36, 8, 48, 0.9),
+        0 0 3px rgba(255, 79, 242, 0.62),
+        0 0 9px rgba(255, 43, 214, 0.22);
+}
+
+.story-ending-art {
+    display: block;
+    width: min(240px, calc(100vw - 92px));
+    height: auto;
+    border: 1px solid #38f4ff;
+    background: #080414;
+    box-shadow:
+        0 0 0 2px rgba(0, 0, 0, 0.36),
+        0 0 16px rgba(56, 244, 255, 0.24);
+    image-rendering: pixelated;
+}
+
+.story-ending.is-good .story-ending-summary {
+    color: #38f4ff;
+    text-shadow:
+        1px 0 0 rgba(12, 82, 105, 0.95),
+        0 1px 0 rgba(12, 82, 105, 0.85),
+        1px 1px 0 rgba(4, 31, 48, 0.92),
+        0 0 3px rgba(56, 244, 255, 0.62),
+        0 0 9px rgba(40, 234, 255, 0.24);
 }
 
 .story-response {
@@ -344,6 +377,9 @@ body {
 }
 
 .story-message[hidden],
+.story-prompt[hidden],
+.story-ending-type[hidden],
+.story-ending-summary[hidden],
 .story-response[hidden],
 .story-continue[hidden],
 .story-restart[hidden] {
@@ -546,6 +582,12 @@ body {
             <div class="story-shell">
                 <div class="story-log" id="storyLog">
                     <p class="story-message" id="storyMessage" hidden></p>
+                    <p class="story-prompt" id="storyPrompt" hidden></p>
+                    <div class="story-ending" id="storyEnding" hidden>
+                        <p class="story-ending-type" id="storyEndingType"></p>
+                        <canvas class="story-ending-art" id="storyEndingArt" width="240" height="160" aria-hidden="true"></canvas>
+                        <p class="story-ending-summary" id="storyEndingSummary"></p>
+                    </div>
                     <p class="story-response" id="storyResponse" hidden></p>
                     <button class="story-continue" id="storyContinue" type="button" hidden>Continue</button>
                     <div class="story-options" id="storyOptions" aria-label="Answer choices"></div>
@@ -566,6 +608,11 @@ body {
     const invaderStars = document.getElementById("invader-stars");
     const manConstellation = document.querySelector(".man-star-art");
     const storyMessage = document.getElementById("storyMessage");
+    const storyPrompt = document.getElementById("storyPrompt");
+    const storyEnding = document.getElementById("storyEnding");
+    const storyEndingType = document.getElementById("storyEndingType");
+    const storyEndingArt = document.getElementById("storyEndingArt");
+    const storyEndingSummary = document.getElementById("storyEndingSummary");
     const storyResponse = document.getElementById("storyResponse");
     const storyContinue = document.getElementById("storyContinue");
     const storyOptions = document.getElementById("storyOptions");
@@ -819,9 +866,306 @@ body {
         }
     };
 
+    const endingTone = (scene) => {
+        if (scene.endingType === "Good Ending") {
+            return "good";
+        }
+        if (scene.endingType === "Neutral Ending") {
+            return "neutral";
+        }
+        return "bad";
+    };
+
+    const endingToneLabel = (tone) => {
+        if (tone === "good") {
+            return "Good Ending";
+        }
+        if (tone === "neutral") {
+            return "Neutral Ending";
+        }
+        return "Bad Ending";
+    };
+
+    const drawEndingArt = (artKey, tone) => {
+        const ctx = storyEndingArt.getContext("2d");
+        const c = {
+            black: "#050512",
+            ink: "#10091f",
+            navy: "#142b5f",
+            blue: "#1d63ff",
+            cyan: "#38f4ff",
+            violet: "#7b4dff",
+            magenta: "#ff3bc8",
+            red: "#ff3b3b",
+            orange: "#ff8c2a",
+            yellow: "#ffd34d",
+            green: "#3ee66f",
+            mint: "#95ffd6",
+            white: "#fff8d8",
+            gray: "#7f8aa3",
+            darkGray: "#293047"
+        };
+        const toneColor = tone === "good" ? c.cyan : tone === "neutral" ? c.yellow : c.magenta;
+
+        ctx.imageSmoothingEnabled = false;
+        ctx.clearRect(0, 0, 240, 160);
+
+        const rect = (x, y, w, h, color) => {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, w, h);
+        };
+        const frame = (x, y, w, h, color) => {
+            rect(x, y, w, 8, color);
+            rect(x, y + h - 8, w, 8, color);
+            rect(x, y, 8, h, color);
+            rect(x + w - 8, y, 8, h, color);
+        };
+        const star = (x, y, color = c.yellow) => {
+            rect(x + 4, y, 4, 12, color);
+            rect(x, y + 4, 12, 4, color);
+        };
+        const person = (x, y, color = c.white) => {
+            rect(x + 8, y, 8, 8, color);
+            rect(x + 4, y + 8, 16, 20, color);
+            rect(x, y + 12, 4, 16, color);
+            rect(x + 20, y + 12, 4, 16, color);
+            rect(x + 4, y + 28, 6, 16, color);
+            rect(x + 14, y + 28, 6, 16, color);
+        };
+        const painting = (x, y, w, h) => {
+            frame(x, y, w, h, c.yellow);
+            rect(x + 8, y + 8, w - 16, h - 16, c.navy);
+            rect(x + 20, y + 24, w - 48, 8, c.blue);
+            rect(x + 34, y + 42, w - 56, 8, c.violet);
+            rect(x + 18, y + h - 30, w - 36, 10, c.cyan);
+            star(x + w - 34, y + 18);
+            star(x + 24, y + 30);
+        };
+        const crack = (x, y) => {
+            rect(x, y, 4, 18, c.white);
+            rect(x + 4, y + 16, 4, 18, c.white);
+            rect(x - 8, y + 34, 12, 4, c.white);
+            rect(x + 8, y + 32, 4, 16, c.white);
+        };
+        const snowflake = (x, y, color = c.cyan) => {
+            rect(x + 6, y, 4, 16, color);
+            rect(x, y + 6, 16, 4, color);
+            rect(x + 2, y + 2, 4, 4, color);
+            rect(x + 10, y + 10, 4, 4, color);
+            rect(x + 10, y + 2, 4, 4, color);
+            rect(x + 2, y + 10, 4, 4, color);
+        };
+        const suitcase = (x, y) => {
+            rect(x + 44, y, 48, 8, c.yellow);
+            rect(x, y + 8, 136, 72, c.darkGray);
+            rect(x + 8, y + 16, 120, 56, c.green);
+            rect(x + 20, y + 26, 28, 8, c.yellow);
+            rect(x + 60, y + 26, 28, 8, c.yellow);
+            rect(x + 98, y + 26, 18, 8, c.yellow);
+            rect(x + 20, y + 48, 28, 8, c.yellow);
+            rect(x + 60, y + 48, 28, 8, c.yellow);
+            rect(x + 98, y + 48, 18, 8, c.yellow);
+        };
+        const drawBackground = () => {
+            rect(0, 0, 240, 160, c.black);
+            for (let y = 0; y < 160; y += 16) {
+                rect(0, y, 240, 4, y % 32 === 0 ? c.ink : "#0b0820");
+            }
+            rect(0, 152, 240, 8, toneColor);
+        };
+
+        const scenes = {
+            "splintered-blue": () => {
+                painting(44, 16, 152, 104);
+                crack(118, 28);
+                rect(76, 116, 28, 8, c.yellow);
+                rect(108, 124, 24, 8, c.cyan);
+                rect(138, 120, 36, 8, c.blue);
+                person(12, 92, c.gray);
+            },
+            "shaft": () => {
+                rect(28, 0, 20, 152, c.darkGray);
+                rect(192, 0, 20, 152, c.darkGray);
+                rect(48, 24, 76, 8, c.gray);
+                rect(116, 52, 76, 8, c.gray);
+                rect(48, 86, 76, 8, c.gray);
+                rect(116, 122, 76, 8, c.gray);
+                person(106, 68, c.white);
+                rect(94, 126, 52, 18, c.yellow);
+                painting(98, 128, 44, 24);
+            },
+            "pressed": () => {
+                rect(16, 8, 208, 34, c.gray);
+                rect(16, 118, 208, 34, c.gray);
+                rect(32, 42, 176, 16, c.darkGray);
+                painting(54, 64, 132, 42);
+                rect(70, 104, 100, 8, c.red);
+                rect(84, 90, 72, 8, c.white);
+            },
+            "glass-rain": () => {
+                for (let x = 0; x < 240; x += 24) {
+                    rect(x, 12, 16, 4, c.cyan);
+                    rect(x + 8, 20, 4, 16, c.cyan);
+                    rect(x + 4, 42, 20, 4, c.cyan);
+                }
+                person(96, 82, c.white);
+                rect(72, 122, 96, 22, c.yellow);
+                painting(80, 124, 80, 28);
+            },
+            "meat-hook": () => {
+                rect(20, 80, 184, 54, c.darkGray);
+                rect(36, 60, 92, 22, c.darkGray);
+                rect(48, 68, 34, 10, c.cyan);
+                rect(140, 68, 42, 10, c.cyan);
+                rect(44, 132, 24, 16, c.gray);
+                rect(156, 132, 24, 16, c.gray);
+                rect(124, 0, 8, 58, c.gray);
+                rect(124, 52, 34, 8, c.gray);
+                rect(150, 58, 8, 30, c.gray);
+                rect(130, 82, 28, 8, c.red);
+                person(118, 92, c.white);
+            },
+            "caller": () => {
+                rect(28, 30, 66, 86, c.gray);
+                rect(40, 42, 42, 26, c.cyan);
+                rect(44, 82, 8, 8, c.white);
+                rect(60, 82, 8, 8, c.white);
+                rect(76, 82, 8, 8, c.white);
+                rect(44, 98, 8, 8, c.white);
+                rect(60, 98, 8, 8, c.white);
+                rect(76, 98, 8, 8, c.white);
+                rect(140, 72, 76, 32, c.darkGray);
+                rect(132, 104, 92, 18, c.darkGray);
+                rect(146, 94, 22, 16, c.yellow);
+                rect(190, 94, 22, 16, c.yellow);
+                rect(0, 128, 240, 8, c.gray);
+            },
+            "backroom": () => {
+                rect(20, 16, 200, 128, c.ink);
+                rect(34, 30, 70, 92, c.darkGray);
+                rect(44, 42, 50, 70, c.red);
+                rect(128, 76, 44, 42, c.gray);
+                rect(118, 116, 64, 8, c.gray);
+                rect(138, 42, 52, 10, c.white);
+                rect(150, 34, 8, 26, c.white);
+                rect(166, 34, 8, 26, c.white);
+                rect(190, 104, 20, 8, c.red);
+            },
+            "saints-knife": () => {
+                rect(26, 20, 78, 116, c.darkGray);
+                rect(42, 34, 46, 88, c.violet);
+                rect(60, 20, 10, 116, c.yellow);
+                rect(42, 74, 46, 8, c.yellow);
+                rect(106, 116, 78, 10, c.red);
+                rect(138, 20, 18, 92, c.white);
+                rect(128, 88, 38, 14, c.white);
+                rect(156, 108, 38, 10, c.gray);
+                person(76, 104, c.gray);
+            },
+            "blue-frost": () => {
+                snowflake(22, 18);
+                snowflake(190, 26);
+                rect(34, 70, 172, 54, c.darkGray);
+                rect(46, 82, 148, 30, c.cyan);
+                painting(76, 86, 88, 28);
+                person(102, 110, c.white);
+                snowflake(62, 124, c.white);
+                snowflake(168, 116, c.white);
+            },
+            "inert-gas": () => {
+                rect(18, 14, 204, 128, c.darkGray);
+                rect(36, 28, 36, 12, c.gray);
+                rect(102, 28, 36, 12, c.gray);
+                rect(168, 28, 36, 12, c.gray);
+                rect(28, 58, 54, 22, c.mint);
+                rect(72, 74, 66, 24, c.mint);
+                rect(134, 60, 74, 24, c.mint);
+                person(104, 100, c.white);
+                rect(92, 132, 80, 8, c.red);
+            },
+            "aquarium": () => {
+                rect(14, 16, 212, 108, c.blue);
+                frame(14, 16, 212, 108, c.cyan);
+                rect(34, 88, 172, 8, c.cyan);
+                rect(50, 100, 42, 8, c.cyan);
+                rect(112, 100, 64, 8, c.cyan);
+                crack(130, 28);
+                rect(54, 44, 16, 24, c.mint);
+                rect(50, 64, 24, 8, c.mint);
+                rect(176, 42, 18, 18, c.yellow);
+                person(100, 110, c.white);
+            },
+            "last-possession": () => {
+                painting(76, 30, 88, 72);
+                person(18, 86, c.gray);
+                person(188, 86, c.gray);
+                person(106, 108, c.white);
+                rect(48, 92, 38, 8, c.red);
+                rect(154, 92, 38, 8, c.red);
+                rect(104, 104, 32, 8, c.red);
+                rect(88, 126, 64, 10, c.magenta);
+            },
+            "collector": () => {
+                rect(0, 118, 240, 34, c.darkGray);
+                rect(18, 84, 80, 44, c.navy);
+                rect(72, 54, 88, 74, c.navy);
+                rect(140, 72, 82, 56, c.navy);
+                rect(78, 72, 84, 72, c.gray);
+                rect(92, 86, 56, 44, c.black);
+                painting(102, 92, 36, 28);
+                rect(170, 106, 38, 10, c.yellow);
+            },
+            "syndicate": () => {
+                rect(18, 44, 204, 14, c.gray);
+                rect(88, 26, 64, 36, c.gray);
+                rect(112, 12, 16, 76, c.gray);
+                rect(36, 34, 42, 8, c.gray);
+                rect(162, 34, 42, 8, c.gray);
+                suitcase(52, 88);
+                rect(168, 102, 34, 26, c.blue);
+                rect(174, 108, 22, 4, c.white);
+            },
+            "returned": () => {
+                rect(30, 48, 180, 88, c.gray);
+                rect(18, 40, 204, 12, c.white);
+                rect(40, 28, 160, 12, c.white);
+                rect(70, 16, 100, 12, c.white);
+                rect(46, 64, 18, 72, c.white);
+                rect(88, 64, 18, 72, c.white);
+                rect(134, 64, 18, 72, c.white);
+                rect(176, 64, 18, 72, c.white);
+                painting(96, 78, 48, 36);
+                rect(0, 136, 240, 16, c.darkGray);
+            }
+        };
+
+        drawBackground();
+        (scenes[artKey] || scenes["last-possession"])();
+    };
+
+    const renderEnding = async (scene) => {
+        const tone = endingTone(scene);
+        storyMessage.hidden = true;
+        storyMessage.textContent = "";
+        storyEnding.className = `story-ending is-${tone}`;
+        storyEnding.hidden = false;
+        storyEndingType.textContent = endingToneLabel(tone);
+        drawEndingArt(scene.endingArt, tone);
+        await typeText(storyEndingSummary, scene.endingSummary || scene.text, 10);
+        storyRestart.hidden = false;
+    };
+
     const clearStoryStage = () => {
         setOptionsVisible(false);
         storyOptions.textContent = "";
+        storyPrompt.hidden = true;
+        storyPrompt.textContent = "";
+        storyEnding.hidden = true;
+        storyEnding.className = "story-ending";
+        storyEndingType.textContent = "";
+        storyEndingArt.textContent = "";
+        storyEndingSummary.hidden = true;
+        storyEndingSummary.textContent = "";
         storyResponse.hidden = true;
         storyResponse.textContent = "";
         storyContinue.hidden = true;
@@ -840,7 +1184,7 @@ body {
             storyOptions.appendChild(button);
         });
         storyOptions.classList.remove("is-hidden");
-        requestAnimationFrame(() => storyOptions.classList.add("is-visible"));
+        storyOptions.classList.add("is-visible");
     };
 
     const renderScene = async (sceneId) => {
@@ -852,14 +1196,15 @@ body {
         }
 
         clearStoryStage();
-        await typeText(storyMessage, scene.text, scene.kind === "ending" ? 10 : 12);
-
         if (scene.kind === "ending") {
-            storyRestart.hidden = false;
+            await renderEnding(scene);
             return;
         }
 
+        await typeText(storyMessage, scene.text, 12);
         await sleep(180);
+        storyPrompt.textContent = scene.prompt || "What do you do next?";
+        storyPrompt.hidden = false;
         showAnswers(scene);
     };
 
@@ -895,6 +1240,8 @@ body {
         pendingSceneId = "";
         storyMessage.textContent = "";
         storyMessage.hidden = true;
+        storyPrompt.textContent = "";
+        storyPrompt.hidden = true;
         storyResponse.textContent = "";
         storyResponse.hidden = true;
         storyContinue.hidden = true;
