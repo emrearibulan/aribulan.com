@@ -231,10 +231,10 @@ body {
 .story-game {
     position: relative;
     z-index: 2;
-    width: min(270px, 82vw);
+    width: min(720px, 92vw);
     margin: 0 auto;
     padding: clamp(8px, 1.8vw, 18px) 0 0;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .story-game::before {
@@ -250,31 +250,59 @@ body {
     mix-blend-mode: screen;
 }
 
+.story-shell {
+    position: relative;
+    padding: clamp(14px, 2.4vw, 22px);
+    border: 1px solid rgba(40, 234, 255, 0.24);
+    background:
+        linear-gradient(180deg, rgba(3, 0, 13, 0.74), rgba(3, 0, 13, 0.48)),
+        linear-gradient(90deg, rgba(255, 43, 214, 0.08), rgba(40, 234, 255, 0.06));
+    box-shadow:
+        0 0 0 1px rgba(255, 43, 214, 0.14),
+        0 0 22px rgba(40, 234, 255, 0.08),
+        inset 0 0 18px rgba(255, 43, 214, 0.07);
+}
+
+.story-shell::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.032) 50%, transparent 50%) 0 0 / 100% 4px;
+    mix-blend-mode: screen;
+    opacity: 0.38;
+}
+
 .story-log {
     display: grid;
-    gap: clamp(10px, 1.8vw, 18px);
+    gap: 14px;
 }
 
 .story-message,
 .story-response,
-.story-option {
+.story-option,
+.story-continue,
+.story-restart {
     margin: 0;
     font-family: "Lucida Console", Monaco, "Courier New", monospace;
-    font-size: clamp(0.88rem, 2.35vw, 1.25rem);
+    font-size: 1rem;
     font-weight: 700;
-    line-height: 1.04;
+    line-height: 1.28;
     letter-spacing: 0;
     white-space: pre-wrap;
     image-rendering: pixelated;
     -webkit-font-smoothing: none;
     font-smooth: never;
-    transform: scaleY(0.72);
+    transform: scaleY(0.86);
     transform-origin: left top;
     filter: contrast(1.24) saturate(0.86);
 }
 
 .story-message,
-.story-option {
+.story-option,
+.story-continue,
+.story-restart {
     color: #ff4ff2;
     text-shadow:
         1px 0 0 rgba(93, 21, 96, 0.96),
@@ -286,7 +314,7 @@ body {
 
 .story-response {
     justify-self: end;
-    max-width: min(86%, 560px);
+    max-width: min(90%, 560px);
     color: #38f4ff;
     text-align: right;
     text-shadow:
@@ -297,11 +325,19 @@ body {
         0 0 9px rgba(40, 234, 255, 0.24);
 }
 
+.story-message[hidden],
+.story-response[hidden],
+.story-continue[hidden],
+.story-restart[hidden] {
+    display: none;
+}
+
 .story-options {
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
-    justify-items: start;
-    gap: 4px;
+    justify-items: stretch;
+    gap: 8px 18px;
     opacity: 0;
     transform: translateY(8px);
     pointer-events: none;
@@ -320,23 +356,46 @@ body {
     display: none;
 }
 
-.story-option {
+.story-option,
+.story-continue,
+.story-restart {
     appearance: none;
     border: 0;
     padding: 0;
+    min-height: 2rem;
     background: transparent;
     cursor: pointer;
     text-align: left;
 }
 
-.story-option::before {
+.story-restart {
+    justify-self: start;
+    color: var(--amber);
+}
+
+.story-continue {
+    justify-self: end;
+    color: var(--amber);
+}
+
+.story-option::before,
+.story-continue::before,
+.story-restart::before {
     content: "> ";
 }
 
 .story-option:hover,
-.story-option:focus-visible {
+.story-option:focus-visible,
+.story-continue:hover,
+.story-continue:focus-visible,
+.story-restart:hover,
+.story-restart:focus-visible {
     color: #ffd8fb;
     outline: none;
+}
+
+.story-continue {
+    animation: story-continue-blink 1s steps(1, end) infinite;
 }
 
 .story-option[disabled] {
@@ -375,6 +434,18 @@ body {
     }
 }
 
+@keyframes story-continue-blink {
+    0%,
+    49% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 0.28;
+    }
+}
+
 @media (max-width: 680px) {
     .arcade-template {
         padding: 0 14px 28px;
@@ -402,14 +473,25 @@ body {
     }
 
     .story-game {
-        width: min(270px, 82vw);
+        width: min(620px, 94vw);
         padding-top: 10px;
+    }
+
+    .story-shell {
+        padding: 14px 12px;
+    }
+
+    .story-options {
+        grid-template-columns: 1fr;
+        gap: 7px;
     }
 
     .story-message,
     .story-response,
-    .story-option {
-        font-size: clamp(0.84rem, 3.65vw, 1.06rem);
+    .story-option,
+    .story-continue,
+    .story-restart {
+        font-size: 0.92rem;
     }
 }
 </style>
@@ -441,32 +523,19 @@ body {
         </header>
 
         <section class="story-game" aria-label="Story game">
-            <div class="story-log" id="storyLog">
-                <p class="story-message" id="storyMessage"></p>
-                <div class="story-options" id="storyOptions" aria-label="Answer choices"></div>
+            <div class="story-shell">
+                <div class="story-log" id="storyLog">
+                    <p class="story-message" id="storyMessage" hidden></p>
+                    <p class="story-response" id="storyResponse" hidden></p>
+                    <button class="story-continue" id="storyContinue" type="button" hidden>Continue</button>
+                    <div class="story-options" id="storyOptions" aria-label="Answer choices"></div>
+                    <button class="story-restart" id="storyRestart" type="button" hidden>Restart</button>
+                </div>
             </div>
         </section>
     </main>
 
-<script type="application/json" id="story-database">
-[
-    {
-        "questionID": 1,
-        "questiontxt": "hi,\nhow are you?\ngenuinely...",
-        "answers": [
-            {
-                "answerID": "1.1",
-                "answertxt": "I'm good"
-            },
-            {
-                "answerID": "1.2",
-                "answertxt": "Not so good"
-            }
-        ]
-    }
-]
-</script>
-
+<script src="assets/crash-story.js"></script>
 <script>
 (() => {
     const svgNS = "http://www.w3.org/2000/svg";
@@ -476,10 +545,12 @@ body {
     const manStars = document.getElementById("man-stars");
     const invaderStars = document.getElementById("invader-stars");
     const manConstellation = document.querySelector(".man-star-art");
-    const storyLog = document.getElementById("storyLog");
     const storyMessage = document.getElementById("storyMessage");
+    const storyResponse = document.getElementById("storyResponse");
+    const storyContinue = document.getElementById("storyContinue");
     const storyOptions = document.getElementById("storyOptions");
-    const storyDatabase = JSON.parse(document.getElementById("story-database").textContent);
+    const storyRestart = document.getElementById("storyRestart");
+    const storyDatabase = window.crashStory;
     window.storyDatabase = storyDatabase;
     let seed = 1994;
     const rand = () => {
@@ -693,6 +764,11 @@ body {
 
     constellationNodes.forEach((node) => scheduleConstellationPulse(node));
 
+    const storyScenes = new Map(storyDatabase.scenes.map((scene) => [scene.id, scene]));
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let pendingSceneId = "";
+    let typingToken = 0;
+
     const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
     const makeCursor = () => {
         const cursor = document.createElement("span");
@@ -701,50 +777,109 @@ body {
         return cursor;
     };
 
-    const typeText = async (target, text) => {
-        const cursor = makeCursor();
-        target.textContent = "";
-        target.appendChild(cursor);
-        for (const char of text) {
-            cursor.before(document.createTextNode(char));
-            await sleep(165 + Math.random() * 85);
-        }
-        cursor.remove();
+    const setOptionsVisible = (visible) => {
+        storyOptions.classList.toggle("is-visible", visible);
+        storyOptions.classList.toggle("is-hidden", !visible);
     };
 
-    const showAnswers = (question) => {
+    const typeText = async (target, text, speed = 12) => {
+        const token = typingToken + 1;
+        typingToken = token;
+        target.hidden = false;
+        target.textContent = "";
+        target.textContent = text;
+        if (prefersReducedMotion) {
+            return;
+        }
+        const cursor = makeCursor();
+        target.appendChild(cursor);
+        await sleep(Math.max(140, speed * 12));
+        if (token === typingToken) {
+            cursor.remove();
+        }
+    };
+
+    const clearStoryStage = () => {
+        setOptionsVisible(false);
         storyOptions.textContent = "";
-        storyOptions.classList.remove("is-hidden");
-        question.answers.forEach((answer) => {
+        storyResponse.hidden = true;
+        storyResponse.textContent = "";
+        storyContinue.hidden = true;
+        storyRestart.hidden = true;
+    };
+
+    const showAnswers = (scene) => {
+        storyOptions.textContent = "";
+        scene.options.forEach((answer) => {
             const button = document.createElement("button");
             button.className = "story-option";
             button.type = "button";
-            button.dataset.answerId = answer.answerID;
-            button.textContent = answer.answertxt;
+            button.dataset.nextId = answer.nextId;
+            button.textContent = answer.label;
             button.addEventListener("click", () => selectAnswer(answer));
             storyOptions.appendChild(button);
         });
+        storyOptions.classList.remove("is-hidden");
         requestAnimationFrame(() => storyOptions.classList.add("is-visible"));
     };
 
+    const renderScene = async (sceneId) => {
+        const scene = storyScenes.get(sceneId);
+        if (!scene) {
+            storyMessage.hidden = false;
+            storyMessage.textContent = "The story path vanished in the static.";
+            return;
+        }
+
+        clearStoryStage();
+        await typeText(storyMessage, scene.text, scene.kind === "ending" ? 10 : 12);
+
+        if (scene.kind === "ending") {
+            storyRestart.hidden = false;
+            return;
+        }
+
+        await sleep(180);
+        showAnswers(scene);
+    };
+
     const selectAnswer = async (answer) => {
+        Array.from(storyOptions.querySelectorAll("button")).forEach((button) => {
+            button.disabled = true;
+        });
         storyOptions.classList.remove("is-visible");
         await sleep(720);
         storyOptions.textContent = "";
         storyOptions.classList.add("is-hidden");
 
-        const response = document.createElement("p");
-        response.className = "story-response";
-        storyLog.appendChild(response);
-        await typeText(response, answer.answertxt);
+        storyResponse.hidden = false;
+        await typeText(storyResponse, answer.response, 9);
+        pendingSceneId = answer.nextId;
+        storyContinue.hidden = false;
     };
 
     const startStory = async () => {
-        const question = storyDatabase[0];
-        await typeText(storyMessage, question.questiontxt);
-        await sleep(420);
-        showAnswers(question);
+        await renderScene(storyDatabase.start);
     };
+
+    storyRestart.addEventListener("click", () => {
+        startStory();
+    });
+
+    storyContinue.addEventListener("click", async () => {
+        if (!pendingSceneId) {
+            return;
+        }
+
+        const nextSceneId = pendingSceneId;
+        pendingSceneId = "";
+        storyMessage.textContent = "";
+        storyMessage.hidden = true;
+        storyResponse.textContent = "";
+        storyResponse.hidden = true;
+        storyContinue.hidden = true;
+        await renderScene(nextSceneId);
+    });
 
     startStory();
 
