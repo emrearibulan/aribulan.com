@@ -12,17 +12,17 @@ window.crashStory = {
       "prompt": "Outside, visibility is almost zero. The signal is coming from an old relay bunker less than a kilometer away. Your team is missing, and the storm is getting worse. What do you do?",
       "options": [
         {
-          "label": "Radio",
+          "label": "Answer the radio",
           "response": "I try to answer the signal on the radio.",
           "nextId": "scene-2"
         },
         {
-          "label": "Gear Up",
+          "label": "Gear up",
           "response": "I prepare my survival gear and head toward the bunker.",
           "nextId": "scene-3"
         },
         {
-          "label": "Search",
+          "label": "Search the outpost",
           "response": "I search the outpost for anything useful before leaving.",
           "nextId": "scene-4"
         }
@@ -37,12 +37,12 @@ window.crashStory = {
       "prompt": "The signal cuts out. The console screen briefly flashes a map route toward the bunker before going dark. What do you do?",
       "options": [
         {
-          "label": "Follow Map",
+          "label": "Follow the map",
           "response": "I memorize the route and leave for the bunker.",
           "nextId": "scene-3"
         },
         {
-          "label": "Check Logs",
+          "label": "Check the logs",
           "response": "I check the radio logs to see when the signal started.",
           "nextId": "scene-5"
         }
@@ -57,17 +57,17 @@ window.crashStory = {
       "prompt": "Halfway down the trail, you find fresh footprints crossing yours, but they are headed toward the outpost, not away from it. No one else should be outside. What do you do?",
       "options": [
         {
-          "label": "Follow Poles",
+          "label": "Follow the poles",
           "response": "I ignore the footprints and keep following the maintenance poles.",
           "nextId": "scene-6"
         },
         {
-          "label": "Follow Prints",
+          "label": "Follow the footprints",
           "response": "I follow the footprints to see where they came from.",
           "nextId": "scene-7"
         },
         {
-          "label": "Call Out",
+          "label": "Call out",
           "response": "I call out into the storm and listen for a response.",
           "nextId": "scene-8"
         }
@@ -82,17 +82,17 @@ window.crashStory = {
       "prompt": "A message has been scratched into the locker door: “LOWER DOOR NEEDS TWO PEOPLE.” What do you take?",
       "options": [
         {
-          "label": "Scanner",
+          "label": "Take the scanner",
           "response": "I take the thermal scanner and head outside.",
           "nextId": "scene-3"
         },
         {
-          "label": "Flare Gun",
+          "label": "Take the flare gun",
           "response": "I take the flare gun and head outside.",
           "nextId": "scene-3"
         },
         {
-          "label": "ID Badge",
+          "label": "Take the ID badge",
           "response": "I take Dr. Vale’s ID badge and check the station logs.",
           "nextId": "scene-5"
         }
@@ -107,12 +107,12 @@ window.crashStory = {
       "prompt": "The outpost lights flicker again. What do you do?",
       "options": [
         {
-          "label": "Leave Now",
+          "label": "Leave now",
           "response": "I leave the outpost before the storm traps me inside.",
           "nextId": "scene-3"
         },
         {
-          "label": "View Camera",
+          "label": "View the camera feed",
           "response": "I open the bunker camera feed.",
           "nextId": "scene-9"
         }
@@ -127,12 +127,12 @@ window.crashStory = {
       "prompt": "The access panel is active. What do you do?",
       "options": [
         {
-          "label": "Open Door",
+          "label": "Open the door",
           "response": "I use the access panel and open the bunker door.",
           "nextId": "scene-10"
         },
         {
-          "label": "Inspect Door",
+          "label": "Inspect the door",
           "response": "I inspect the scratches and the door mechanism first.",
           "nextId": "scene-11"
         }
@@ -147,12 +147,12 @@ window.crashStory = {
       "prompt": "What do you do?",
       "options": [
         {
-          "label": "Look Face",
+          "label": "Look at its face",
           "response": "I wipe the frost away and look at the body’s face.",
           "nextId": "ending-the-loop"
         },
         {
-          "label": "Backtrack",
+          "label": "Backtrack to the trail",
           "response": "I back away and return to the maintenance trail.",
           "nextId": "scene-6"
         }
@@ -167,17 +167,17 @@ window.crashStory = {
       "prompt": "The bunker lights blink twice in the distance. The maintenance poles remain visible, but the voices keep calling your name. What do you do?",
       "options": [
         {
-          "label": "Ignore Voices",
+          "label": "Ignore the voices",
           "response": "I ignore the voices and keep moving toward the bunker.",
           "nextId": "scene-6"
         },
         {
-          "label": "Answer Vale",
+          "label": "Answer Dr. Vale",
           "response": "I answer the voice that sounds like Dr. Vale.",
           "nextId": "scene-13"
         },
         {
-          "label": "Answer Self",
+          "label": "Answer your own voice",
           "response": "I answer the voice that sounds like me.",
           "nextId": "ending-the-loop"
         }
@@ -192,12 +192,12 @@ window.crashStory = {
       "prompt": "The feed dies. What do you do?",
       "options": [
         {
-          "label": "Bring Badge",
+          "label": "Bring the badge",
           "response": "I take Dr. Vale’s badge and leave for the bunker.",
           "nextId": "scene-3"
         },
         {
-          "label": "Kill Lights",
+          "label": "Turn off the lights",
           "response": "I shut off the outpost lights before leaving.",
           "nextId": "scene-14"
         }
@@ -212,17 +212,17 @@ window.crashStory = {
       "prompt": "What do you do?",
       "options": [
         {
-          "label": "Approach Vale",
+          "label": "Approach Dr. Vale",
           "response": "I approach Dr. Vale and ask what happened.",
           "nextId": "scene-15"
         },
         {
-          "label": "Stay Back",
+          "label": "Stay back",
           "response": "I stay near the entrance and refuse to move closer.",
           "nextId": "scene-16"
         },
         {
-          "label": "Use Flare",
+          "label": "Fire the flare",
           "response": "I fire the flare gun down the hallway.",
           "nextId": "scene-17"
         }
@@ -237,12 +237,12 @@ window.crashStory = {
       "prompt": "That would let you enter, but it would also keep something large from rushing out. What do you do?",
       "options": [
         {
-          "label": "Jam Door",
+          "label": "Jam the door",
           "response": "I turn the wheel and force the door to open only halfway.",
           "nextId": "scene-16"
         },
         {
-          "label": "Open Fully",
+          "label": "Open the door fully",
           "response": "I use the access panel and open the door fully.",
           "nextId": "scene-10"
         }
@@ -268,17 +268,17 @@ window.crashStory = {
       "prompt": "But her shadow points toward the bunker lights, while her body faces you. The real Dr. Vale’s badge in your pocket grows warm. What do you do?",
       "options": [
         {
-          "label": "Follow Her",
+          "label": "Follow her",
           "response": "I follow the figure claiming to be Dr. Vale.",
           "nextId": "ending-the-side-entrance"
         },
         {
-          "label": "Show Badge",
+          "label": "Show the badge",
           "response": "I hold up Dr. Vale’s badge and demand proof.",
           "nextId": "scene-19"
         },
         {
-          "label": "Run Bunker",
+          "label": "Run to the bunker",
           "response": "I run past her toward the bunker entrance.",
           "nextId": "scene-6"
         }
@@ -293,12 +293,12 @@ window.crashStory = {
       "prompt": "What do you do?",
       "options": [
         {
-          "label": "Take Code",
+          "label": "Memorize the code",
           "response": "I memorize the code and head to the bunker in darkness.",
           "nextId": "scene-20"
         },
         {
-          "label": "Ask More",
+          "label": "Ask about the lower door",
           "response": "I ask Dr. Vale what is behind the lower door.",
           "nextId": "scene-21"
         }
@@ -313,12 +313,12 @@ window.crashStory = {
       "prompt": "The hallway lights flare bright white. Your shadow on the wall moves before you do. What do you do?",
       "options": [
         {
-          "label": "Pull Away",
+          "label": "Pull away",
           "response": "I pull away and retreat toward the entrance.",
           "nextId": "scene-16"
         },
         {
-          "label": "Enter Lift",
+          "label": "Enter the elevator",
           "response": "I step into the elevator with her.",
           "nextId": "ending-the-lower-door"
         }
@@ -333,17 +333,17 @@ window.crashStory = {
       "prompt": "A bloody handprint appears on the inside wall beside you, fresh and human. What do you do?",
       "options": [
         {
-          "label": "Find Survivor",
+          "label": "Find the survivor",
           "response": "I follow the handprints deeper into the side corridor.",
           "nextId": "scene-23"
         },
         {
-          "label": "Burn Relay",
+          "label": "Destroy the relay",
           "response": "I look for the relay equipment and try to destroy the signal.",
           "nextId": "scene-24"
         },
         {
-          "label": "Take Lift",
+          "label": "Take the elevator",
           "response": "I enter the elevator and go down.",
           "nextId": "ending-the-lower-door"
         }
@@ -358,12 +358,12 @@ window.crashStory = {
       "prompt": "It shrieks and slams into the walls. The bunker door starts closing. You have seconds. What do you do?",
       "options": [
         {
-          "label": "Escape",
+          "label": "Escape into the storm",
           "response": "I dive back outside before the door closes.",
           "nextId": "ending-whiteout-escape"
         },
         {
-          "label": "Push Forward",
+          "label": "Push toward the relay room",
           "response": "I push forward through the red flare light toward the relay room.",
           "nextId": "scene-24"
         }
@@ -389,12 +389,12 @@ window.crashStory = {
       "prompt": "You now know the main entrance is your safest route. What do you do?",
       "options": [
         {
-          "label": "Main Door",
+          "label": "Use the main door",
           "response": "I continue to the bunker’s main entrance.",
           "nextId": "scene-6"
         },
         {
-          "label": "Turn Back",
+          "label": "Turn back",
           "response": "I retreat toward the outpost before the storm worsens.",
           "nextId": "ending-whiteout-escape"
         }
@@ -409,12 +409,12 @@ window.crashStory = {
       "prompt": "Inside, the hallway is dark except for red emergency strips along the floor. What do you do?",
       "options": [
         {
-          "label": "Enter Carefully",
+          "label": "Enter carefully",
           "response": "I enter carefully and keep close to the jammed door.",
           "nextId": "scene-16"
         },
         {
-          "label": "Scan Hall",
+          "label": "Scan the hall",
           "response": "I use the thermal scanner to check the hallway first.",
           "nextId": "scene-26"
         }
@@ -429,12 +429,12 @@ window.crashStory = {
       "prompt": "What do you do?",
       "options": [
         {
-          "label": "Go Dark",
+          "label": "Leave in darkness",
           "response": "I leave in darkness and use the emergency code at the bunker.",
           "nextId": "scene-20"
         },
         {
-          "label": "Stay Safe",
+          "label": "Stay at the outpost",
           "response": "I barricade the outpost and refuse to go to the bunker.",
           "nextId": "ending-locked-inside"
         }
@@ -460,12 +460,12 @@ window.crashStory = {
       "prompt": "The knocking below becomes faster. The false Dr. Vale is still in the main hall. What do you do?",
       "options": [
         {
-          "label": "Help Vale",
+          "label": "Help Dr. Vale",
           "response": "I help Dr. Vale out and bring her with me.",
           "nextId": "scene-28"
         },
         {
-          "label": "Leave Vale",
+          "label": "Leave Dr. Vale",
           "response": "I promise to come back and move toward the relay room alone.",
           "nextId": "scene-24"
         }
@@ -480,17 +480,17 @@ window.crashStory = {
       "prompt": "Destroying it may stop the signal, but it may also kill power to the bunker doors. What do you do?",
       "options": [
         {
-          "label": "Smash Core",
+          "label": "Smash the core",
           "response": "I smash the signal core and stop the broadcast.",
           "nextId": "ending-dark-victory"
         },
         {
-          "label": "Overload",
+          "label": "Overload the system",
           "response": "I overload the relay system from the control panel.",
           "nextId": "ending-controlled-burn"
         },
         {
-          "label": "Open Hatch",
+          "label": "Open the hatch",
           "response": "I open the lower relay hatch to see what powers the signal.",
           "nextId": "ending-the-lower-door"
         }
@@ -516,12 +516,12 @@ window.crashStory = {
       "prompt": "What do you do?",
       "options": [
         {
-          "label": "Find Vale",
+          "label": "Find Dr. Vale",
           "response": "I follow the scanner toward Dr. Vale’s heat signature.",
           "nextId": "scene-23"
         },
         {
-          "label": "Relay Room",
+          "label": "Go to the relay room",
           "response": "I avoid the heat source and head straight for the relay room.",
           "nextId": "scene-24"
         }
@@ -547,12 +547,12 @@ window.crashStory = {
       "prompt": "You reach the relay door. What do you do?",
       "options": [
         {
-          "label": "Bring Her",
+          "label": "Bring Dr. Vale",
           "response": "I bring Dr. Vale into the relay room with me.",
           "nextId": "ending-almost-human"
         },
         {
-          "label": "Lock Her",
+          "label": "Lock Dr. Vale in the corridor",
           "response": "I lock Dr. Vale in the corridor before entering the relay room.",
           "nextId": "ending-the-hard-choice"
         }
