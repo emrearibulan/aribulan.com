@@ -97,7 +97,23 @@ body {
     z-index: 1;
     width: min(45vw, 720px);
     max-height: 24vh;
+    display: block;
     transform: translateX(-50%);
+    color: #f8fbff;
+    text-decoration: none;
+    transition: filter 140ms steps(2);
+}
+.logo-banner:hover,
+.logo-banner:focus-visible {
+    outline: none;
+    filter:
+        drop-shadow(0 0 1px rgba(255, 255, 255, 0.48))
+        drop-shadow(0 0 4px rgba(255, 255, 255, 0.22));
+}
+.logo-banner img {
+    display: block;
+    width: 100%;
+    max-height: 24vh;
     pointer-events: none;
 }
 .home-link {
@@ -591,7 +607,9 @@ canvas {
                     <rect class="back-constellation-star" x="43" y="19" width="3" height="3"></rect>
                 </svg>
             </a>
-            <img class="logo-banner" src="assets/aribulan-logo-banner.png" alt="aribulan">
+            <a class="logo-banner" href="index.html" aria-label="Back home" title="Back home">
+                <img src="assets/aribulan-logo-banner.png" alt="aribulan">
+            </a>
             <svg class="s-star-art" viewBox="0 0 160 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
                 <rect class="constellation-hitbox" width="160" height="160"></rect>
                 <g id="s-stars"></g>

@@ -178,7 +178,25 @@ body {
     z-index: 1;
     width: min(45vw, 720px);
     max-height: 24vh;
+    display: block;
     transform: translateX(-50%);
+    color: var(--white);
+    text-decoration: none;
+    transition: filter 140ms steps(2);
+}
+
+.logo-banner:hover,
+.logo-banner:focus-visible {
+    outline: none;
+    filter:
+        drop-shadow(0 0 1px rgba(255, 255, 255, 0.48))
+        drop-shadow(0 0 4px rgba(255, 255, 255, 0.22));
+}
+
+.logo-banner img {
+    display: block;
+    width: 100%;
+    max-height: 24vh;
     pointer-events: none;
 }
 
@@ -332,7 +350,9 @@ body {
                     <g id="s-stars"></g>
                 </svg>
             </a>
-            <img class="logo-banner" src="assets/aribulan-logo-banner.png" alt="aribulan">
+            <a class="logo-banner" href="index.html" aria-label="Back home" title="Back home">
+                <img src="assets/aribulan-logo-banner.png" alt="aribulan">
+            </a>
             <svg class="man-star-art" viewBox="0 0 150 210" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
                 <rect class="constellation-hitbox" width="150" height="210"></rect>
                 <g id="man-stars"></g>
