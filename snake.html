@@ -795,6 +795,15 @@ canvas {
             drawStar(foregroundStars, x, y, 5 + (index % 4), index % 5 === 0 ? 2 : 1, palette[index % palette.length], 0.72);
         });
 
+        for (let i = 0; i < 96; i += 1) {
+            const x = 70 + rand() * 1780;
+            const y = 54 + rand() * 280;
+            const size = rand() > 0.9 ? 2 : 1;
+            const pixels = 5 + Math.floor(rand() * 5);
+            const color = palette[Math.floor(rand() * palette.length)];
+            drawStar(foregroundStars, x, y, pixels, size, color, 0.48 + rand() * 0.34);
+        }
+
         const galaxyColors = ["#ff2bd6", "#28eaff", "#ffe66d", "#d8fbff"];
         const galaxyShape = [
             [-9, 0], [-7, -1], [-6, 0], [-4, 1], [-3, 0],
@@ -825,6 +834,24 @@ canvas {
             const angle = rand() * Math.PI;
             const scale = galaxyScales[Math.floor(rand() * galaxyScales.length)];
             drawGalaxy(x, y, color, 0.34 + rand() * 0.26, angle, scale);
+        }
+
+        for (let i = 0; i < 12; i += 1) {
+            const x = 110 + rand() * 1700;
+            const y = 76 + rand() * 230;
+            const color = galaxyColors[Math.floor(rand() * galaxyColors.length)];
+            const angle = rand() * Math.PI;
+            const scale = galaxyScales[Math.floor(rand() * galaxyScales.length)];
+            drawGalaxy(x, y, color, 0.26 + rand() * 0.18, angle, scale);
+        }
+
+        for (let i = 0; i < 18; i += 1) {
+            const x = 86 + rand() * 1748;
+            const y = 42 + rand() * 250;
+            const color = galaxyColors[Math.floor(rand() * galaxyColors.length)];
+            const angle = rand() * Math.PI;
+            const scale = 0.6 + rand() * 1.08;
+            drawGalaxy(x, y, color, 0.22 + rand() * 0.2, angle, scale);
         }
 
         const sStarPoints = [
@@ -870,21 +897,16 @@ canvas {
         });
 
         const invaderStarPoints = {
-            leftAntenna: [43, 28],
-            leftTop: [55, 42],
             leftSide: [43, 58],
             leftEye: [58, 58],
             center: [75, 50],
             rightEye: [92, 58],
             rightSide: [107, 58],
-            rightTop: [95, 42],
-            rightAntenna: [107, 28],
             leftLeg: [56, 78],
             rightLeg: [94, 78]
         };
 
         [
-            ["leftAntenna", "leftTop"], ["leftTop", "center"], ["center", "rightTop"], ["rightTop", "rightAntenna"],
             ["leftSide", "leftEye"], ["leftEye", "center"], ["center", "rightEye"], ["rightEye", "rightSide"],
             ["leftSide", "leftLeg"], ["rightSide", "rightLeg"], ["leftLeg", "rightLeg"]
         ].forEach(([start, end]) => {
@@ -898,7 +920,7 @@ canvas {
         });
 
         Object.values(invaderStarPoints).forEach(([x, y], index) => {
-            const size = index === 4 ? 2 : 1;
+            const size = [0, 2, 4, 5, 6].includes(index) ? 2 : 1;
             drawStar(invaderStars, x, y, 5 + (index % 4), size, palette[(index + 1) % palette.length], 0.52 + index * 0.022);
         });
 
