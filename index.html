@@ -987,6 +987,19 @@ body {
             rect(x + 60, y + 48, 28, 8, c.yellow);
             rect(x + 98, y + 48, 18, 8, c.yellow);
         };
+        const radio = (x, y) => {
+            rect(x, y + 18, 54, 34, c.darkGray);
+            rect(x + 8, y + 26, 22, 12, c.cyan);
+            rect(x + 36, y + 28, 8, 8, c.yellow);
+            rect(x + 42, y + 12, 6, 16, c.gray);
+            rect(x + 48, y, 6, 14, c.gray);
+        };
+        const bunkerDoor = (x, y, open = false) => {
+            rect(x, y, 92, 96, c.darkGray);
+            frame(x + 8, y + 8, 76, 80, c.gray);
+            rect(x + 22, y + 22, 48, 52, open ? c.black : c.navy);
+            rect(x + 70, y + 44, 8, 8, c.green);
+        };
         const drawBackground = () => {
             rect(0, 0, 240, 160, c.black);
             for (let y = 0; y < 160; y += 16) {
@@ -996,6 +1009,131 @@ body {
         };
 
         const scenes = {
+            "loop": () => {
+                rect(0, 112, 240, 40, c.navy);
+                rect(0, 124, 240, 12, c.cyan);
+                snowflake(18, 18);
+                snowflake(194, 24, c.white);
+                crack(122, 100);
+                rect(80, 88, 88, 14, c.gray);
+                rect(64, 102, 118, 10, c.white);
+                rect(148, 80, 18, 18, c.white);
+                rect(152, 84, 6, 6, c.black);
+                radio(22, 86);
+                rect(46, 72, 4, 8, c.cyan);
+                rect(54, 68, 4, 12, c.cyan);
+                bunkerDoor(152, 26, true);
+            },
+            "side-entrance": () => {
+                rect(0, 106, 240, 46, c.white);
+                snowflake(30, 18);
+                snowflake(190, 18);
+                rect(52, 72, 136, 52, c.darkGray);
+                rect(68, 84, 104, 28, c.black);
+                rect(72, 84, 12, 10, c.red);
+                rect(96, 84, 12, 10, c.red);
+                rect(120, 84, 12, 10, c.red);
+                rect(144, 84, 12, 10, c.red);
+                rect(72, 102, 12, 10, c.red);
+                rect(96, 102, 12, 10, c.red);
+                rect(120, 102, 12, 10, c.red);
+                rect(144, 102, 12, 10, c.red);
+                person(104, 98, c.white);
+                rect(58, 64, 124, 8, c.gray);
+                rect(84, 46, 72, 18, c.gray);
+            },
+            "lower-door": () => {
+                rect(24, 12, 192, 132, c.darkGray);
+                rect(54, 18, 132, 120, c.gray);
+                rect(66, 30, 108, 96, c.navy);
+                rect(82, 46, 76, 64, c.black);
+                rect(94, 58, 52, 40, c.ink);
+                rect(114, 30, 12, 96, c.cyan);
+                rect(72, 72, 24, 18, c.green);
+                rect(144, 72, 24, 18, c.green);
+                person(32, 102, c.white);
+                person(184, 102, c.gray);
+                rect(104, 126, 32, 8, c.violet);
+            },
+            "whiteout-escape": () => {
+                rect(0, 112, 240, 40, c.white);
+                for (let x = 0; x < 240; x += 28) {
+                    rect(x, 28, 22, 4, c.cyan);
+                    rect(x + 10, 64, 28, 4, c.white);
+                    rect(x - 8, 96, 30, 4, c.gray);
+                }
+                rect(26, 70, 82, 54, c.darkGray);
+                rect(38, 52, 58, 18, c.gray);
+                rect(48, 88, 20, 24, c.cyan);
+                radio(130, 88);
+                person(184, 90, c.gray);
+                rect(204, 80, 8, 8, c.cyan);
+            },
+            "locked-inside": () => {
+                rect(18, 18, 204, 126, c.ink);
+                rect(36, 34, 76, 58, c.darkGray);
+                rect(44, 42, 60, 42, c.navy);
+                rect(60, 50, 20, 24, c.white);
+                rect(66, 58, 4, 4, c.black);
+                rect(78, 58, 4, 4, c.black);
+                person(126, 86, c.white);
+                person(154, 78, c.magenta);
+                radio(38, 96);
+                rect(188, 34, 16, 88, c.yellow);
+                rect(176, 40, 44, 8, c.yellow);
+            },
+            "dark-victory": () => {
+                rect(18, 18, 204, 118, c.black);
+                rect(34, 34, 64, 72, c.darkGray);
+                rect(46, 46, 40, 48, c.ink);
+                rect(122, 58, 42, 42, c.cyan);
+                crack(140, 54);
+                rect(112, 98, 70, 10, c.gray);
+                person(74, 100, c.white);
+                rect(0, 124, 240, 28, c.navy);
+                snowflake(188, 24, c.white);
+                star(206, 32, c.yellow);
+            },
+            "controlled-burn": () => {
+                rect(14, 16, 212, 122, c.darkGray);
+                rect(34, 34, 54, 72, c.gray);
+                rect(44, 44, 34, 40, c.green);
+                rect(112, 30, 74, 76, c.ink);
+                rect(126, 50, 14, 48, c.red);
+                rect(144, 42, 18, 58, c.orange);
+                rect(164, 58, 12, 38, c.yellow);
+                rect(42, 112, 154, 8, c.red);
+                person(188, 94, c.white);
+                bunkerDoor(16, 44, false);
+            },
+            "almost-human": () => {
+                rect(0, 112, 240, 40, c.navy);
+                rect(48, 28, 144, 86, c.darkGray);
+                rect(78, 46, 84, 48, c.white);
+                rect(78, 46, 28, 48, c.gray);
+                rect(106, 46, 28, 48, c.cyan);
+                rect(134, 46, 28, 48, c.magenta);
+                rect(88, 60, 8, 8, c.black);
+                rect(116, 60, 8, 8, c.black);
+                rect(144, 60, 8, 8, c.black);
+                rect(96, 94, 48, 10, c.red);
+                person(26, 92, c.white);
+                rect(174, 82, 36, 42, c.black);
+                snowflake(202, 24, c.white);
+            },
+            "hard-choice": () => {
+                rect(16, 18, 208, 124, c.darkGray);
+                rect(36, 34, 72, 90, c.gray);
+                rect(50, 48, 44, 62, c.black);
+                rect(96, 68, 8, 8, c.green);
+                rect(58, 76, 28, 18, c.red);
+                rect(132, 36, 64, 74, c.ink);
+                rect(142, 52, 14, 50, c.orange);
+                rect(162, 44, 18, 58, c.yellow);
+                person(110, 102, c.white);
+                rect(0, 126, 240, 26, c.cyan);
+                rect(0, 120, 240, 6, c.yellow);
+            },
             "splintered-blue": () => {
                 painting(44, 16, 152, 104);
                 crack(118, 28);
