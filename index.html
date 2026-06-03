@@ -1341,7 +1341,14 @@ body {
             button.type = "button";
             button.dataset.nextId = answer.nextId;
             button.textContent = answer.label;
-            button.addEventListener("click", () => selectAnswer(answer));
+            button.addEventListener("click", () => {
+                if (answer.directNext) {
+                    renderScene(answer.nextId);
+                    return;
+                }
+
+                selectAnswer(answer);
+            });
             storyOptions.appendChild(button);
         });
         storyOptions.classList.remove("is-hidden");
@@ -1364,8 +1371,10 @@ body {
 
         await typeText(storyMessage, scene.text, 12);
         await sleep(180);
-        storyPrompt.textContent = scene.prompt || "What do you do next?";
-        storyPrompt.hidden = false;
+        if (scene.prompt) {
+            storyPrompt.textContent = scene.prompt;
+            storyPrompt.hidden = false;
+        }
         showAnswers(scene);
     };
 

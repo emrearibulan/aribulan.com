@@ -1,8 +1,22 @@
 {
   "title": "Signal in the Ice",
   "setup": "The player is a weather station technician at a remote Arctic research outpost. A storm has cut off communication. A distress signal begins broadcasting from an abandoned Soviet-era relay bunker nearby. The story stays grounded around the outpost, the snow trail, the bunker entrance, and the bunker interior.",
-  "start": "scene-1",
+  "start": "intro",
   "scenes": [
+    {
+      "id": "intro",
+      "code": "Intro",
+      "title": "Outpost Veyra",
+      "kind": "scene",
+      "text": "You are the last active technician at Outpost Veyra, a remote Arctic research station cut off by a violent storm. Less than a kilometer away stands an old relay bunker built over the Hollow Nerve, an ancient colony-organism trapped beneath the ice. Its main body is sealed below the bunker, but it has learned to use the relay system as its voice.\n\nThe Hollow Nerve’s signal imitates distress calls, copies voices and memories, and lures people toward the lower containment door. Six hours ago, Dr. Mara Vale and two engineers went to investigate. They never came back. Now the signal is growing stronger, and if it reaches rescue teams, more people may be drawn in. Your goal is clear: reach the bunker, destroy the relay core",
+      "options": [
+        {
+          "label": "take out that relay!",
+          "nextId": "scene-1",
+          "directNext": true
+        }
+      ]
+    },
     {
       "id": "scene-1",
       "code": "Step 1",
