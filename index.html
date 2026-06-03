@@ -1303,6 +1303,13 @@ body {
     };
 
     const renderEnding = async (scene) => {
+        const endingText = [
+            scene.text,
+            scene.question,
+            scene.endingQuestion,
+            scene.prompt,
+            scene.endingSummary
+        ].filter((entry, index, entries) => entry && entries.indexOf(entry) === index).join("\n\n");
         const tone = endingTone(scene);
         storyMessage.hidden = true;
         storyMessage.textContent = "";
@@ -1311,7 +1318,7 @@ body {
         storyEndingTitle.textContent = scene.title;
         storyEndingType.textContent = endingToneLabel(tone);
         drawEndingArt(scene.endingArt, tone);
-        await typeText(storyEndingSummary, scene.endingSummary || scene.text, 10);
+        await typeText(storyEndingSummary, endingText, 10);
         storyRestart.hidden = false;
     };
 
