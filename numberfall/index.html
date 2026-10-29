@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173d36">
+  <meta name="description" content="A little arithmetic. A growing army. One more run. Play Numberfall, an original ad-free number-gate game by emr.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Numberfall · emr arcade</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <script src="game.js" type="module"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="intro">
+      <a class="brand" href="../" aria-label="Back to aribulan arcade"><b>emr<span>↗</span></b><span>THE ARCADE</span></a>
+      <div class="intro-main"><p class="eyebrow">SMALL NUMBERS. BIG DECISIONS.</p><h1>Number<span>fall.</span></h1><p class="lede">A little arithmetic.<br>A growing army.<br>One more run.</p><div class="promise"><i></i> All play. Zero ads.</div></div>
+      <footer>Made for your spare minutes.<br><span>an original game by emr · v1.0</span></footer>
+    </aside>
+
+    <main class="game" aria-label="Numberfall game">
+      <header class="game-header"><a href="../" class="mobile-brand" aria-label="Back to arcade">emr<span> / </span>numberfall</a><div class="chapter"><span id="mode-label">CAMPAIGN</span><strong id="stage-label">01 · The beginning</strong></div><div class="header-actions"><button id="sound" class="icon-btn" aria-label="Enable sound" aria-pressed="false">♪</button><button id="pause" class="icon-btn" aria-label="Pause game" disabled>Ⅱ</button></div></header>
+      <div class="playfield" id="playfield">
+        <canvas id="scene" aria-label="Army running toward arithmetic gates. Use the Left and Right choice buttons below."></canvas>
+        <div class="hud"><div><span>YOUR ARMY</span><strong id="army">12</strong></div><div class="journey"><span id="journey-label">THE FIRST CROSSING</span><div class="progress"><i id="progress"></i></div><small id="step-label">10 decisions to the citadel</small></div></div>
+        <div class="toast" id="toast" aria-hidden="true"></div>
+        <div class="screen" id="screen">
+          <div class="screen-card" id="screen-content"></div>
+        </div>
+        <div class="lane-hint" id="lane-hint">CHOOSE YOUR PATH</div>
+      </div>
+      <section class="controls" aria-label="Choose a path"><div class="decision-head"><span id="decision-label">YOUR NEXT MOVE</span><span id="pace-label">STEADY PACE</span></div><div class="choices"><button id="left" class="choice left" disabled><span>LEFT PATH <small>← / 1</small></span><strong>+ 8</strong><em>RECRUIT</em></button><button id="right" class="choice right" disabled><span>RIGHT PATH <small>→ / 2</small></span><strong>× 2</strong><em>MULTIPLY</em></button></div><p class="control-hint" id="control-hint">Tap a path, swipe, or use ← →. Your army moves automatically.</p></section>
+      <div class="sr-only" id="announce" role="status" aria-live="polite" aria-atomic="true"></div>
+    </main>
+
+    <aside class="notes"><div class="edition"><span class="sun">✳</span><span>THE NUMBER<br>RUNNER</span></div><div class="how"><p class="eyebrow">A SIMPLE PLAN</p><ol><li><b>Pick your path.</b><span>Add, multiply, and think a move ahead.</span></li><li><b>Build your army.</b><span>Red shields cost soldiers. Keep a few in reserve.</span></li><li><b>Take the citadel.</b><span>Reach it with more soldiers than its defence.</span></li></ol></div><div class="small-note"><span>∞</span><p>No energy bars.<br>No waiting.<br>Just one more go.</p></div><button class="text-btn" id="help">How to play & settings ↗</button></aside>
+  </div>
+  <noscript><p class="no-script">Numberfall needs JavaScript to run. Enable it and reload to play.</p></noscript>
+</body>
+</html>
