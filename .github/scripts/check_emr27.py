@@ -46,7 +46,7 @@ def check(root):
     page.feed(text)
     assert len(page.ids) == len(set(page.ids))
     assert sum(tag == 'h1' for tag, _ in page.tags) == 1
-    assert any(tag == 'link' and attrs.get('rel') == 'canonical' and attrs.get('href') == 'https://aribulan.com/emr27/' for tag, attrs in page.tags)
+    assert any(tag == 'link' and attrs.get('rel') == 'canonical' and attrs.get('href') == 'https://www.aribulan.com/emr27/' for tag, attrs in page.tags)
     assert not any(tag == 'meta' and attrs.get('name') == 'robots' and 'noindex' in attrs.get('content', '') for tag, attrs in page.tags)
     for link in page.links:
         url = urlparse(link)
@@ -63,7 +63,7 @@ def check(root):
     assert page.links.count(app['downloadUrl']) >= 2
     assert app['isAccessibleForFree'] is True and app['offers']['price'] == '0'
     assert 'aggregateRating' not in app
-    assert 'https://aribulan.com/emr27/' in (root / 'sitemap.xml').read_text()
+    assert 'https://www.aribulan.com/emr27/' in (root / 'sitemap.xml').read_text()
     ET.parse(root / 'sitemap.xml')
     print('PASS: published HTML, navigation/assets, canonical, release schema, downloads and sitemap')
 
