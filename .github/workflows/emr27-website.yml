@@ -1,0 +1,18 @@
+name: emr27 website checks
+on:
+  pull_request:
+    paths: ['emr27/**', '.github/scripts/check_emr27.py', '.github/workflows/emr27-website.yml']
+  push:
+    branches: [main]
+    paths: ['emr27/**', '.github/scripts/check_emr27.py', '.github/workflows/emr27-website.yml']
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check emr27 public page
+        run: python3 .github/scripts/check_emr27.py
