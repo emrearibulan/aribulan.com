@@ -1,1 +1,1 @@
-{"version": "1.4.0", "notes": ["Show or filter Registration status to distinguish a registered club, no registered team, and an unresolved club.", "Type uid:123 to look up one exact database UID within the current scope.", "Choose Search All Players from an empty scoped result to widen the scope while preserving your search and filters."]}
+{"version": "1.4.1", "notes": ["Open and edit saves from FM27 build 27.0.0+2493426. Saves from build 27.0.0+2486695 remain supported."]}
